@@ -11,9 +11,9 @@ html {
 }
 
 body {
-    width: 100%;
-    max-width: 350px;
-    margin: auto;
+  width: 100%;
+  max-width: 350px;
+  margin: auto;
 }
 
 .input-container {
@@ -37,14 +37,28 @@ input {
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 button {
-    margin-top: 20px;
-    height: 47px;
-    width: 100%;
-    border-radius: 5px;
-    border: none;
+  height: 47px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
