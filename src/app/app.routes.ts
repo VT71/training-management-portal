@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -20,19 +21,19 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: RegisterComponent,
-    title: 'Register page',
+    component: DashboardComponent,
+    title: 'Dashboard page',
     children: [
-      {
-        path: 'profile',
-        component: RegisterComponent,
-        title: 'Register page',
-      },
-      {
-        path: 'settings',
-        component: RegisterComponent,
-        title: 'Register page',
-      },
+    //   {
+    //     path: 'trainings',
+    //     component: RegisterComponent,
+    //     title: 'Register page',
+    //   },
+    //   {
+    //     path: 'settings',
+    //     component: RegisterComponent,
+    //     title: 'Register page',
+    //   },
     ],
   },
 ];
