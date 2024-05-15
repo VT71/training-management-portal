@@ -18,4 +18,21 @@ export const routes: Routes = [
     component: RegisterComponent,
     title: 'Register page',
   },
+  {
+    path: 'dashboard',
+    component: RegisterComponent,
+    title: 'Register page',
+    children: [
+      {
+        path: 'profile',
+        component: RegisterComponent,
+        title: 'Register page',
+      },
+      {
+        path: 'settings',
+        component: RegisterComponent,
+        title: 'Register page',
+      },
+    ],
+  },
 ];
