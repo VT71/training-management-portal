@@ -25,7 +25,7 @@ html {
   width: 100%;
   max-width: 600px;
   background-color: white;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem;
   border-radius: 24px;
 }
 
@@ -37,7 +37,7 @@ html {
   width: 50%;
   color: white;
   font-size: 1rem;
-  height: 56px;
+  height: 47px;
   background-color: #111111;
   cursor: pointer;
   border: none;
