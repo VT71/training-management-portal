@@ -13,26 +13,45 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: crimson;
 }
 
 .formContainer {
   height: 500px;
   width: 400px;
-  background-color: bisque;
+  background-color: white;
   padding: 1rem;
 }
 
 .optionsContainer {
-    width: 100%;
+  width: 100%;
 }
 
 .optionButton {
-    width: 50%;
-    color: white;
-    height: 40px;
+  width: 50%;
+  color: white;
+  height: 40px;
+  background-color: #111111;
+  cursor: pointer;
+  border: none;
+}
+
+.optionButton:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.optionButton.active {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.optionButton.active:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .optionButton.sign-up {
-    background-color: #111111;
-    border-radius: 12px 0 0 12px;
+  border-radius: 12px 0 0 12px;
+}
+
+.optionButton.log-in {
+  border-radius: 0 12px 12px 0;
 }
