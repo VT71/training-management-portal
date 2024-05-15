@@ -29,6 +29,7 @@ body {
 .optionButton {
     width: 50%;
     color: white;
+    height: 40px;
 }
 
 .optionButton.sign-up {
