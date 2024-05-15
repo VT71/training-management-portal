@@ -28,4 +28,10 @@ body {
 
 .optionButton {
     width: 50%;
+    color: white;
+}
+
+.optionButton.sign-up {
+    background-color: #111111;
+    border-radius: 12px 0 0 12px;
 }
