@@ -2,7 +2,8 @@
   box-sizing: border-box;
 }
 
-body {
+body,
+html {
   padding: 0;
   margin: 0;
 }
@@ -13,7 +14,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: crimson;
+  background-image: url("../../assets/Rectangle.jpg");
 }
 
 .formContainer {
@@ -21,6 +22,7 @@ body {
   width: 400px;
   background-color: white;
   padding: 1rem;
+  border-radius: 24px;
 }
 
 .optionsContainer {
@@ -45,7 +47,7 @@ body {
 }
 
 .optionButton.active:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .optionButton.sign-up {
