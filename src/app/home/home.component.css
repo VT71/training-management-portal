@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.rootContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer {
+  height: 500px;
+  width: 400px;
+  background-color: bisque;
+  padding: 1rem;
+}
+
+.optionsContainer {
+    width: 100%;
+}
+
+.optionButton {
+    width: 50%;
+}
