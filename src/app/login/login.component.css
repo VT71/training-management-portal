@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+}
+
+h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3rem;
+    font-family: "Roboto", sans-serif;
+}
+
+.name-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+
+input {
+    margin-top: 10px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+}
+
+.bottom-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+button {
+    margin-top: 20px;
+    height: 35px;
+    width: 300px;
+    border-radius: 5px;
+    border: none;
+}
+
+.footer{
+    margin-top: 120px;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+   
+}

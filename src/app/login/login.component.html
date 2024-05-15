@@ -8,13 +8,27 @@
 <body>
     <h1>Log In</h1>
     <form>
-        <label for="email-input">E-mail</label>
-        <input type="text" name="email" id="email-input"/>
+    <div class="container">
+
+    <div class="name-container">
+    <div class="input-container">
+        <label for="first-name">Email</label>
+        <input type="text" name="email-name" id="email-input"/>
+    </div>
+    <div class="input-container">
         <label for="password-input">Password</label>
         <input type="password" name="password" id="password-input"/>
+    </div>
+    </div>
+
+    <div class="bottom-element">
+        <button type="submit">Log In</button>
+    <div class="footer">
         <a href="" routerLink="/register">Create Account</a>
         <a href="/forgot-password">Forgot Password?</a>
-        <button type="submit">Log In</button>
+    </div>
+    </div>
+    </div>
     </form>
 </body>
 </html>
