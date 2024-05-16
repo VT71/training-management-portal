@@ -1,12 +1,16 @@
 <div class="root-container">
   <div class="menu-wrapper">
-    <h2>Menu</h2>
+    <h2 class="menu-title">Menu</h2>
     <ul class="menu-list">
       <li class="menu-list-item">
-        <div class="menu-button main-background-color-20">
-          <mat-icon class="main-color">home</mat-icon>
-          <span class="menu-button-label main-color">Dashboard</span>
+        <div class="menu-button" routerLink="/" routerLinkActive="active">
+          <mat-icon class="menu-button-icon" routerLinkActive="active">home</mat-icon>
+          <span class="menu-button-label" routerLinkActive="active">Dashboard</span>
         </div>
+        <div class="menu-button" routerLink="/trainings" routerLinkActive="active">
+            <mat-icon class="menu-button-icon" routerLinkActive="active">calendar_month</mat-icon>
+            <span class="menu-button-label" routerLinkActive="active">Trainings</span>
+          </div>
       </li>
     </ul>
   </div>

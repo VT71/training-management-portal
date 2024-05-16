@@ -4,6 +4,8 @@
 :root {
   --main: rgb(90, 106, 207);
   --main-20: rgba(90, 106, 207, 0.2);
+  --main-10: rgba(90, 106, 207, 0.1);
+  --light-purple: rgb(166, 171, 200);
 }
 
 * {
@@ -21,12 +23,16 @@ html {
 }
 
 .main-background-color {
-  background-color: var(--main-20);
+  background-color: var(--main);
 }
 
 .main-background-color-20 {
-  background-color: rgba(90, 106, 207, 0.2);
+  background-color: var(--main-20);
 }
+
+.main-background-color-10 {
+    background-color: var(--main-10);
+  }
 
 .auth-form-container {
   width: 100%;
