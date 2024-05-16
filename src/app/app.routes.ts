@@ -43,18 +43,16 @@ export const routes: Routes = [
         path: 'trainings',
         component: TrainingsCalendarComponent,
         title: `Trainings | ${appName}`,
-        children: [
-          {
-            path: 'missed',
-            component: MissedTrainingsComponent,
-            title: `Missed Trainings | ${appName}`,
-          },
-          {
-            path: 'upcoming',
-            component: UpcomingTrainingsComponent,
-            title: `Upcoming Trainings | ${appName}`,
-          },
-        ],
+      },
+      {
+        path: 'trainings/missed',
+        component: MissedTrainingsComponent,
+        title: `Missed Trainings | ${appName}`,
+      },
+      {
+        path: 'trainings/upcoming',
+        component: UpcomingTrainingsComponent,
+        title: `Upcoming Trainings | ${appName}`,
       },
     ],
   },

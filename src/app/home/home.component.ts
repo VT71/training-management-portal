@@ -26,6 +26,5 @@ export class HomeComponent {
 
   ngOnInit(): void {
     const currentUrl = this.router.url;
-    console.log('Current URL: ' + currentUrl);
   }
 }

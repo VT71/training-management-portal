@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -15,5 +16,14 @@ export class MenuComponent {
 
   toggleTrainingsDropDown() {
     this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
+  }
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    const currentUrl = this.router.url;
+    if (currentUrl === '/trainings') {
+      this.trainingsDropDownOpen = true;
+    }
   }
 }
