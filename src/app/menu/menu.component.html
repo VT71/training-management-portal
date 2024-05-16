@@ -27,11 +27,13 @@
         <div
           [class.open]="trainingsDropDownOpen"
           class="menu-button dropdown"
-          routerLink="/dashboard/trainings"
           routerLinkActive="active"
-          (click)="toggleTrainingsDropDown()"
         >
-          <div class="main-option">
+          <div
+            class="main-option"
+            (click)="toggleTrainingsDropDown()"
+            routerLink="/dashboard/trainings"
+          >
             <div class="left">
               <mat-icon class="menu-button-icon" routerLinkActive="active"
                 >calendar_month</mat-icon
@@ -52,7 +54,7 @@
               <li class="menu-list-item">
                 <div
                   class="menu-button"
-                  routerLink="/dashboard/notifications"
+                  routerLink="/dashboard/trainings/missed"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
@@ -71,28 +73,30 @@
                     >
                   </div>
                 </div>
-                <li class="menu-list-item">
-                    <div
-                      class="menu-button"
-                      routerLink="/dashboard/notifications"
+              </li>
+
+              <li class="menu-list-item">
+                <div
+                  class="menu-button"
+                  routerLink="/dashboard/trainings/upcoming"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <div class="left">
+                    <mat-icon
+                      class="menu-button-icon"
                       routerLinkActive="active"
                       [routerLinkActiveOptions]="{ exact: true }"
+                      >info_outline</mat-icon
                     >
-                      <div class="left">
-                        <mat-icon
-                          class="menu-button-icon"
-                          routerLinkActive="active"
-                          [routerLinkActiveOptions]="{ exact: true }"
-                          >info_outline</mat-icon
-                        >
-                        <span
-                          class="menu-button-label"
-                          routerLinkActive="active"
-                          [routerLinkActiveOptions]="{ exact: true }"
-                          >Upcoming</span
-                        >
-                      </div>
-                    </div>
+                    <span
+                      class="menu-button-label"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >Upcoming</span
+                    >
+                  </div>
+                </div>
               </li>
             </ul>
           </div>

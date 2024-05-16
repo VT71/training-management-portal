@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { TrainingsCalendarComponent } from './trainings-calendar/trainings-calendar.component';
+import { MissedTrainingsComponent } from './missed-trainings/missed-trainings.component';
+import { UpcomingTrainingsComponent } from './upcoming-trainings/upcoming-trainings.component';
 
 const appName = 'Training Management Portal';
 
@@ -42,17 +44,17 @@ export const routes: Routes = [
         component: TrainingsCalendarComponent,
         title: `Trainings | ${appName}`,
         children: [
-            {
-                path: 'missed',
-                component: TrainingsCalendarComponent,
-                title: `Missed Trainings | ${appName}`,
-            },
-            {
-                path: 'upcoming',
-                component: TrainingsCalendarComponent,
-                title: `Upcoming Trainings | ${appName}`,
-            },
-        ]
+          {
+            path: 'missed',
+            component: MissedTrainingsComponent,
+            title: `Missed Trainings | ${appName}`,
+          },
+          {
+            path: 'upcoming',
+            component: UpcomingTrainingsComponent,
+            title: `Upcoming Trainings | ${appName}`,
+          },
+        ],
       },
     ],
   },
