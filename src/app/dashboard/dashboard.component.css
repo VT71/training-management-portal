@@ -5,7 +5,8 @@
 }
 
 .content-container {
-    height: 100%;
-    width: 100%;
-    background-color: rgb(205, 205, 205);
+  height: 100%;
+  width: 100%;
+  background-color: rgb(205, 205, 205);
+  display: flex;
 }

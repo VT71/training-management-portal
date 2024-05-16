@@ -22,7 +22,7 @@ export class MenuComponent {
 
   ngOnInit(): void {
     const currentUrl = this.router.url;
-    if (currentUrl === '/trainings') {
+    if (currentUrl === '/dashboard/trainings') {
       this.trainingsDropDownOpen = true;
     }
   }
