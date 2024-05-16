@@ -2,9 +2,9 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TrainingsComponent } from './trainings/trainings.component';
 import { HomeComponent } from './home/home.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { TrainingsCalendarComponent } from './trainings-calendar/trainings-calendar.component';
 
 const appName = 'Training Management Portal';
 
@@ -39,8 +39,20 @@ export const routes: Routes = [
     children: [
       {
         path: 'trainings',
-        component: TrainingsComponent,
+        component: TrainingsCalendarComponent,
         title: `Trainings | ${appName}`,
+        children: [
+            {
+                path: 'missed',
+                component: TrainingsCalendarComponent,
+                title: `Missed Trainings | ${appName}`,
+            },
+            {
+                path: 'upcoming',
+                component: TrainingsCalendarComponent,
+                title: `Upcoming Trainings | ${appName}`,
+            },
+        ]
       },
     ],
   },

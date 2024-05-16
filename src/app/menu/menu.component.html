@@ -3,14 +3,121 @@
     <h2 class="menu-title">Menu</h2>
     <ul class="menu-list">
       <li class="menu-list-item">
-        <div class="menu-button" routerLink="/" routerLinkActive="active">
-          <mat-icon class="menu-button-icon" routerLinkActive="active">home</mat-icon>
-          <span class="menu-button-label" routerLinkActive="active">Dashboard</span>
-        </div>
-        <div class="menu-button" routerLink="/trainings" routerLinkActive="active">
-            <mat-icon class="menu-button-icon" routerLinkActive="active">calendar_month</mat-icon>
-            <span class="menu-button-label" routerLinkActive="active">Trainings</span>
+        <div
+          class="menu-button"
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="left">
+            <mat-icon
+              class="menu-button-icon"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >home</mat-icon
+            >
+            <span
+              class="menu-button-label"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Dashboard</span
+            >
           </div>
+        </div>
+        <div
+          [class.open]="trainingsDropDownOpen"
+          class="menu-button dropdown"
+          routerLink="/dashboard/trainings"
+          routerLinkActive="active"
+          (click)="toggleTrainingsDropDown()"
+        >
+          <div class="main-option">
+            <div class="left">
+              <mat-icon class="menu-button-icon" routerLinkActive="active"
+                >calendar_month</mat-icon
+              >
+              <span class="menu-button-label" routerLinkActive="active"
+                >Trainings</span
+              >
+            </div>
+
+            <div class="right">
+              <mat-icon class="menu-button-icon" routerLinkActive="active"
+                >arrow_drop_down</mat-icon
+              >
+            </div>
+          </div>
+          <div class="submenu-container" *ngIf="trainingsDropDownOpen">
+            <ul class="menu-list">
+              <li class="menu-list-item">
+                <div
+                  class="menu-button"
+                  routerLink="/dashboard/notifications"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <div class="left">
+                    <mat-icon
+                      class="menu-button-icon"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >fmd_bad</mat-icon
+                    >
+                    <span
+                      class="menu-button-label"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >Missed</span
+                    >
+                  </div>
+                </div>
+                <li class="menu-list-item">
+                    <div
+                      class="menu-button"
+                      routerLink="/dashboard/notifications"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                    >
+                      <div class="left">
+                        <mat-icon
+                          class="menu-button-icon"
+                          routerLinkActive="active"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          >info_outline</mat-icon
+                        >
+                        <span
+                          class="menu-button-label"
+                          routerLinkActive="active"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          >Upcoming</span
+                        >
+                      </div>
+                    </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="menu-button"
+          routerLink="/dashboard/notifications"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <div class="left">
+            <mat-icon
+              class="menu-button-icon"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >notifications</mat-icon
+            >
+            <span
+              class="menu-button-label"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Notifications</span
+            >
+          </div>
+        </div>
       </li>
     </ul>
   </div>
