@@ -10,55 +10,7 @@ html {
   padding-top: 1rem;
 }
 
-body {
-  width: 100%;
-  max-width: 350px;
-  margin: auto;
-}
 
-.input-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 
-.names-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
 
-input {
-  margin-top: 10px;
-  height: 35px;
-  border-radius: 5px;
-  border: 1px solid #666666;
-  opacity: 0.35;
-}
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-button {
-  height: 47px;
-  width: 100%;
-  border-radius: 10px;
-  border: none;
-  font-family: "Roboto", sans-serif;
-  color: white;
-  font-size: 1rem;
-  background-color: rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}

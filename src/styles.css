@@ -8,3 +8,62 @@ html {
   padding: 0;
   margin: 0;
 }
+
+.auth-form-container {
+  width: 100%;
+  max-width: 350px;
+  margin: auto;
+}
+
+
+.auth-form-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: "Roboto", sans-serif;
+}
+
+
+.auth-names-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.auth-input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.auth-input {
+  margin-top: 10px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #666666;
+  opacity: 0.35;
+}
+
+
+.auth-main-button {
+  height: 47px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.auth-main-button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
