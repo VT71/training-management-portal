@@ -7,7 +7,9 @@
 
 .menu-title {
   font-weight: normal;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: #082431;
+  opacity: 0.6;
 }
 
 .menu-wrapper {
@@ -79,7 +81,7 @@
 }
 
 .submenu-container {
-    width: 100%;
-    padding-left: 1rem;
-    margin-top: 0.5rem;
+  width: 100%;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
 }
