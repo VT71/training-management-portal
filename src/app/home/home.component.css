@@ -31,6 +31,12 @@ html {
 
 .optionsContainer {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .optionButton {
@@ -53,12 +59,4 @@ html {
 
 .optionButton.active:hover {
   background-color: rgba(0, 0, 0, 0.5);
-}
-
-.optionButton.sign-up {
-  border-radius: 12px 0 0 12px;
-}
-
-.optionButton.log-in {
-  border-radius: 0 12px 12px 0;
 }
