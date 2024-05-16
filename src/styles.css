@@ -11,6 +11,14 @@ html {
   margin: 0;
 }
 
+.main-color {
+    color: #5A6ACF;
+}
+
+.main-background-color {
+    background-color: #5A6ACF;
+}
+
 .auth-form-container {
   width: 100%;
   max-width: 350px;
@@ -92,3 +100,7 @@ html {
   font-weight: bold;
   font-family: "Roboto", sans-serif;
 }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
