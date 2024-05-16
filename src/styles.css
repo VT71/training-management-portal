@@ -31,13 +31,14 @@ html {
 }
 
 .main-background-color-10 {
-    background-color: var(--main-10);
-  }
+  background-color: var(--main-10);
+}
 
 .auth-form-container {
   width: 100%;
   max-width: 350px;
   margin: auto;
+  margin-top: 2rem;
 }
 
 .auth-form-title {

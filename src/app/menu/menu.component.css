@@ -22,12 +22,12 @@
 .menu-button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
   border-radius: 6px;
-  height: 40px;
-  padding: 1.5rem 1rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   margin-bottom: 8px;
+  width: 100%;
 }
 
 .menu-button:hover {
@@ -51,4 +51,35 @@
 .menu-button-icon.active,
 .menu-button-label.active {
   color: var(--main);
+}
+
+.menu-button > .left,
+.menu-button.dropdown > .main-option > .left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-button.dropdown {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.menu-button.dropdown.open {
+  flex-direction: column;
+  height: auto;
+}
+
+.menu-button.dropdown > .main-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submenu-container {
+    width: 100%;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
 }
