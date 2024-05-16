@@ -1,0 +1,9 @@
+.navbar-brand {
+    margin-left: 20px;
+}
+
+.btn-notifications {
+    border: none;
+    background-color: rgb(255, 255, 255);
+    margin-right: 20px;
+}
