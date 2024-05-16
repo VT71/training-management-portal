@@ -1,9 +1,7 @@
-
-
 .btn-notifications {
-    border: none;
-    background: none;
-    margin-right: 20px;
+  border: none;
+  background: none;
+  margin-right: 20px;
 }
 
 /* .navbar {
@@ -12,21 +10,35 @@
 } */
 
 .navbar {
-    padding: 0;
-    border-bottom: 1px solid #c8cbd9;
-  }
-  
+  padding: 0;
+  border-bottom: 1px solid #c8cbd9;
+}
+
 .navbar-right-section {
-   justify-content: center;
-    height: 39px;
-    width: 240px;
-    background-color: #f1f2f7;
-    
+  justify-content: center;
+  height: 39px;
+  width: 240px;
+  background-color: #f1f2f7;
 }
 
 .navbar-brand {
-    display: flex;
-    justify-content: center;
-    color: var(--main);
-     margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  color: var(--main);
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.btn {
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-family: "Roboto" , "sans-serif";
+  color: var(--light-purple);
+}
+
+.btn:hover {
+  background-color: var(--main-10);
 }
