@@ -1,9 +1,32 @@
-.navbar-brand {
-    margin-left: 20px;
-}
+
 
 .btn-notifications {
     border: none;
     background-color: rgb(255, 255, 255);
     margin-right: 20px;
+}
+
+/* .navbar {
+    background: linear-gradient(to right, #f1f2f7 240px, transparent 240px);
+    border-bottom: 1px solid black;
+} */
+
+.navbar {
+    padding: 0;
+    border-bottom: 1px solid black;
+  }
+  
+.navbar-right-section {
+   justify-content: center;
+    height: 39px;
+    width: 240px;
+    background-color: #f1f2f7;
+    
+}
+
+.navbar-brand {
+    display: flex;
+    justify-content: center;
+    color: var(--main);
+     margin-left: 20px;
 }
