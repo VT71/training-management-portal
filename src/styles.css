@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
+:root {
+  --main: rgb(90, 106, 207);
+  --main-20: rgba(90, 106, 207, 0.2);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -12,11 +17,15 @@ html {
 }
 
 .main-color {
-    color: #5A6ACF;
+  color: var(--main);
 }
 
 .main-background-color {
-    background-color: #5A6ACF;
+  background-color: var(--main-20);
+}
+
+.main-background-color-20 {
+  background-color: rgba(90, 106, 207, 0.2);
 }
 
 .auth-form-container {
@@ -25,13 +34,11 @@ html {
   margin: auto;
 }
 
-
 .auth-form-title {
   text-align: center;
   margin-bottom: 30px;
   font-family: "Roboto", sans-serif;
 }
-
 
 .auth-names-container {
   display: flex;
@@ -54,7 +61,6 @@ html {
   opacity: 0.35;
 }
 
-
 .auth-main-button {
   height: 47px;
   width: 100%;
@@ -70,8 +76,6 @@ html {
 .auth-main-button:hover {
   background-color: rgba(0, 0, 0, 0.5);
 }
-
-
 
 .auth-form {
   display: flex;
@@ -101,6 +105,11 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

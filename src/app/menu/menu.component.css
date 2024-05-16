@@ -10,3 +10,17 @@
     height: 300px;
     background-color: bisque;
 }
+
+.menu-list {
+    list-style: none;
+}
+
+.menu-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.menu-button-label {
+    font-weight: bold;
+}
