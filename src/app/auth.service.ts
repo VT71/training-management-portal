@@ -1,17 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, sendEmailVerification } from '@angular/fire/auth';
+
 import {
-  UserCredential,
   createUserWithEmailAndPassword,
   updateProfile,
 } from '@firebase/auth';
-import { Observable, from, last } from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
+  
+
 
   register(
     firstName: string,
@@ -27,9 +29,21 @@ export class AuthService {
       updateProfile(response.user, {
         displayName: `${firstName} ${lastName}`,
       });
+      alert('Registration Succesful');
+
       sendEmailVerification(response.user);
+
+
+    
     });
+    
+    
 
     return from(promise);
+
+    
   }
+
+ 
+
 }

@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { TrainingsCalendarComponent } from './trainings-calendar/trainings-calendar.component';
 import { MissedTrainingsComponent } from './missed-trainings/missed-trainings.component';
 import { UpcomingTrainingsComponent } from './upcoming-trainings/upcoming-trainings.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const appName = 'Training Management Portal';
 
@@ -26,6 +27,10 @@ export const routes: Routes = [
         path: 'register',
         component: RegisterComponent,
         title: `Register | ${appName}`,
+      },
+      {
+        path: 'verify-email',
+        component: VerifyEmailComponent,
       },
       {
         path: 'forgot-password',
