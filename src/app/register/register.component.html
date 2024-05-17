@@ -1,37 +1,33 @@
 <div class="auth-form-container">
   <h1 class="auth-form-title">Register</h1>
   <form class="auth-form" [formGroup]="form" (submit)="onSubmit()">
-    <div class="auth-names-container">
-      <div class="auth-input-container">
-        <label class="auth-input-label" for="first-name">First Name*</label>
-        <input
-          type="text"
-          class="auth-input"
-          name="first-name"
-          id="first-name-input"
-          formControlName="firstName"
-        />
-        <div
-          *ngIf="
-            form.get('firstName')?.errors && form.get('firstName')?.touched
-          "
-        >
-          <div *ngIf="form.get('firstName')?.errors?.['required']">
-            <p class="auth-error-message">First Name is required</p>
-          </div>
+    <div class="auth-input-container">
+      <label class="auth-input-label" for="first-name">First Name*</label>
+      <input
+        type="text"
+        class="auth-input"
+        name="first-name"
+        id="first-name-input"
+        formControlName="firstName"
+      />
+      <div
+        *ngIf="form.get('firstName')?.errors && form.get('firstName')?.touched"
+      >
+        <div *ngIf="form.get('firstName')?.errors?.['required']">
+          <p class="auth-error-message">First Name is required</p>
         </div>
       </div>
+    </div>
 
-      <div class="auth-input-container">
-        <label class="auth-input-label" for="first-name">Last Name*</label>
-        <input
-          type="text"
-          class="auth-input"
-          name="last-name"
-          id="last-name-input"
-          formControlName="lastName"
-        />
-      </div>
+    <div class="auth-input-container">
+      <label class="auth-input-label" for="first-name">Last Name*</label>
+      <input
+        type="text"
+        class="auth-input"
+        name="last-name"
+        id="last-name-input"
+        formControlName="lastName"
+      />
     </div>
 
     <div class="auth-input-container">
@@ -70,5 +66,3 @@
     <button class="auth-main-button" type="submit">Register</button>
   </form>
 </div>
-
-

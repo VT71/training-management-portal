@@ -48,13 +48,6 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
-.auth-names-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-}
-
 .auth-input-container {
   display: flex;
   flex-direction: column;
@@ -77,12 +70,16 @@ html {
   font-family: "Roboto", sans-serif;
   color: white;
   font-size: 1rem;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: var(--main);
   cursor: pointer;
 }
 
 .auth-main-button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--light-purple);
+}
+
+.auth-main-button:active {
+  background-color: var(--main);
 }
 
 .auth-form {
