@@ -7,17 +7,12 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync('noop'),
-    
-    provideFirebaseApp(() =>
-      initializeApp(
-       environment.firebaseConfig
-      )
-    ),
+
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
   ],
 };
