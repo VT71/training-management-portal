@@ -3,7 +3,7 @@
   <form class="auth-form" [formGroup]="form" (submit)="onSubmit()">
     <div class="auth-names-container">
       <div class="auth-input-container">
-        <label class="auth-input-label" for="first-name">First Name</label>
+        <label class="auth-input-label" for="first-name">First Name*</label>
         <input
           type="text"
           class="auth-input"
@@ -11,10 +11,19 @@
           id="first-name-input"
           formControlName="firstName"
         />
+        <div
+          *ngIf="
+            form.get('firstName')?.errors && form.get('firstName')?.touched
+          "
+        >
+          <div *ngIf="form.get('firstName')?.errors?.['required']">
+            <p class="auth-error-message">First Name is required</p>
+          </div>
+        </div>
       </div>
 
       <div class="auth-input-container">
-        <label class="auth-input-label" for="first-name">Last Name</label>
+        <label class="auth-input-label" for="first-name">Last Name*</label>
         <input
           type="text"
           class="auth-input"
@@ -26,12 +35,18 @@
     </div>
 
     <div class="auth-input-container">
-      <label class="auth-input-label" for="email-input">E-mail</label>
-      <input type="text" class="auth-input" name="email" id="email-input" formControlName="email"/>
+      <label class="auth-input-label" for="email-input">E-mail*</label>
+      <input
+        type="text"
+        class="auth-input"
+        name="email"
+        id="email-input"
+        formControlName="email"
+      />
     </div>
 
     <div class="auth-input-container">
-      <label class="auth-input-label" for="password-input">Password</label>
+      <label class="auth-input-label" for="password-input">Password*</label>
       <input
         type="password"
         class="auth-input"
@@ -42,7 +57,7 @@
     </div>
     <div class="auth-input-container">
       <label class="auth-input-label" for="passwordrepeat-input"
-        >Re-type Password</label
+        >Re-type Password*</label
       >
       <input
         type="password"

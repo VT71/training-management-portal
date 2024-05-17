@@ -3,11 +3,12 @@ import { inject } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -26,7 +27,7 @@ export class RegisterComponent {
 
   onSubmit(): void {
     const rawForm = this.form.getRawValue();
-    if (rawForm.password === rawForm.repeatPassword) {
+    // if (rawForm.password === rawForm.repeatPassword) {
       this.authService
         .register(
           rawForm.firstName,
@@ -37,6 +38,6 @@ export class RegisterComponent {
         .subscribe(() => {
           this.router.navigateByUrl('/dashboard');
         });
-    }
+    // }
   }
 }
