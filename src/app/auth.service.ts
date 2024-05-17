@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, sendEmailVerification } from '@angular/fire/auth';
 import {
   UserCredential,
   createUserWithEmailAndPassword,
@@ -23,9 +23,12 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then((response) =>
-      updateProfile(response.user, { displayName: `${firstName} ${lastName}` })
-    );
+    ).then((response) => {
+      updateProfile(response.user, {
+        displayName: `${firstName} ${lastName}`,
+      });
+      sendEmailVerification(response.user);
+    });
 
     return from(promise);
   }
