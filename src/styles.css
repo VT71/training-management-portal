@@ -47,13 +47,6 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
-.auth-names-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-}
-
 .auth-input-container {
   display: flex;
   flex-direction: column;
