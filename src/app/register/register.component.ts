@@ -19,22 +19,24 @@ export class RegisterComponent {
   form = this.fb.nonNullable.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    repeatPassword: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   onSubmit(): void {
-    console.log('submitting form');
     const rawForm = this.form.getRawValue();
-    this.authService
-      .register(
-        rawForm.firstName,
-        rawForm.lastName,
-        rawForm.email,
-        rawForm.password
-      )
-      .subscribe(() => {
-        this.router.navigateByUrl('/dashboard');
-      });
+    if (rawForm.password === rawForm.repeatPassword) {
+      this.authService
+        .register(
+          rawForm.firstName,
+          rawForm.lastName,
+          rawForm.email,
+          rawForm.password
+        )
+        .subscribe(() => {
+          this.router.navigateByUrl('/dashboard');
+        });
+    }
   }
 }
