@@ -9,6 +9,7 @@ import { MissedTrainingsComponent } from './missed-trainings/missed-trainings.co
 import { UpcomingTrainingsComponent } from './upcoming-trainings/upcoming-trainings.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
+
 const appName = 'Training Management Portal';
 
 export const routes: Routes = [
