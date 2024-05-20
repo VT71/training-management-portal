@@ -26,8 +26,9 @@ export class RegisterComponent {
   });
 
   onSubmit(): void {
-    const rawForm = this.form.getRawValue();
-    // if (rawForm.password === rawForm.repeatPassword) {
+    if (this.form.valid) {
+      const rawForm = this.form.getRawValue();
+      // if (rawForm.password === rawForm.repeatPassword) {
       this.authService
         .register(
           rawForm.firstName,
@@ -38,6 +39,6 @@ export class RegisterComponent {
         .subscribe(() => {
           this.router.navigateByUrl('/verify-email');
         });
-   
+    }
   }
 }
