@@ -25,7 +25,6 @@ export class LoginComponent {
     if (this.form.valid) {
       const rawForm = this.form.getRawValue();
       this.authService.login(rawForm.email, rawForm.password).subscribe(() => {
-        this.router.navigateByUrl('/dashboard');
       });
     }
   }

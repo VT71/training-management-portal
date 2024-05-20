@@ -37,7 +37,6 @@ export class RegisterComponent {
         rawForm.password
       )
       .subscribe(() => {
-        this.router.navigateByUrl('/verify-email');
       });
     //   }
     // }

@@ -5,9 +5,11 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { Observable, from } from 'rxjs';
+import { map } from 'rxjs';
 // import { Router } from '@angular/router';
 // import { AngularFireAuth } from '@angular/fire/compat/auth'
 
@@ -16,8 +18,11 @@ import { Observable, from } from 'rxjs';
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
+  user$: Observable<any>;
 
-  // constructor(private fireauth : AngularFireAuth, private router : Router) { }
+  constructor(private router: Router) {
+    this.user$ = this.firebaseAuth.authState;
+  }
 
   register(
     firstName: string,
@@ -36,6 +41,7 @@ export class AuthService {
         });
 
         sendEmailVerification(response.user);
+        this.router.navigateByUrl('/verify-email');
       },
       (err) => {
         alert('Register Error');
@@ -45,14 +51,26 @@ export class AuthService {
     return from(promise);
   }
 
-
-
   login(email: string, password: string): Observable<void> {
-    const promise = signInWithEmailAndPassword(
-      this.firebaseAuth,
-      email,
-      password
-    ).then(
+    const promise = this.afAuth
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        () => {
+          this.router.navigateByUrl('/dashboard');
+        },
+        (err) => {
+          alert('Login Error');
+        }
+      );
+    return from(promise);
+  }
+
+  logout() {
+    return this.afAuth.signOut();
+  }
+
+  forgotPassword(email: string): Observable<void> {
+    const promise = sendPasswordResetEmail(this.firebaseAuth, email).then(
       () => {},
       (err) => {
         alert('Login Error');
@@ -61,16 +79,8 @@ export class AuthService {
     return from(promise);
   }
 
-  forgotPassword(email: string ): Observable<void> {
-    const promise = sendPasswordResetEmail (
-      this.firebaseAuth,
-      email
-    ).then (
-      () => {},
-      (err) => {
-        alert('Login Error');
-      }
-    );
-    return from(promise);
+
+  isAuthenticated(): Observable<boolean> {
+    return this.user$.pipe(map(user => !!user));
   }
 }

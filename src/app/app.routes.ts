@@ -8,7 +8,7 @@ import { TrainingsCalendarComponent } from './trainings-calendar/trainings-calen
 import { MissedTrainingsComponent } from './missed-trainings/missed-trainings.component';
 import { UpcomingTrainingsComponent } from './upcoming-trainings/upcoming-trainings.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-
+import { authGuard } from './auth.guard';
 
 const appName = 'Training Management Portal';
 
@@ -44,6 +44,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     title: `Dashboard | ${appName}`,
+    canActivate: [authGuard],
     children: [
       {
         path: 'trainings',
