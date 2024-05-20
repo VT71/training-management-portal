@@ -3,15 +3,14 @@ import {
   Auth,
   sendEmailVerification,
   sendPasswordResetEmail,
-  signInWithEmailAndPassword,
+  authState,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs';
-// import { Router } from '@angular/router';
-// import { AngularFireAuth } from '@angular/fire/compat/auth'
+
 
 @Injectable({
   providedIn: 'root',
