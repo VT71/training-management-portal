@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
 
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { Observable, from } from 'rxjs';
-import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/compat/auth'
+// import { Router } from '@angular/router';
+// import { AngularFireAuth } from '@angular/fire/compat/auth'
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'
 export class AuthService {
   firebaseAuth = inject(Auth);
 
-  constructor(private fireauth : AngularFireAuth, private router : Router) { }
+  // constructor(private fireauth : AngularFireAuth, private router : Router) { }
 
   register(
     firstName: string,
@@ -45,20 +46,26 @@ export class AuthService {
   }
 
 
-  //forgot password 
-  forgotPassword(email : string) {
-    this.fireauth.sendPasswordResetEmail(email).then(() => {
-      this.router.navigate(['/verify-email']);
-    }, err => {
-      alert('Something went wrong');
-    })}
-    
+
   login(email: string, password: string): Observable<void> {
     const promise = signInWithEmailAndPassword(
       this.firebaseAuth,
       email,
       password
     ).then(
+      () => {},
+      (err) => {
+        alert('Login Error');
+      }
+    );
+    return from(promise);
+  }
+
+  forgotPassword(email: string ): Observable<void> {
+    const promise = sendPasswordResetEmail (
+      this.firebaseAuth,
+      email
+    ).then (
       () => {},
       (err) => {
         alert('Login Error');
