@@ -8,16 +8,13 @@ import { map, take } from 'rxjs/operators';
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  console.log('Guard state: ', authService.user);
 
-  return authService.isAuthenticated().pipe(
-    take(1),
-    map((isAuth) => {
-      if (isAuth) {
-        return true;
-      } else {
-        router.navigate(['/login']);
-        return false;
-      }
-    })
-  );
+  const isLoggedIn = authService.isAuthenticated();
+  if (isLoggedIn === true) {
+    return isLoggedIn;
+  }
+  
+  router.navigateByUrl('/login');
+  return false;
 };
