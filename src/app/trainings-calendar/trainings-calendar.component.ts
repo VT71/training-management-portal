@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { Meetings } from '../calendar/meetings.interface';
 
+
 export const colors: any = {};
 
 @Component({
