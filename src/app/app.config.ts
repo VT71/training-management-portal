@@ -14,11 +14,5 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync('noop'),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
-    importProvidersFrom(
-      CalendarModule.forRoot({
-        provide: DateAdapter,
-        useFactory: adapterFactory,
-      })
-    ),
   ],
 };

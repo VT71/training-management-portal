@@ -1,5 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, sendEmailVerification } from '@angular/fire/auth';
+import {
+  Auth,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from '@angular/fire/auth';
+
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { Observable, from } from 'rxjs';
 import { Router } from '@angular/router';
@@ -23,13 +28,18 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then((response) => {
-      updateProfile(response.user, {
-        displayName: `${firstName} ${lastName}`,
-      });
+    ).then(
+      (response) => {
+        updateProfile(response.user, {
+          displayName: `${firstName} ${lastName}`,
+        });
 
-      sendEmailVerification(response.user);
-    });
+        sendEmailVerification(response.user);
+      },
+      (err) => {
+        alert('Register Error');
+      }
+    );
 
     return from(promise);
   }
@@ -41,6 +51,19 @@ export class AuthService {
       this.router.navigate(['/verify-email']);
     }, err => {
       alert('Something went wrong');
-    })
+    })}
+    
+  login(email: string, password: string): Observable<void> {
+    const promise = signInWithEmailAndPassword(
+      this.firebaseAuth,
+      email,
+      password
+    ).then(
+      () => {},
+      (err) => {
+        alert('Login Error');
+      }
+    );
+    return from(promise);
   }
 }
