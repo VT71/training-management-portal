@@ -1,10 +1,13 @@
 <div class="calendar-container">
   <div class="calendar">
     <div class="calendar-headline">
+
+
       <div class="calendar-headline-month">
         {{ firstDayOfActiveMonth().monthShort }},
         {{ firstDayOfActiveMonth().year }}
       </div>
+
       <div class="calendar-headline-controls">
         <div class="calendar-headline-control" (click)="goToPreviousMonth()">
           «
@@ -17,6 +20,7 @@
         </div>
         <div class="calendar-headline-control" (click)="goToNextMonth()">»</div>
       </div>
+
     </div>
     <div class="calendar-weeks-grid">
       @for (weekDay of weekDays(); track $index) {
