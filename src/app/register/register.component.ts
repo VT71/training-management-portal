@@ -36,7 +36,13 @@ export class RegisterComponent {
         rawForm.email,
         rawForm.password
       )
-      .subscribe(() => {
+      .subscribe({
+        error: (err) => {
+          alert('Register Error');
+        },
+        complete: () => {
+          this.router.navigateByUrl('/verify-email');
+        },
       });
     //   }
     // }

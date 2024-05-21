@@ -24,7 +24,13 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.form.valid) {
       const rawForm = this.form.getRawValue();
-      this.authService.login(rawForm.email, rawForm.password).subscribe(() => {
+      this.authService.login(rawForm.email, rawForm.password).subscribe({
+        error: (err) => {
+          alert('Login Error');
+        },
+        complete: () => {
+          this.router.navigateByUrl('/dashboard');
+        },
       });
     }
   }

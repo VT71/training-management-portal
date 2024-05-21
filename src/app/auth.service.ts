@@ -33,19 +33,13 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then(
-      (response) => {
-        updateProfile(response.user, {
-          displayName: `${firstName} ${lastName}`,
-        });
+    ).then((response) => {
+      updateProfile(response.user, {
+        displayName: `${firstName} ${lastName}`,
+      });
 
-        sendEmailVerification(response.user);
-        this.router.navigateByUrl('/verify-email');
-      },
-      (err) => {
-        alert('Register Error');
-      }
-    );
+      sendEmailVerification(response.user);
+    });
 
     return from(promise);
   }
@@ -55,15 +49,9 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then(
-      () => {
-        this.user = this.firebaseAuth.currentUser;
-        this.router.navigateByUrl('/dashboard');
-      },
-      (err) => {
-        alert('Login Error');
-      }
-    );
+    ).then(() => {
+      this.user = this.firebaseAuth.currentUser;
+    });
     return from(promise);
   }
 
