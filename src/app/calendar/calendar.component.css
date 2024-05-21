@@ -58,7 +58,7 @@
   font-family: 'Roboto', sans-serif;
   color: rgb(255, 255, 255);
   border-top: 1px solid rgb(190, 190, 190);
-  border-left: 1px solid rgb(190, 190, 190);
+ 
   border-right: 1px solid rgb(190, 190, 190);
   border-bottom: 1px solid rgb(190, 190, 190);
   border-top-left-radius: 12px;
@@ -124,6 +124,7 @@
   width: 30%;
   margin-left: 15px;
   background: var(--tertiary);
+  border-radius: 12px;
 }
 
 .schedule-headline {
