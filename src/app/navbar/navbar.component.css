@@ -35,10 +35,14 @@
   cursor: pointer;
   margin-bottom: 8px;
   font-weight: bold;
-  font-family: "Roboto" , "sans-serif";
+  font-family: "Roboto", "sans-serif";
   color: var(--light-purple);
 }
 
 .btn:hover {
   background-color: var(--main-10);
+}
+
+.dropdown-item {
+  cursor: pointer;
 }
