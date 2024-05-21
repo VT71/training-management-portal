@@ -44,6 +44,14 @@ html {
   margin-top: 2rem;
 }
 
+.auth-names-container {
+  display:flex;
+  justify-content: space-between;
+}
+
+.auth-names-container > .auth-input-container {
+  width: 48%;
+}
 .auth-form-title {
   text-align: center;
   margin-bottom: 30px;
