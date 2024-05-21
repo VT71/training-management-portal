@@ -67,8 +67,10 @@ export class AuthService {
     return from(promise);
   }
 
-  logout() {
-    return signOut(this.firebaseAuth).then(() => {});
+  logout(): Observable<void> {
+    this.user = null;
+    const promise = signOut(this.firebaseAuth).then(() => {});
+    return from(promise);
   }
 
   forgotPassword(email: string): Observable<void> {

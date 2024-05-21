@@ -5,6 +5,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { NgIf } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,12 +17,20 @@ import { AuthService } from '../auth.service';
 export class NavbarComponent {
   isDropdownOpen = false;
   authService = inject(AuthService);
+  router = inject(Router);
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   logOut(): void {
-    this.authService.logout();
+    this.authService.logout().subscribe({
+      error: (err) => {
+        alert('Sign out Error');
+      },
+      complete: () => {
+        this.router.navigateByUrl('/login');
+      },
+    });
   }
 }
