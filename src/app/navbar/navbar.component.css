@@ -15,8 +15,10 @@
 }
 
 .navbar-right-section {
+  display: flex;
   justify-content: center;
-  height: 39px;
+  align-items: center;
+  height: 51px;
   width: 240px;
   background-color: #f1f2f7;
 }
@@ -36,7 +38,7 @@
   margin-bottom: 8px;
   font-weight: bold;
   font-family: "Roboto", "sans-serif";
-  color: var(--light-purple);
+  color: var(--main);
 }
 
 .btn:hover {

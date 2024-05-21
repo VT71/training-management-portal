@@ -1,31 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home | Training Portal</title>
-  </head>
-  <body>
-    <div class="rootContainer">
-      <div class="formContainer">
-        <div class="optionsContainer">
-          <button
-            class="optionButton sign-up"
-            routerLink="/login"
-            routerLinkActive="active"
-          >
-            Log In
-          </button>
-          <button
-            class="optionButton log-in"
-            routerLink="/register"
-            routerLinkActive="active"
-          >
-            Sign Up
-          </button>
-        </div>
-        <router-outlet />
-      </div>
+<div class="rootContainer">
+  <div class="formContainer">
+    <div class="optionsContainer">
+      <button
+        class="optionButton sign-up"
+        routerLink="/login"
+        routerLinkActive="active"
+      >
+        Log In
+      </button>
+      <button
+        class="optionButton log-in"
+        routerLink="/register"
+        routerLinkActive="active"
+      >
+        Sign Up
+      </button>
     </div>
-  </body>
-</html>
+    <router-outlet />
+  </div>
+</div>

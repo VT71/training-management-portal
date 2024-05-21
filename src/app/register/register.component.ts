@@ -26,25 +26,29 @@ export class RegisterComponent {
   });
 
   onSubmit(): void {
-    // if (this.form.valid) {
-    const rawForm = this.form.getRawValue();
-    //   if (rawForm.password === rawForm.repeatPassword) {
-    this.authService
-      .register(
-        rawForm.firstName,
-        rawForm.lastName,
-        rawForm.email,
-        rawForm.password
-      )
-      .subscribe({
-        error: (err) => {
-          alert('Register Error');
-        },
-        complete: () => {
-          this.router.navigateByUrl('/verify-email');
-        },
-      });
-    //   }
-    // }
+    if (this.form.valid) {
+      const rawForm = this.form.getRawValue();
+      if (rawForm.password === rawForm.repeatPassword) {
+        this.authService
+          .register(
+            rawForm.firstName,
+            rawForm.lastName,
+            rawForm.email,
+            rawForm.password
+          )
+          .subscribe({
+            error: (err) => {
+              alert('Register Error');
+            },
+            complete: () => {
+              this.router.navigateByUrl('/verify-email');
+            },
+          });
+      } else {
+        alert('Passwords do not match.');
+      }
+    } else {
+        alert('Please complete all fields.');
+    }
   }
 }

@@ -33,11 +33,11 @@
 }
 
 .menu-button:hover {
-  background-color: var(--main-10);
+  background-color: var(--secondary-10);
 }
 
 .menu-button.active {
-  background-color: var(--main-10);
+  background-color: var(--secondary-10);
   border: 1px solid #dedede;
 }
 
@@ -47,12 +47,12 @@
 
 .menu-button-icon,
 .menu-button-label {
-  color: var(--light-purple);
+  color: var(--secondary-20);
 }
 
 .menu-button-icon.active,
 .menu-button-label.active {
-  color: var(--main);
+  color: var(--secondary);
 }
 
 .menu-button > .left,

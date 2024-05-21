@@ -5,10 +5,21 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 :root {
-  --main: rgb(90, 106, 207);
-  --main-20: rgba(90, 106, 207, 0.2);
+  /* --main: rgb(90, 106, 207); */
+  /* --main-20: rgba(90, 106, 207, 0.2);
   --main-10: rgba(90, 106, 207, 0.1);
-  --light-purple: rgb(166, 171, 200);
+  --light-purple: rgb(166, 171, 200); */
+  --main: rgb(238, 125, 16);
+  --main-10: rgba(238, 125, 16, 0.1);
+  --main-20: rgba(238, 125, 16, 0.2);
+  --main-80: rgba(238, 125, 16, 0.8);
+  --light-orange: rgb(255, 230, 207);
+  --secondary: rgb(0, 44, 104);
+  --light-secondary: rgb(146, 195, 255);
+  --secondary-10: rgba(0, 44, 104, 0.1);
+  --secondary-20: rgba(0, 44, 104, 0.2);
+  --secondary-30: rgba(0, 44, 104, 0.3);
+  --secondary-40: rgba(0, 44, 104, 0.4);
 }
 
 * {
@@ -45,7 +56,7 @@ html {
 }
 
 .auth-names-container {
-  display:flex;
+  display: flex;
   justify-content: space-between;
 }
 
@@ -84,7 +95,7 @@ html {
 }
 
 .auth-main-button:hover {
-  background-color: var(--light-purple);
+  background-color: var(--main-80);
 }
 
 .auth-main-button:active {
