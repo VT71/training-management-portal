@@ -3,7 +3,7 @@
 }
 
 .rootContainer {
-  overflow:auto;
+  overflow: auto;
   height: 100%;
   width: 100%;
   padding: 2rem;
@@ -52,7 +52,7 @@
 }
 
 .optionButton.active {
-  background-color: var(--secondary-40);;
+  background-color: var(--secondary-40);
 }
 
 .optionButton.active:hover {
