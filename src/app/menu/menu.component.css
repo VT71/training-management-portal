@@ -1,5 +1,5 @@
 .root-container {
-  background: #f1f2f7;
+  background: var(--secondary-10);
   height: 100%;
   width: 240px;
   padding: 2rem 1rem;
@@ -47,7 +47,7 @@
 
 .menu-button-icon,
 .menu-button-label {
-  color: var(--secondary-20);
+  color: var(--secondary-40);
 }
 
 .menu-button-icon.active,

@@ -4,10 +4,9 @@
   margin-right: 20px;
 }
 
-/* .navbar {
-    background: linear-gradient(to right, #f1f2f7 240px, transparent 240px);
-    border-bottom: 1px solid black;
-} */
+.navbar {
+    background-color: white !important;
+}
 
 .navbar {
   padding: 0;
@@ -20,7 +19,7 @@
   align-items: center;
   height: 51px;
   width: 240px;
-  background-color: #f1f2f7;
+  background-color: white;
 }
 
 .navbar-brand {
