@@ -37,8 +37,7 @@
 }
 
 .menu-button.active {
-  background-color: var(--secondary-10);
-  border: 1px solid #dedede;
+  background-color: var(--secondary);
 }
 
 .menu-button-label {
@@ -50,9 +49,19 @@
   color: var(--secondary-40);
 }
 
+.menu-button.dropdown.open .menu-button-label,
+.menu-button.dropdown.open .menu-button-icon {
+  color: var(--tertiary-60);
+}
+
+.menu-button.dropdown.open .menu-button-label.active,
+.menu-button.dropdown.open .menu-button-icon.active {
+  color: var(--tertiary);
+}
+
 .menu-button-icon.active,
 .menu-button-label.active {
-  color: var(--secondary);
+  color: var(--tertiary);
 }
 
 .menu-button > .left,

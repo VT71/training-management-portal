@@ -1,8 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Params,
+  RouterLink,
+  RouterLinkActive,
+  UrlSegment,
+} from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { Observable, Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -13,17 +21,29 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent {
   trainingsDropDownOpen = false;
+  routerSubscription?: Subscription;
 
-  toggleTrainingsDropDown() {
-    this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
+  updateTrainingsDropDownOpen(url: string): void {
+    if (url.includes('trainings')) {
+      this.trainingsDropDownOpen = true;
+    } else {
+      this.trainingsDropDownOpen = false;
+    }
   }
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    const currentUrl = this.router.url;
-    if (currentUrl === '/dashboard/trainings') {
-      this.trainingsDropDownOpen = true;
-    }
+    this.updateTrainingsDropDownOpen(this.router.url);
+
+    this.routerSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateTrainingsDropDownOpen(this.router.url);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
   }
 }
