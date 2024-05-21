@@ -3,7 +3,7 @@
 }
 
 .rootContainer {
-  overflow: scroll;
+  overflow:auto;
   height: 100%;
   width: 100%;
   padding: 2rem;
@@ -20,7 +20,7 @@
   height: auto;
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
   max-width: 600px;
   background-color: white;
   padding: 3rem 1rem;
