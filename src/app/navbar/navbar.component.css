@@ -11,7 +11,7 @@
 
 .navbar {
   padding: 0;
-  border-bottom: 1px solid #c8cbd9;
+  border-bottom: 1px solid var(--secondary-10);
 }
 
 .navbar-right-section {
