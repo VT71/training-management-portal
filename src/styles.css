@@ -157,6 +157,8 @@ app-trainings-calendar {
   border-radius: 16px;
   padding: 1rem;
   display: flex;
+  justify-content: space-between;
+  align-items: start;
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
   -moz-box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
@@ -173,14 +175,40 @@ app-trainings-calendar {
 }
 
 .training-list .section-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 20%;
+}
 
 .training-list .section-container .title {
   color: var(--secondary);
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.training-list .section-container .description {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+.training-list .section-container.last {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.training-list .section-container .main-button {
+  background-color: var(--main);
+  width: 100%;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 10px;
+  color: var(--tertiary);
+  font-weight: bold;
+}
+
+.training-list .section-container .main-button:hover {
+  background-color: var(--main-80);
 }
