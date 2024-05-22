@@ -20,32 +20,40 @@ import { Observable, Subscription, filter } from 'rxjs';
   styleUrl: './menu.component.css',
 })
 export class MenuComponent {
-  trainingsDropDownOpen = false;
-  routerSubscription?: Subscription;
+  public trainingsDropDownOpen = false;
+  public trainingsDropDownActive = false;
+  private subscriptions?: Subscription[];
 
-  updateTrainingsDropDownOpen(url: string): void {
-    if (url.includes('trainings')) {
-      this.trainingsDropDownOpen = true;
-    } else {
-      this.trainingsDropDownOpen = false;
-    }
+  public manuallyUpdateTrainingsDropDownOpen(): void {
+    this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
   }
 
-  
+  private updateTrainingsDropDown(url: string): void {
+    if (url.includes('trainings')) {
+      this.trainingsDropDownOpen = true;
+      this.trainingsDropDownActive = true;
+    } else {
+      this.trainingsDropDownOpen = false;
+      this.trainingsDropDownActive = false;
+    }
+    console.log('Open?:' + this.trainingsDropDownOpen);
+  }
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.updateTrainingsDropDownOpen(this.router.url);
+    this.updateTrainingsDropDown(this.router.url);
 
-    this.routerSubscription = this.router.events
+    const routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.updateTrainingsDropDownOpen(this.router.url);
+        this.updateTrainingsDropDown(this.router.url);
       });
+
+    this.subscriptions?.push(routerSubscription);
   }
 
   ngOnDestroy(): void {
-    this.routerSubscription?.unsubscribe();
+    this.subscriptions?.forEach((subscription) => subscription.unsubscribe());
   }
 }

@@ -26,17 +26,16 @@
         </div>
         <div
           [class.open]="trainingsDropDownOpen"
+          [class.active]="trainingsDropDownActive"
           class="menu-button dropdown"
-          routerLinkActive="active"
         >
           <div
             class="main-option"
-            
-            routerLink="/dashboard/trainings"
+            (click)="manuallyUpdateTrainingsDropDownOpen()"
           >
             <div class="left">
               <mat-icon class="menu-button-icon" routerLinkActive="active"
-                >calendar_month</mat-icon
+                >assignment_ind</mat-icon
               >
               <span class="menu-button-label" routerLinkActive="active"
                 >Trainings</span
@@ -51,6 +50,30 @@
           </div>
           <div class="submenu-container" *ngIf="trainingsDropDownOpen">
             <ul class="menu-list">
+              <li class="menu-list-item">
+                <div
+                  class="menu-button"
+                  routerLink="/dashboard/trainings/calendar"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <div class="left">
+                    <mat-icon
+                      class="menu-button-icon"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >calendar_month</mat-icon
+                    >
+                    <span
+                      class="menu-button-label"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >Calendar</span
+                    >
+                  </div>
+                </div>
+              </li>
+
               <li class="menu-list-item">
                 <div
                   class="menu-button"

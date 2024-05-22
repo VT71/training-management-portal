@@ -49,9 +49,21 @@
   color: var(--secondary-40);
 }
 
+.menu-button.dropdown.open,
+.menu-button.dropdown.active {
+  background-color: var(--secondary);
+}
+
 .menu-button.dropdown.open .menu-button-label,
 .menu-button.dropdown.open .menu-button-icon {
   color: var(--tertiary-60);
+}
+
+.menu-button.dropdown.open .main-option .menu-button-label,
+.menu-button.dropdown.open .main-option .menu-button-icon,
+.menu-button.dropdown.active .main-option .menu-button-label,
+.menu-button.dropdown.active .main-option .menu-button-icon {
+  color: var(--tertiary);
 }
 
 .menu-button.dropdown.open .menu-button-label.active,
