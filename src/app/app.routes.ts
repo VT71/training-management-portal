@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomeComponent } from './home/home.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { TrainingsCalendarComponent } from './trainings-calendar/trainings-calendar.component';
-import { MissedTrainingsComponent } from './missed-trainings/missed-trainings.component';
-import { UpcomingTrainingsComponent } from './upcoming-trainings/upcoming-trainings.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HomeComponent } from './components/home/home.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { TrainingsCalendarComponent } from './components/trainings-calendar/trainings-calendar.component';
+import { MissedTrainingsComponent } from './components/missed-trainings/missed-trainings.component';
+import { UpcomingTrainingsComponent } from './components/upcoming-trainings/upcoming-trainings.component';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { authGuard } from './auth.guard';
-import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 const appName = 'Training Management Portal';
 

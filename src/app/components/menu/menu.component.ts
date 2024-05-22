@@ -11,7 +11,7 @@ import {
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable, Subscription, filter } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
