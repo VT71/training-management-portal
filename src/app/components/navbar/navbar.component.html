@@ -39,9 +39,14 @@
       <li><a class="dropdown-item" href="#">Account settings</a></li>
       <li><a class="dropdown-item" (click)="logOut()">Log out</a></li>
     </ul>
-
-    <mat-icon matBadge="15" matBadgeColor="warn" style="margin-right: 60px"
-      >notifications</mat-icon
-    >
+    <div class="navbar-icons-container">
+      <mat-icon
+        class="navbar-icon-button"
+        matBadge="15"
+        matBadgeColor="warn"
+        >notifications</mat-icon
+      >
+      <mat-icon class="navbar-icon-button">note_add</mat-icon>
+    </div>
   </div>
 </nav>
