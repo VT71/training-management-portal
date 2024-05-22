@@ -11,6 +11,7 @@ import {
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable, Subscription, filter } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -23,6 +24,7 @@ export class MenuComponent {
   public trainingsDropDownOpen = false;
   public trainingsDropDownActive = false;
   private subscriptions?: Subscription[];
+  private authService: AuthService = inject(AuthService);
 
   public manuallyUpdateTrainingsDropDownOpen(): void {
     this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
@@ -37,6 +39,17 @@ export class MenuComponent {
       this.trainingsDropDownActive = false;
     }
     console.log('Open?:' + this.trainingsDropDownOpen);
+  }
+
+  public logOut(): void {
+    this.authService.logout().subscribe({
+      error: (err) => {
+        alert('Sign out Error');
+      },
+      complete: () => {
+        this.router.navigateByUrl('/login');
+      },
+    });
   }
 
   constructor(private router: Router) {}
