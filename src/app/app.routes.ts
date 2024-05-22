@@ -13,6 +13,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { TrainingFormComponent } from './components/training-form/training-form.component';
 import { AddTrainingComponent } from './components/add-training/add-training.component';
 import { DashboardHomeComponent } from './components/dashboard-home/dashboard-home.component';
+import { SettingsComponentComponent } from './components/settings-component/settings-component.component';
 
 const appName = 'Training Management Portal';
 
@@ -79,6 +80,11 @@ export const routes: Routes = [
         path: 'notifications',
         component: NotificationsComponent,
         title: `Notifications | ${appName}`,
+      },
+      {
+        path: 'settings',
+        component: SettingsComponentComponent,
+        title: `Settings | ${appName}`,
       },
       {
         path: 'add-training',
