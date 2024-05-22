@@ -194,7 +194,8 @@ app-trainings-calendar {
   justify-content: center;
 }
 
-.training-list .section-container .main-button {
+.training-list .section-container .main-button,
+.training-list .section-container .main-button.icon {
   background-color: var(--main);
   width: 100%;
   border: none;
@@ -202,6 +203,13 @@ app-trainings-calendar {
   border-radius: 10px;
   color: var(--tertiary);
   font-weight: bold;
+}
+
+.training-list .section-container .main-button.icon {
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .training-list .section-container .main-button:hover {
