@@ -1,6 +1,5 @@
 <div class="calendar-container">
   <div class="calendar">
-
     <div class="calendar-headline">
       <div class="calendar-headline-month">
         {{ firstDayOfActiveMonth().monthShort }},
@@ -8,28 +7,42 @@
       </div>
 
       <div class="calendar-headline-controls">
-
         <div class="calendar-headline-controls-left">
-          <button class="calendar-headline-control" (click)="goToPreviousMonth()">
+          <button
+            type="button"
+            class="btn radius-left"
+            (click)="goToPreviousMonth()"
+          >
             Previous
           </button>
-          <button class="calendar-headline-control" (click)="goToToday()">
-            Today
-          </button>
-          <button class="calendar-headline-control" (click)="goToNextMonth()">
+          <button type="button" class="btn" (click)="goToToday()">Today</button>
+          <button
+            type="button"
+            class="btn radius-right"
+            (click)="goToNextMonth()"
+          >
             Next
           </button>
         </div>
 
         <div class="calendar-headline-controls-right">
           <button
-            class="calendar-headline-control calendar-headline-control-month"
+            type="button"
+            class="btn calendar-headline-control-month"
             (click)="goToCurrentMonth()"
           >
             Month
           </button>
           <button
-            class="calendar-headline-control calendar-headline-control-day"
+            type="button"
+            class="btn calendar-headline-control-week"
+            (click)="goToCurrentMonth()"
+          >
+            Week
+          </button>
+          <button
+            type="button"
+            class="btn calendar-headline-control-day"
             (click)="goToToday()"
           >
             Day

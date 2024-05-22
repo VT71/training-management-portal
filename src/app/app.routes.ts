@@ -10,6 +10,7 @@ import { UpcomingTrainingsComponent } from './components/upcoming-trainings/upco
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { authGuard } from './auth.guard';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { SettingsComponentComponent } from './components/settings-component/settings-component.component';
 
 const appName = 'Training Management Portal';
 
@@ -71,6 +72,11 @@ export const routes: Routes = [
         path: 'notifications',
         component: NotificationsComponent,
         title: `Notifications | ${appName}`,
+      },
+      {
+        path: 'settings',
+        component: SettingsComponentComponent,
+        title: `Settings | ${appName}`,
       },
     ],
   },

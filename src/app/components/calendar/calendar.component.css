@@ -30,7 +30,8 @@
 }
 
 .calendar-headline-controls {
-  padding: 20px;
+  padding: 40px;
+  margin-right: 0px;
   display: flex;
   width: 100%;
   position: absolute;
@@ -43,25 +44,56 @@
 }
 
 .calendar-headline-controls-left {
-  justify-content: flex-start;
-  
+  justify-self: start;
 }
 
 .calendar-headline-controls-right {
   justify-content: flex-end;
+  margin-right: 30px;
 }
 
-.calendar-headline-control {
-  cursor: pointer;
-  margin: 0 5px;
+.btn {
+  border-radius: 0;
+  background-color: var(--secondary-40);
+  color: #ffffff;
+}
+
+.btn:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+  border-right: 1px solid #000000;
+  border-left: 1px solid #000000;
+}
+
+.btn:active {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.radius-left {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.radius-right {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .calendar-headline-control:hover {
   text-decoration: underline;
 }
 
-.calendar-headline-control-today {
-  margin: 0 10px;
+.calendar-headline-control-month {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.calendar-headline-control-day {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .calendar-weeks-grid {
@@ -134,6 +166,11 @@
 .calendar-grid-cell-active {
   background: var(--secondary);
   color: rgb(255, 255, 255);
+}
+
+.calendar-grid-cell-activehover  {
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .schedule {

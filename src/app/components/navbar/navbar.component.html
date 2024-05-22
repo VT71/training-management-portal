@@ -36,7 +36,15 @@
       [class.show]="isDropdownOpen"
     >
       <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Account settings</a></li>
+      <li>
+        <button
+          class="dropdown-item"
+          href="#"
+          routerLink="/dashboard/settings"
+          routerLinkActive="active"
+          >Account settings</button
+        >
+      </li>
       <li><a class="dropdown-item" (click)="logOut()">Log out</a></li>
     </ul>
 
