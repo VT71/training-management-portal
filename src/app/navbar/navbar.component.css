@@ -36,7 +36,7 @@
   cursor: pointer;
   margin-bottom: 8px;
   font-weight: bold;
-  font-family: "Roboto", "sans-serif";
+  font-family: var(--main-font);
   color: var(--main);
 }
 
@@ -46,4 +46,6 @@
 
 .dropdown-item {
   cursor: pointer;
+  font-family: var(--main-font);
+  font-size: large;
 }
