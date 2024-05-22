@@ -23,7 +23,6 @@
   --tertiary: rgb(255, 255, 255);
   --tertiary-80: rgba(255, 255, 255, 0.8);
   --tertiary-60: rgba(255, 255, 255, 0.6);
-  --main-font: "Roboto", sans-serif;
 }
 
 * {
@@ -37,7 +36,7 @@ html {
 }
 
 body {
-  font-family: var(--main-font);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .main-color {
@@ -74,7 +73,7 @@ body {
 .auth-form-title {
   text-align: center;
   margin-bottom: 30px;
-  font-family: var(--main-font);
+  font-family: "Roboto", sans-serif;
 }
 
 .auth-input-container {
@@ -95,7 +94,7 @@ body {
   width: 100%;
   border-radius: 10px;
   border: none;
-  font-family: var(--main-font);
+  font-family: "Roboto", sans-serif;
   color: white;
   font-size: 1rem;
   background-color: var(--main);
@@ -114,7 +113,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-family: var(--main-font);
+  font-family: "Roboto", sans-serif;
 }
 .login-form-bottom {
   display: flex;
@@ -135,7 +134,7 @@ body {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  font-family: var(--main-font);
+  font-family: "Roboto", sans-serif;
 }
 
 app-trainings-calendar {
@@ -165,10 +164,6 @@ app-trainings-calendar {
   box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
 }
 
-.training-list-item-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--secondary);
 .training-list-item-container:hover {
   transform: translate(0, -5px);
   transition: transform 0.3s;
