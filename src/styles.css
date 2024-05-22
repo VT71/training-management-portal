@@ -146,10 +146,11 @@ app-trainings-calendar {
 
 .training-list {
   list-style-type: none;
+  padding: 1rem;
 }
 
 .training-list-item-container {
-  height: 100px;
+  height: 130px;
   background-color: var(--tertiary);
   margin-bottom: 20px;
   border-radius: 16px;
@@ -166,7 +167,13 @@ app-trainings-calendar {
   transition: transform 0.3s;
 }
 
-.training-list-item-title {
+.training-list .section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+.training-list .section-container .title {
   color: var(--secondary);
   font-size: 1.2rem;
   font-weight: bold;
