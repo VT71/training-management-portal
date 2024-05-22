@@ -48,6 +48,11 @@ export const routes: Routes = [
     children: [
       {
         path: 'trainings',
+        redirectTo: 'trainings/calendar',
+        pathMatch: 'full',
+      },
+      {
+        path: 'trainings/calendar',
         component: TrainingsCalendarComponent,
         title: `Trainings | ${appName}`,
       },
@@ -63,4 +68,5 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: '**', redirectTo: '/login' },
 ];

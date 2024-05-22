@@ -11,6 +11,7 @@ import {
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable, Subscription, filter } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -20,30 +21,52 @@ import { Observable, Subscription, filter } from 'rxjs';
   styleUrl: './menu.component.css',
 })
 export class MenuComponent {
-  trainingsDropDownOpen = false;
-  routerSubscription?: Subscription;
+  public trainingsDropDownOpen = false;
+  public trainingsDropDownActive = false;
+  private subscriptions?: Subscription[];
+  private authService: AuthService = inject(AuthService);
 
-  updateTrainingsDropDownOpen(url: string): void {
+  public manuallyUpdateTrainingsDropDownOpen(): void {
+    this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
+  }
+
+  private updateTrainingsDropDown(url: string): void {
     if (url.includes('trainings')) {
       this.trainingsDropDownOpen = true;
+      this.trainingsDropDownActive = true;
     } else {
       this.trainingsDropDownOpen = false;
+      this.trainingsDropDownActive = false;
     }
+    console.log('Open?:' + this.trainingsDropDownOpen);
+  }
+
+  public logOut(): void {
+    this.authService.logout().subscribe({
+      error: (err) => {
+        alert('Sign out Error');
+      },
+      complete: () => {
+        this.router.navigateByUrl('/login');
+      },
+    });
   }
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.updateTrainingsDropDownOpen(this.router.url);
+    this.updateTrainingsDropDown(this.router.url);
 
-    this.routerSubscription = this.router.events
+    const routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.updateTrainingsDropDownOpen(this.router.url);
+        this.updateTrainingsDropDown(this.router.url);
       });
+
+    this.subscriptions?.push(routerSubscription);
   }
 
   ngOnDestroy(): void {
-    this.routerSubscription?.unsubscribe();
+    this.subscriptions?.forEach((subscription) => subscription.unsubscribe());
   }
 }
