@@ -12,13 +12,13 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent {
-  meetings: InputSignal<Meetings> = input.required();
-  today: Signal<DateTime> = signal(DateTime.local());
-  firstDayOfActiveMonth: WritableSignal<DateTime> = signal(this.today().startOf('month'));
+  public meetings: InputSignal<Meetings> = input.required();
+  public today: Signal<DateTime> = signal(DateTime.local());
+  public firstDayOfActiveMonth: WritableSignal<DateTime> = signal(this.today().startOf('month'));
 
-  activeDay: WritableSignal<DateTime | null> = signal(null);
-  weekDays: Signal<string[]> = signal(Info.weekdays('short'));
-  daysOfMonth: Signal<DateTime[]> = computed(() => {
+  public activeDay: WritableSignal<DateTime | null> = signal(null);
+  public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
+  public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
       this.firstDayOfActiveMonth().startOf('week'),
       this.firstDayOfActiveMonth().endOf('month').endOf('week')
@@ -31,8 +31,8 @@ export class CalendarComponent {
         return d.start;
       });
   });
-  DATE_MED = DateTime.DATE_MED;
-  activeDayMeetings: Signal<string[]> = computed(() => {
+  public DATE_MED = DateTime.DATE_MED;
+  public activeDayMeetings: Signal<string[]> = computed(() => {
     const activeDay = this.activeDay();
     if (activeDay === null) {
       return [];
@@ -44,19 +44,25 @@ export class CalendarComponent {
     return this.meetings()[activeDayISO] ?? [];
   });
 
-  goToPreviousMonth(): void {
+  public goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
       this.firstDayOfActiveMonth().minus({ month: 1 })
     );
   }
 
-  goToNextMonth(): void {
+  public goToNextMonth(): void {
     this.firstDayOfActiveMonth.set(
       this.firstDayOfActiveMonth().plus({ month: 1 })
     );
   }
 
-  goToToday(): void {
+  public goToCurrentMonth(): void {
     this.firstDayOfActiveMonth.set(this.today().startOf('month'));
+  }
+
+  public goToToday(): void {
+    const today = this.today();
+    this.firstDayOfActiveMonth.set(this.today().startOf('month'));
+    this.activeDay.set(today);
   }
 }
