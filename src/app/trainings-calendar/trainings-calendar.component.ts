@@ -1,8 +1,7 @@
 // trainings-calendar.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { Meetings } from '../calendar/meetings.interface';
-
 
 export const colors: any = {};
 
@@ -13,16 +12,13 @@ export const colors: any = {};
   templateUrl: './trainings-calendar.component.html',
   styleUrls: ['./trainings-calendar.component.css'],
 })
-export class TrainingsCalendarComponent implements OnInit {
-  meetingsData!: Meetings; // Definite assignment assertion
-
+export class TrainingsCalendarComponent {
   constructor() {}
 
-  ngOnInit(): void {
-    // Initialize meetingsData with actual data
-    this.meetingsData = {
-      
-      // Add more data as needed
-    };
-  }
+  meetings = {
+    '2024-04-05': ['Dring Coffee', 'Learn React', 'Sleep'],
+    '2024-04-06': ['Dring Coffee', 'Learn Angular', 'Sleep'],
+    '2024-05-22': ['Implementation', 'Learn Angular', 'Learn'],
+
+  };
 }
