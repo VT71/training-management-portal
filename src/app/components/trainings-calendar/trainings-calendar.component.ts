@@ -1,7 +1,7 @@
 // trainings-calendar.component.ts
 import { Component } from '@angular/core';
 import { CalendarComponent } from '../calendar/calendar.component';
-import { Meetings } from '../calendar/meetings.interface';
+
 
 export const colors: any = {};
 
@@ -19,6 +19,5 @@ export class TrainingsCalendarComponent {
     '2024-04-05': ['Dring Coffee', 'Learn React', 'Sleep'],
     '2024-04-06': ['Dring Coffee', 'Learn Angular', 'Sleep'],
     '2024-05-22': ['Implementation', 'Learn Angular', 'Learn'],
-
   };
 }
