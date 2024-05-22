@@ -39,21 +39,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.main-color {
-  color: var(--main);
-}
-
-.main-background-color {
-  background-color: var(--main);
-}
-
-.main-background-color-20 {
-  background-color: var(--main-20);
-}
-
-.main-background-color-10 {
-  background-color: var(--main-10);
-}
+/* Form Styling */
 
 .auth-form-container {
   width: 100%;
@@ -76,17 +62,31 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-.auth-input-container {
+.auth-input-container,
+.input-container {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.auth-input {
+.auth-input,
+.input {
   margin-top: 10px;
   height: 35px;
   border-radius: 5px;
   border: 1px solid #66666647;
+}
+
+.input.textarea {
+  height: 100px;
+}
+
+.auth-input-label,
+.form-label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--secondary);
 }
 
 .auth-main-button {
@@ -109,7 +109,8 @@ body {
   background-color: var(--main);
 }
 
-.auth-form {
+.auth-form,
+.training-form {
   display: flex;
   flex-direction: column;
   gap: 20px;

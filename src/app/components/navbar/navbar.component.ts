@@ -5,12 +5,12 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { NgIf } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatIconModule, MatMenuModule, MatMenuTrigger, NgIf, MatBadgeModule],
+  imports: [MatIconModule, MatMenuModule, MatMenuTrigger, NgIf, MatBadgeModule, RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
