@@ -38,17 +38,45 @@
   font-weight: bold;
   font-family: var(--main-font);
   color: var(--main);
+  border: 1px solid;
+  overflow: hidden;
 }
 
 .btn:hover {
+  background-color: var(--main-20);
+  color: var(--secondary);
+}
+
+.btn:active {
   background-color: var(--main-10);
+}
+
+.dropdown-menu {
+  background-color: var(--secondary);
+  padding: 0;
+  border: 1px solid;
+  overflow: hidden;
 }
 
 .dropdown-item {
   cursor: pointer;
-  font-family: var(--main-font);
-  font-size: large;
+  font-family:  var(--main-font);
+  color: rgb(255, 255, 255);
+  font-size: large,;
+  width: 100%;
+  font-weight: solid;
 }
+
+.dropdown-item:hover {
+  background-color: white;
+  color: var(--secondary);
+}
+
+.dropdown-item-active {
+  background-color: rgb(255, 255, 255);
+  color: var(--secondary);
+}
+
 
 .navbar-icons-container {
   display: flex;
