@@ -56,7 +56,7 @@
       <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
       }
     </div>
-    <div class="calendar-grid">
+    <div class="calendar-grid"    >
       @for (dayOfMonth of daysOfMonth(); track $index) {
       <div
         [ngClass]="{
@@ -67,8 +67,10 @@
             dayOfMonth.month !== firstDayOfActiveMonth().month
         }"
         (click)="activeDay.set(dayOfMonth)"
+        
       >
         {{ dayOfMonth.day }}
+        <mat-icon class="add-training-icon" *ngIf="showIcon">add_circle</mat-icon>
       </div>
       }
     </div>
@@ -87,7 +89,7 @@
       } @if (activeDay() && activeDayMeetings().length > 0) { @for (meeting of
       activeDayMeetings(); track $index) {
       <div>{{ meeting }}</div>
-      } }
+      }}
     </div>
   </div>
 </div>

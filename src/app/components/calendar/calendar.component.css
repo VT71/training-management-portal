@@ -158,6 +158,16 @@
   border-right: 1px solid rgb(206, 206, 206);
 }
 
+.add-training-icon {
+  font-size: 24px; /* Adjust the size as needed */
+  color: #007bff; /* Change the color as needed */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden; /* Hidden by default */
+}
+
 .calendar-grid-cell:hover {
   background: var(--secondary);
   color: rgb(255, 255, 255);
@@ -168,10 +178,11 @@
   color: rgb(255, 255, 255);
 }
 
-.calendar-grid-cell-activehover  {
-  background-color: #ffffff;
-  color: #000000;
+.calendar-grid-cell:hover .add-training-icon {
+  visibility: visible;
 }
+
+
 
 .schedule {
   width: 30%;

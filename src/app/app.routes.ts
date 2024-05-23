@@ -14,6 +14,7 @@ import { TrainingFormComponent } from './components/training-form/training-form.
 import { AddTrainingComponent } from './components/add-training/add-training.component';
 import { DashboardHomeComponent } from './components/dashboard-home/dashboard-home.component';
 import { SettingsComponentComponent } from './components/settings-component/settings-component.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const appName = 'Training Management Portal';
 
@@ -80,6 +81,11 @@ export const routes: Routes = [
         path: 'notifications',
         component: NotificationsComponent,
         title: `Notifications | ${appName}`,
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
+        title: `Reports | ${appName}`,
       },
       {
         path: 'settings',

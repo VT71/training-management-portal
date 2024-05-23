@@ -3,12 +3,13 @@ import { Component, InputSignal, signal, input, Signal, WritableSignal, computed
 import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIcon, MatIconModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -45,6 +46,10 @@ export class CalendarComponent {
     return this.meetings()[activeDayISO] ?? [];
   });
 
+  // icon add-training
+  public showIcon: boolean = false;
+  public hoveredDay: WritableSignal<DateTime | null> = signal(null);
+
   public goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
       this.firstDayOfActiveMonth().minus({ month: 1 })
@@ -65,5 +70,13 @@ export class CalendarComponent {
     const today = this.today();
     this.firstDayOfActiveMonth.set(this.today().startOf('month'));
     this.activeDay.set(today);
+  }
+
+  public toggleIconVisibility(visible: boolean): void {
+    this.showIcon = visible;
+  }
+
+  public toggleHoveredDay(day: DateTime | null): void {
+    this.hoveredDay.set(day);
   }
 }

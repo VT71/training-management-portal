@@ -1,0 +1,22 @@
+<div class="report-container">
+    <h2>Training Reports</h2>
+    
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <label for="date-range">Select Date Range:</label>
+      <input type="date" id="start-date" name="start-date">
+      <input type="date" id="end-date" name="end-date">
+      <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+    </div>
+    
+    <!-- Report Visualization Section -->
+    <div class="report-visualization">
+      <!-- Example: Bar Chart for Training Attendance -->
+      <div id="training-attendance-chart" class="chart"></div>
+      
+      <!-- Example: Pie Chart for Training Completion Status -->
+      <div id="completion-status-chart" class="chart"></div>
+      
+      <!-- Add more report visualizations here -->
+    </div>
+  </div>
