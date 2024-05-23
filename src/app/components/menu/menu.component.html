@@ -79,6 +79,30 @@
               <li class="menu-list-item">
                 <div
                   class="menu-button"
+                  routerLink="/dashboard/trainings/add-training"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <div class="left">
+                    <mat-icon
+                      class="navbar-icon-button"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >note_add</mat-icon
+                    >
+                    <span
+                      class="menu-button-label"
+                      routerLinkActive="active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >Add Training</span
+                    >
+                  </div>
+                </div>
+              </li>
+
+              <li class="menu-list-item">
+                <div
+                  class="menu-button"
                   routerLink="/dashboard/trainings/missed"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }"
@@ -151,10 +175,25 @@
         </div>
       </li>
       <li class="menu-list-item last1">
-        <div class="menu-button" href="#" routerLink="/dashboard/settings" routerLinkActive="active">
+        <div
+          class="menu-button"
+          routerLink="/dashboard/settings"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <div class="left">
-            <mat-icon class="true">settings</mat-icon>
-            <span class="menu-button-label">Settings</span>
+            <mat-icon
+              class="true"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >settings</mat-icon
+            >
+            <span
+              class="menu-button-label"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Settings</span
+            >
           </div>
         </div>
       </li>

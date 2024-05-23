@@ -32,14 +32,14 @@
 
 .btn {
   border-radius: 6px;
-  padding: 0.5rem 1rem;
   cursor: pointer;
-  margin-bottom: 8px;
   font-weight: bold;
   font-family: var(--main-font);
   color: var(--main);
-  border: 1px solid;
   overflow: hidden;
+  margin: 0;
+  padding: 10px;
+  border: 1px color(rgb(238, 238, 238));
 }
 
 .btn:hover {
@@ -47,7 +47,7 @@
   color: var(--secondary);
 }
 
-.btn:active {
+.btn.active {
   background-color: var(--main-10);
 }
 
@@ -72,10 +72,11 @@
   color: var(--secondary);
 }
 
-.dropdown-item-active {
+.dropdown-item.active {
   background-color: rgb(255, 255, 255);
   color: var(--secondary);
 }
+
 
 
 .navbar-icons-container {
@@ -84,6 +85,7 @@
   align-items: center;
   padding: 0 2rem;
   gap: 1.5rem;
+  margin-right: 20px;
 }
 
 .navbar-icon-button {
@@ -97,4 +99,25 @@
 
 .navbar-icon-button:hover {
   background-color: var(--secondary-10);
+}
+
+.input-group {
+  margin-left: 100px;
+}
+
+.form-control:hover {
+  cursor: pointer;
+  border: 1px solid black;
+  /* background-color: var(--main-20);
+  color: var(--secondary); */
+}
+
+.form-control:hover {
+  outline: none;
+  outline-color: var(--secondary)
+}
+
+.form-control:active {
+  outline: 0;
+  outline-color: var(--secondary);
 }

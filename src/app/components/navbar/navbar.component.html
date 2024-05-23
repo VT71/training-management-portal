@@ -15,6 +15,22 @@
     </button>
   </div>
 
+  <form class="form">
+    <div class="input-group">
+      <input
+        class="form-control"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      />
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </div>
+  </form>
+
   <div
     class="collapse navbar-collapse justify-content-end"
     id="navbarSupportedContent"
@@ -34,17 +50,25 @@
       style="margin-top: 120px; margin-right: 90px"
       [class.show]="isDropdownOpen"
     >
-      <li><a class="dropdown-item" href="#" routerLink="/dashboard/settings" routerLinkActive="active">Settings</a></li>
+      <li>
+        <a
+          class="dropdown-item"
+          href="#"
+          routerLink="/dashboard/settings"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Settings</a
+        >
+      </li>
       <li><a class="dropdown-item" (click)="logOut()">Log out</a></li>
     </ul>
     <div class="navbar-icons-container">
-      <mat-icon
-        class="navbar-icon-button"
-        matBadge="15"
-        matBadgeColor="warn"
+      <mat-icon class="navbar-icon-button" matBadge="15" matBadgeColor="warn"
         >notifications</mat-icon
       >
-      <mat-icon class="navbar-icon-button" routerLink="/dashboard/add-training">note_add</mat-icon>
+      <mat-icon class="navbar-icon-button" routerLink="/dashboard/trainings/add-training"
+        >note_add</mat-icon
+      >
     </div>
   </div>
 </nav>
