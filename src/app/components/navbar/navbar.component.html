@@ -15,21 +15,24 @@
     </button>
   </div>
 
-  <form class="form">
-    <div class="input-group">
-      <input
-        class="form-control"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      />
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-        Search
-      </button>
-    </div>
-  </form>
+  <!-- navbar -->
+  <div class="search">
+    <form class="form">
+      <div class="input-group">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn1 btn-outline-success " type="submit">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- navbar -->
 
   <div
     class="collapse navbar-collapse justify-content-end"
