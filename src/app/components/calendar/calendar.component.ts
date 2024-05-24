@@ -4,12 +4,14 @@ import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatIconModule],
+  imports: [CommonModule, MatIcon, MatIconModule, FormsModule, ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -46,9 +48,7 @@ export class CalendarComponent {
     return this.meetings()[activeDayISO] ?? [];
   });
 
-  // icon add-training
-  public showIcon: boolean = false;
-  public hoveredDay: WritableSignal<DateTime | null> = signal(null);
+  constructor(private router: Router) {}
 
   public goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
@@ -72,11 +72,11 @@ export class CalendarComponent {
     this.activeDay.set(today);
   }
 
-  public toggleIconVisibility(visible: boolean): void {
-    this.showIcon = visible;
+  public redirectToPath(event: Event): void {
+    event.stopPropagation(); // Prevent the cell click event from being triggered
+    const targetPath = '/dashboard/trainings/add-training'; // Replace with your desired path
+    this.router.navigate([targetPath]);
   }
-
-  public toggleHoveredDay(day: DateTime | null): void {
-    this.hoveredDay.set(day);
-  }
+ 
+  
 }

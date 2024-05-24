@@ -130,10 +130,35 @@
   color: rgb(255, 255, 255);
 }
 
+.add-training-icon {
+  font-size: px;
+  color: #007bff;
+  /* position: absolute; */
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+  /* visibility: visible; */
+}
+
+
+.visible {
+  font-size: px;
+  color: #007bff;
+  /* position: absolute; */
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+  visibility: visible !important;
+}
+
+.calendar-grid-cell {
+  position: relative;
+}
+
 
 .calendar-grid {
   display: grid;
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(244, 244, 244);
   color: #000000;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   border: none;
@@ -178,9 +203,21 @@
   color: rgb(255, 255, 255);
 }
 
-.calendar-grid-cell:hover .add-training-icon {
-  visibility: visible;
+.add-event-btn {
+  margin-top: 20px;
+  background-color: var(--primary-40);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }
+
+.add-event-btn:hover {
+  background-color: var(--primary-60);
+}
+
+
 
 
 
