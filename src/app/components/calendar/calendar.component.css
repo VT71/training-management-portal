@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   width: 100%;
- 
 }
 
 .calendar {
@@ -103,10 +102,10 @@
   font-size: 12px;
   background-color: rgb(252, 138, 46);
   font-size: larger;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: rgb(255, 255, 255);
   border-top: 1px solid rgb(190, 190, 190);
- 
+
   border-right: 1px solid rgb(190, 190, 190);
   border-bottom: 1px solid rgb(190, 190, 190);
   border-top-left-radius: 12px;
@@ -117,12 +116,12 @@
 .calendar-weeks-grid-cell {
   text-align: center;
   padding: 20px;
-   border-left: 1px solid rgb(206, 206, 206);
+  border-left: 1px solid rgb(206, 206, 206);
   cursor: pointer;
 }
 
 .calendar-weeks-grid-cell:hover {
-  background: var(--main)
+  background: var(--main);
 }
 
 .calendar-weeks-grid-cell-active {
@@ -130,31 +129,29 @@
   color: rgb(255, 255, 255);
 }
 
-.add-training-icon {
-  font-size: px;
-  color: #007bff;
-  /* position: absolute; */
-  bottom: 5px;
-  right: 5px;
-  cursor: pointer;
-  /* visibility: visible; */
-}
-
-
+/* icon-add-calendar */
 .visible {
-  font-size: px;
-  color: #007bff;
-  /* position: absolute; */
-  bottom: 5px;
-  right: 5px;
-  cursor: pointer;
-  visibility: visible !important;
+  overflow: hidden;
 }
+
+mat-icon {
+  color: var(--main)
+}
+
+.add-training-icon {
+  margin-top: 17px;
+  margin-left: 47px;
+  color: var(--main)
+}
+
+.add-training-icon:hover {
+  color: white
+}
+/* icon settings */
 
 .calendar-grid-cell {
   position: relative;
 }
-
 
 .calendar-grid {
   display: grid;
@@ -169,7 +166,7 @@
 }
 
 .calendar-grid-cell-inactive {
-  background-color:  #d8d7d7;;
+  background-color: #d8d7d7;
   color: #ffffff;
 }
 
@@ -217,10 +214,6 @@
   background-color: var(--primary-60);
 }
 
-
-
-
-
 .schedule {
   width: 30%;
   margin-left: 15px;
@@ -232,7 +225,6 @@
   padding: 1rem;
 }
 
-
 .schedule-headline {
   font-weight: 600;
   font-size: 20px;
@@ -242,7 +234,6 @@
   overflow: auto;
 }
 
-
 .schedule-headline-p {
-  font-family: var( --main-font);
+  font-family: var(--main-font);
 }

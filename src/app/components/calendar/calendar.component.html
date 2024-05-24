@@ -74,6 +74,8 @@
           class="add-training-icon visible"
           *ngIf="activeDay()?.toISODate() === dayOfMonth.toISODate()"
           (click)="redirectToPath($event)"
+          matTooltip="Adaugă un training"
+          matTooltipPosition="below"
           >add_circle
         </mat-icon>
         <!-- <span *ngIf="activeDay()?.toISODate() === dayOfMonth.toISODate()">Icon is visible</span> -->

@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatIconModule, FormsModule, ],
+  imports: [CommonModule, MatIcon, MatIconModule, FormsModule,  MatTooltipModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
