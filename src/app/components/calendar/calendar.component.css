@@ -134,14 +134,11 @@
   overflow: hidden;
 }
 
-mat-icon {
-  color: var(--main)
-}
 
 .add-training-icon {
   margin-top: 17px;
   margin-left: 47px;
-  color: var(--main)
+  color: white
 }
 
 .add-training-icon:hover {
@@ -182,7 +179,7 @@ mat-icon {
 
 .add-training-icon {
   font-size: 24px; /* Adjust the size as needed */
-  color: #007bff; /* Change the color as needed */
+  color: var(--main); /* Change the color as needed */
   position: absolute;
   top: 50%;
   left: 50%;

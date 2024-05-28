@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +20,7 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
+  
 
   onSubmit(): void {
     if (this.form.valid) {

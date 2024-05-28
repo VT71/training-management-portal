@@ -105,7 +105,7 @@
 .search {
   display: flex;
   justify-content: center;
-  background-color: #f8f9fa;
+  background-color: none;
   width: 100%;
   border: none;
 }
