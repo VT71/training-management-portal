@@ -4,6 +4,8 @@
   width: 240px;
   padding: 2rem 1rem;
   overflow: auto;
+  transition: width 0.3s ease;
+  position: relative;
 }
 
 .menu-title {
@@ -22,16 +24,59 @@
   list-style: none;
   padding: 0;
   height: 100%;
-  position: relative;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+.first-section {
+  justify-content: flex-start;
+}
+
+.second-section {
+  justify-content: flex-end;
+}
+
+/* butoanele de jos */
 .menu-list-item.last {
-  position: absolute;
-  bottom: 0;
   width: 100%;
 }
+
+.menu-list-item.last1 {
+  width: 100%;
+  padding: 0;
+}
+
+.collapse-button {
+  bottom: 10px;
+  border: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  border-radius: 6px;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  cursor: pointer;
+}
+
+.collapse-button:hover {
+  background-color: none;
+}
+
+.collapse-button.right {
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.collapse-button.centered {
+  justify-content: center;
+}
+
+/* butoanele de jos */
 
 .menu-button {
   display: flex;
@@ -41,7 +86,6 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
   margin-bottom: 8px;
-  width: 100%;
 }
 
 .menu-button:hover {
@@ -115,16 +159,14 @@
   align-items: center;
 }
 
+.menu-button.dropdown > .main-option-collapsed {
+  width: 24px;
+}
+
 .submenu-container {
   width: 100%;
   padding-left: 1rem;
   margin-top: 0.5rem;
-}
-
-.menu-list-item.last1 {
-  position: absolute;
-  bottom: 45px;
-  width: 100%;
 }
 
 .true.active {
@@ -134,3 +176,32 @@
 .navbar-icon-button.active {
   color: var(--tertiary);
 }
+
+/* coll */
+.root-container.collapsed .menu-button-label {
+  display: none; /* Ascunde etichetele */
+}
+
+.root-container.collapsed {
+  width: 60px; /* Sau orice lățime dorești pentru meniul redus */
+  padding: 2rem 0.5rem;
+}
+
+.root-container.collapsed .menu-button-icon {
+  margin: 0 auto; /* Centrează iconițele */
+}
+
+.root-container.collapsed .menu-button {
+  justify-content: center; /* Centrează conținutul butoanelor */
+}
+
+.root-container.collapsed .menu-button.dropdown > .main-option > .right {
+  display: none; /* Ascunde săgeata dropdown */
+}
+
+.root-container.collapsed .menu-button.dropdown > .main-option > .left {
+  margin: 0 auto; /* Centrează iconița dropdown */
+  justify-content: center;
+}
+
+/* coll */

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   ActivatedRoute,
@@ -8,7 +8,7 @@ import {
   RouterLinkActive,
   UrlSegment,
 } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable, Subscription, filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -16,7 +16,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [MatIconModule, RouterLink, RouterLinkActive, NgIf],
+  imports: [MatIconModule, RouterLink, RouterLinkActive, NgIf, CommonModule],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })
@@ -25,20 +25,31 @@ export class MenuComponent {
   public trainingsDropDownActive = false;
   private subscriptions?: Subscription[];
   private authService: AuthService = inject(AuthService);
+  public menuCollapsed = false;
 
   public manuallyUpdateTrainingsDropDownOpen(): void {
     this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
+    this.menuCollapsed = false;
+  }
+
+  public toggleMenu() {
+    this.menuCollapsed = !this.menuCollapsed;
+    this.trainingsDropDownOpen = false;
   }
 
   private updateTrainingsDropDown(url: string): void {
     if (url.includes('trainings')) {
-      this.trainingsDropDownOpen = true;
-      this.trainingsDropDownActive = true;
+      if (this.menuCollapsed) {
+        this.trainingsDropDownOpen = false;
+        this.trainingsDropDownActive = true;
+      } else {
+        this.trainingsDropDownOpen = true;
+        this.trainingsDropDownActive = true;
+      }
     } else {
       this.trainingsDropDownOpen = false;
       this.trainingsDropDownActive = false;
     }
-    console.log('Open?:' + this.trainingsDropDownOpen);
   }
 
   public logOut(): void {

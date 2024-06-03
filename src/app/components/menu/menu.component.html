@@ -1,235 +1,256 @@
-<div class="root-container">
+<div [class.collapsed]="menuCollapsed" class="root-container">
   <div class="menu-wrapper">
-    <!-- <h2 class="menu-title">MENU</h2> -->
     <ul class="menu-list">
-      <li class="menu-list-item">
-        <div
-          class="menu-button"
-          routerLink="/dashboard"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="left">
-            <mat-icon
-              class="menu-button-icon"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >home</mat-icon
-            >
-            <span
-              class="menu-button-label"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >Dashboard</span
-            >
-          </div>
-        </div>
-      </li>
-      <li>
-        <div
-          [class.open]="trainingsDropDownOpen"
-          [class.active]="trainingsDropDownActive"
-          class="menu-button dropdown"
-        >
+      <div class="first-section">
+        <li class="menu-list-item">
           <div
-            class="main-option"
-            (click)="manuallyUpdateTrainingsDropDownOpen()"
+            class="menu-button"
+            routerLink="/dashboard"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
             <div class="left">
-              <mat-icon class="menu-button-icon" routerLinkActive="active"
-                >assignment_ind</mat-icon
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >home</mat-icon
               >
-              <span class="menu-button-label" routerLinkActive="active"
-                >Trainings</span
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Dashboard</span
               >
             </div>
+          </div>
+        </li>
+        <li>
+          <div
+            [class.open]="trainingsDropDownOpen"
+            [class.active]="trainingsDropDownActive"
+            class="menu-button dropdown"
+          >
+            <div
+              class="main-option"
+              [ngClass]="{'main-option-expanded': !menuCollapsed, 'main-option-collapsed' : menuCollapsed }"
+              (click)="manuallyUpdateTrainingsDropDownOpen()"
+            >
+              <div class="left">
+                <mat-icon class="menu-button-icon" routerLinkActive="active"
+                  >assignment_ind</mat-icon
+                >
+                <span class="menu-button-label" routerLinkActive="active"
+                  >Trainings</span
+                >
+              </div>
 
-            <div class="right">
-              <mat-icon class="menu-button-icon" routerLinkActive="active"
-                >arrow_drop_down</mat-icon
+              <div class="right">
+                <mat-icon class="menu-button-icon" routerLinkActive="active"
+                  >arrow_drop_down</mat-icon
+                >
+              </div>
+            </div>
+            <div class="submenu-container" *ngIf="trainingsDropDownOpen">
+              <ul class="menu-list">
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/calendar"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="menu-button-icon"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >calendar_month</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >Calendar</span
+                      >
+                    </div>
+                  </div>
+                </li>
+
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/add-training"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="navbar-icon-button"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >note_add</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >Add Training</span
+                      >
+                    </div>
+                  </div>
+                </li>
+
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/missed"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="menu-button-icon"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >fmd_bad</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >Missed</span
+                      >
+                    </div>
+                  </div>
+                </li>
+
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/upcoming"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="menu-button-icon"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >info_outline</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >Upcoming</span
+                      >
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div
+            class="menu-button"
+            routerLink="/dashboard/notifications"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="left">
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >notifications</mat-icon
+              >
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Notifications</span
               >
             </div>
           </div>
-          <div class="submenu-container" *ngIf="trainingsDropDownOpen">
-            <ul class="menu-list">
-              <li class="menu-list-item">
-                <div
-                  class="menu-button"
-                  routerLink="/dashboard/trainings/calendar"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <div class="left">
-                    <mat-icon
-                      class="menu-button-icon"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >calendar_month</mat-icon
-                    >
-                    <span
-                      class="menu-button-label"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >Calendar</span
-                    >
-                  </div>
-                </div>
-              </li>
+        </li>
 
-              <li class="menu-list-item">
-                <div
-                  class="menu-button"
-                  routerLink="/dashboard/trainings/add-training"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <div class="left">
-                    <mat-icon
-                      class="navbar-icon-button"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >note_add</mat-icon
-                    >
-                    <span
-                      class="menu-button-label"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >Add Training</span
-                    >
-                  </div>
-                </div>
-              </li>
+        <li>
+          <div
+            class="menu-button"
+            routerLink="/dashboard/reports"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="left">
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >reports</mat-icon
+              >
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Reports</span
+              >
+            </div>
+          </div>
+        </li>
+      </div>
 
-              <li class="menu-list-item">
-                <div
-                  class="menu-button"
-                  routerLink="/dashboard/trainings/missed"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <div class="left">
-                    <mat-icon
-                      class="menu-button-icon"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >fmd_bad</mat-icon
-                    >
-                    <span
-                      class="menu-button-label"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >Missed</span
-                    >
-                  </div>
-                </div>
-              </li>
+      <div class="second section">
+        <li class="menu-list-item last">
+          <div
+            class="menu-button"
+            routerLink="/dashboard/settings"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="left">
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >settings</mat-icon
+              >
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Settings</span
+              >
+            </div>
+          </div>
+        </li>
 
-              <li class="menu-list-item">
-                <div
-                  class="menu-button"
-                  routerLink="/dashboard/trainings/upcoming"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <div class="left">
-                    <mat-icon
-                      class="menu-button-icon"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >info_outline</mat-icon
-                    >
-                    <span
-                      class="menu-button-label"
-                      routerLinkActive="active"
-                      [routerLinkActiveOptions]="{ exact: true }"
-                      >Upcoming</span
-                    >
-                  </div>
-                </div>
-              </li>
-            </ul>
+        <li class="menu-list-item last1">
+          <div class="menu-button" (click)="logOut()">
+            <div class="left">
+              <mat-icon class="menu-button-icon">power_settings_new</mat-icon>
+              <span class="menu-button-label">Log Out</span>
+            </div>
           </div>
-        </div>
-      </li>
-      <li>
-        <div
-          class="menu-button"
-          routerLink="/dashboard/notifications"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="left">
-            <mat-icon
-              class="menu-button-icon"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >notifications</mat-icon
-            >
-            <span
-              class="menu-button-label"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >Notifications</span
-            >
-          </div>
-        </div>
-      </li>
+        </li>
 
-      <li>
-        <div
-          class="menu-button"
-          routerLink="/dashboard/reports"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="left">
-            <mat-icon
-              class="menu-button-icon"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >reports</mat-icon
+        <li class="menu-list-item last2">
+          <div mat-icon-button class="collapse-button">
+            <div
+              class="icon-aligned"
+              [ngClass]="{ centered: menuCollapsed, right: !menuCollapsed }"
+              (click)="toggleMenu()"
             >
-            <span
-              class="menu-button-label"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >Reports</span
-            >
+              <mat-icon>{{
+                menuCollapsed
+                  ? "keyboard_double_arrow_right"
+                  : "keyboard_double_arrow_left"
+              }}</mat-icon>
+            </div>
           </div>
-        </div>
-      </li>
-
-      <li class="menu-list-item last1">
-        <div
-          class="menu-button"
-          routerLink="/dashboard/settings"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <div class="left">
-            <mat-icon
-              class="menu-button-icon"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >settings</mat-icon
-            >
-            <span
-              class="menu-button-label"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              >Settings</span
-            >
-          </div>
-        </div>
-      </li>
-      <li class="menu-list-item last">
-        <div class="menu-button" (click)="logOut()">
-          <div class="left">
-            <mat-icon class="menu-button-icon">power_settings_new</mat-icon>
-            <span class="menu-button-label">Log Out</span>
-          </div>
-        </div>
-      </li>
+        </li>
+      </div>
     </ul>
   </div>
 </div>
