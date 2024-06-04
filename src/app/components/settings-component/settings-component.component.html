@@ -1,50 +1,38 @@
 <div class="settings-container">
-    <h1>Settings</h1>
-  
-    <section class="profile-settings">
-      <h2>Admin Profile Settings</h2>
-      <form>
-        <label for="name"> Full Name:</label>
-        <input type="text" id="name" name="name" value="John Doe">
-        
-        <label for="email"> Email:</label>
-        <input type="email" id="email" name="email" value="john.doe@example.com">
-        
-        <!-- <label for="phone">Phone:</label>
-        <input type="tel" id="phone" name="phone" value="+1234567890"> -->
-        
-        <label for="password">Change Password:</label>
-        <input type="password" id="password" name="password">
-        
-        <!-- <label for="profile-pic">Profile Picture:</label>
-        <input type="file" id="profile-pic" name="profile-pic"> -->
-        
-        <button type="submit">Save Changes</button>
-      </form>
-    </section>
-  
-    <section class="notification-settings">
-      <h2>Notification Settings</h2>
-      <form>
-        <label>
-          <input type="checkbox" name="email-notifications" checked>
-          Email Notifications
-        </label>
-        <label>
-          <input type="checkbox" name="sms-notifications">
-          SMS Notifications
-        </label>
-        <label>
-          <input type="checkbox" name="app-notifications" checked>
-          In-App Notifications
-        </label>
-        
-        <button type="submit">Save Changes</button>
-      </form>
-    </section>
-  
-    <section class="security-settings">
-      <!-- <h2>Security Settings</h2>
+  <h1>Settings</h1>
+
+  <section class="profile-settings">
+    <h2>Admin Profile Settings</h2>
+    <form class="form admin">
+      <p>
+        Role: <span class="role">{{ this.user.role }}</span>
+      </p>
+
+      <label for="name"> Full Name:</label>
+      <input type="text" id="name" name="name" [value]="this.user.fullName" />
+
+      <label for="email"> Email:</label>
+      <input type="email" id="email" name="email" [value]="this.user.email" />
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </section>
+
+  <section class="notification-settings">
+    <h2>Change Password</h2>
+    <form class="form password">
+      <label for="old-password">Old Password:</label>
+      <input type="password" id="old-password" name="password" />
+
+      <label for="new-password">New Password:</label>
+      <input type="password" id="new-password" name="password" />
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </section>
+
+  <!-- <section class="security-settings">
+    <h2>Security Settings</h2>
       <form>
         <label for="2fa">Two-Factor Authentication (2FA):</label>
         <input type="checkbox" id="2fa" name="2fa">
@@ -56,11 +44,11 @@
         </ul>
         
         <button type="submit">Save Changes</button>
-      </form> -->
-    </section>
-  
-    <section class="preferences-settings">
-      <!-- <h2>Training Preferences</h2>
+      </form>
+  </section> -->
+
+  <!-- <section class="preferences-settings">
+      <h2>Training Preferences</h2>
       <form>
         <label for="language">Preferred Language:</label>
         <select id="language" name="language">
@@ -83,11 +71,11 @@
         </select>
         
         <button type="submit">Save Changes</button>
-      </form> -->
-    </section>
-  
-    <section class="account-settings">
-      <!-- <h2>Account Management</h2>
+      </form>
+    </section> -->
+
+  <!-- <section class="account-settings">
+      <h2>Account Management</h2>
       <form>
         <label for="subscription">Subscription Plan:</label>
         <input type="text" id="subscription" name="subscription" value="Premium" readonly>
@@ -95,11 +83,11 @@
         <label for="billing-history">Billing History:</label>
         
         <button type="submit">Cancel Account</button>
-      </form> -->
-    </section>
-  
-    <section class="admin-settings">
-      <!-- <h2>Admin Settings</h2>
+      </form>
+    </section> -->
+
+  <!-- <section class="admin-settings">
+      <h2>Admin Settings</h2>
       <form>
         <label for="manage-users">Manage Users:</label>
         <button id="manage-users">Go to User Management</button>
@@ -109,7 +97,6 @@
         
         <label for="group-settings">Groups and Teams:</label>
         <button id="group-settings">Manage Groups</button>
-      </form> -->
-    </section>
-  </div>
-  
+      </form>
+    </section> -->
+</div>
