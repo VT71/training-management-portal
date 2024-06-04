@@ -52,6 +52,9 @@ export class AuthService {
       password
     ).then(() => {
       this.user = this.firebaseAuth.currentUser;
+      console.log(
+        'FIREBASE USER: ' + JSON.stringify(this.firebaseAuth.currentUser)
+      );
     });
     return from(promise);
   }

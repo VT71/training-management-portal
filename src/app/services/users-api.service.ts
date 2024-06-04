@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,11 @@ export class UsersApiService {
   constructor() {}
 
   public getUserById(userId: string) {
-    return this.http.get<User>(this.baseUrl + userId);
+    return this.http.get<User>(this.baseUrl + userId).pipe(
+      catchError((error) => {
+        alert('Error when getting user data');
+        return [];
+      })
+    );
   }
 }
