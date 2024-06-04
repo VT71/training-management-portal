@@ -34,9 +34,10 @@ export class AuthService {
       email,
       password
     ).then((response) => {
-      updateProfile(response.user, {
-        displayName: `${firstName} ${lastName}`,
-      });
+      // Will no longer set full names in firebase. They will be set on our DB
+      //   updateProfile(response.user, {
+      //     displayName: `${firstName} ${lastName}`,
+      //   });
 
       sendEmailVerification(response.user);
     });
