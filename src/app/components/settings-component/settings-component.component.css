@@ -1,6 +1,8 @@
+.sections-container {
+
+}
+
 section {
-  width: 100%;
-  margin-left: 15px;
   background: var(--tertiary);
   border-radius: 12px;
   -webkit-box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
@@ -8,15 +10,21 @@ section {
   box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
   padding: 2rem;
   margin: 20px;
-  margin-left: auto;
   font-family: bold var(--main-font);
   color: var(--secondary);
   font-size: medium;
+  height: auto;
+}
+
+section.personal,
+section.password {
+  width: 100%;
+  max-width: 500px;
 }
 
 section:hover {
-    transform: translate(0, -5px);
-    transition: transform 0.3s;
+  transform: translate(0, -5px);
+  transition: transform 0.3s;
 }
 
 h1 {
@@ -37,7 +45,6 @@ input {
   padding: 5px;
   margin: 5px;
   border-radius: 5px;
- 
 }
 
 button {
@@ -51,19 +58,18 @@ button {
 button:hover {
   background-color: white;
   color: var(--secondary-40);
-  }
+}
 
 label {
-    margin: 5px;
+  margin: 5px;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .role {
-    font-weight: bold;
+  font-weight: bold;
 }
-

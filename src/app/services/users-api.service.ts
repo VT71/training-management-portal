@@ -8,14 +8,23 @@ import { Observable, catchError } from 'rxjs';
 })
 export class UsersApiService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5290/User/GetUsers/';
+  private baseUrl = 'http://localhost:5290/User';
 
   constructor() {}
 
   public getUserById(userId: string) {
-    return this.http.get<User>(this.baseUrl + userId).pipe(
+    return this.http.get<User>(`${this.baseUrl}/GetUsers/` + userId).pipe(
       catchError((error) => {
         alert('Error when getting user data');
+        return [];
+      })
+    );
+  }
+
+  public updateUser(user: User) {
+    return this.http.put<User>(`${this.baseUrl}/EditUser`, user).pipe(
+      catchError((error) => {
+        alert('Error when updating user');
         return [];
       })
     );
