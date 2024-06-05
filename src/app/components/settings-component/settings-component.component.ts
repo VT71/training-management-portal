@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-settings-component',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, AsyncPipe, NgIf, MatInputModule, MatFormFieldModule],
+  imports: [RouterLink, RouterLinkActive, AsyncPipe, NgIf, MatInputModule, MatFormFieldModule, MatButtonModule],
   templateUrl: './settings-component.component.html',
   styleUrl: './settings-component.component.css',
 })

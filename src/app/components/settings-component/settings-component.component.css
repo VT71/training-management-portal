@@ -60,8 +60,10 @@ label {
 .form {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 }
 
 .role {
     font-weight: bold;
 }
+

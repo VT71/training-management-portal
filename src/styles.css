@@ -253,6 +253,15 @@ app-trainings-calendar {
   color: var(--secondary) !important;
 }
 
+.mat-mdc-unelevated-button.main {
+  background-color: var(--secondary) !important;
+  color: var(--tertiary) !important;
+}
+
+.mat-mdc-unelevated-button.main:hover {
+  background-color: var(--secondary-40) !important;
+}
+
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
     background-color: red!important;
