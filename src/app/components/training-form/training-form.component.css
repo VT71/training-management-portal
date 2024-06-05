@@ -1,5 +1,9 @@
 .root-container {
   padding: 0.5rem 1rem;
+  /* height: auto; */
+  /* max-height: 80vh; */
+  overflow: auto;
+  max-height: 80vh !important;
 }
 
 .form-left {
@@ -59,3 +63,22 @@ h2 {
 text-align: center;
 }
 
+button {
+ width: 100%;
+}
+
+/* toggle */
+
+mat-button-toggle-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mat-button-toggle {
+  width: 100%;
+}
+
+.mat-button-toggle-checked {
+  background-color:  #007d34 !important;
+  color: white !important;
+}
