@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="navbar-right-section">
-    <a class="navbar-brand" href="/dashboard">Navbar</a>
+    <div class="logo-rapper"></div>
 
   </div>
 
@@ -57,6 +57,8 @@
     </ul>
     <div class="navbar-icons-container">
       <mat-icon class="navbar-icon-button" matBadge="7" matBadgeColor="warn" routerLink="/dashboard/notifications"
+      matTooltip="Notifications"
+      matTooltipPosition="below"
         >notifications</mat-icon
       >
       <mat-icon class="navbar-icon-button" (click)="openDialog()"
