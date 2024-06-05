@@ -1,46 +1,61 @@
 <div class="settings-container">
   <h1>Settings</h1>
+  <div class="sections-container">
+    <section class="personal">
+      <h2>Personal Info</h2>
+      <form
+        class="form admin"
+        *ngIf="user$ | async as user"
+        [formGroup]="personalForm"
+        (submit)="onSubmitPersonal()"
+      >
+        <p>
+          Role: <span class="role">{{ user.role }}</span>
+        </p>
 
-  <section class="profile-settings">
-    <h2>Admin Profile Settings</h2>
-    <form class="form admin" *ngIf="user$ | async as user">
-      <p>
-        Role: <span class="role">{{ user.role }}</span>
-      </p>
-
-      <!-- <label for="name"> Full Name:</label>
+        <!-- <label for="name"> Full Name:</label>
       <input type="text" id="name" name="name" [value]="user.fullName" /> -->
 
-      <mat-form-field appearance="outline">
-        <mat-label>Full Name</mat-label>
-        <input matInput [value]="user.fullName" />
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
 
-      <!-- <label for="email"> Email:</label>
+        <!-- <label for="email"> Email:</label>
       <input type="email" id="email" name="email" [value]="user.email" /> -->
 
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput [value]="user.email" />
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
 
-      <!-- <button type="submit">Save Changes</button> -->
-      <button class="main" mat-flat-button>Save</button>
-    </form>
-  </section>
+        <!-- <button type="submit">Save Changes</button> -->
+        <button class="main" type="submit" mat-flat-button>Save</button>
+      </form>
+    </section>
 
-  <section class="notification-settings">
-    <h2>Change Password</h2>
-    <form class="form password">
-      <label for="old-password">Old Password:</label>
-      <input type="password" id="old-password" name="password" />
+    <section class="password">
+      <h2>Change Password</h2>
+      <form class="form password">
+        <!-- <label for="old-password">Old Password:</label>
+      <input type="password" id="old-password" name="password" /> -->
+        <mat-form-field appearance="outline">
+          <mat-label>Old Password</mat-label>
+          <input matInput />
+        </mat-form-field>
 
-      <label for="new-password">New Password:</label>
-      <input type="password" id="new-password" name="password" />
+        <!-- <label for="new-password">New Password:</label>
+      <input type="password" id="new-password" name="password" /> -->
+        <mat-form-field appearance="outline">
+          <mat-label>New Password</mat-label>
+          <input matInput />
+        </mat-form-field>
 
-      <button type="submit">Save Changes</button>
-    </form>
-  </section>
+        <!-- <button type="submit">Save Changes</button> -->
+        <button class="main" mat-flat-button>Submit</button>
+      </form>
+    </section>
+  </div>
 
   <!-- <section class="security-settings">
     <h2>Security Settings</h2>

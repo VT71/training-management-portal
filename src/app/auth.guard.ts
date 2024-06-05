@@ -8,7 +8,6 @@ import { AuthService } from './services/auth.service';
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  console.log('Guard state: ', authService.user);
 
   const isLoggedIn = authService.isAuthenticated();
   if (isLoggedIn === true) {
