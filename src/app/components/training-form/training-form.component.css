@@ -1,4 +1,84 @@
 .root-container {
   padding: 0.5rem 1rem;
+  /* height: auto; */
+  /* max-height: 80vh; */
+  overflow: auto;
+  max-height: 80vh !important;
 }
 
+.form-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+section {
+  width: 100%;
+  margin-left: 15px;
+  background: var(--tertiary);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 20px;
+  margin-left: auto;
+  font-family: bold var(--main-font);
+  color: var(--secondary);
+  font-size: medium;
+}
+
+.date-time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date{
+  width: 48%;
+}
+
+.time {
+  height: 55px;
+  width: 48%;
+  border-radius: 5px;
+  border-color: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+
+}
+
+.time:focus-visible{
+  border-bottom: 1px solid var(--secondary) !important;
+  border-right: 1px solid var(--secondary) !important;
+  border-left: 1px solid var(--secondary) !important;
+  border-top: 1px solid var(--secondary) !important;
+
+}
+
+.departament {
+  margin-top: 10px;
+}
+
+h2 {
+text-align: center;
+}
+
+button {
+ width: 100%;
+}
+
+/* toggle */
+
+mat-button-toggle-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mat-button-toggle {
+  width: 100%;
+}
+
+.mat-button-toggle-checked {
+  background-color:  #62ca8d !important;
+  color: rgb(0, 0, 0) !important;
+}

@@ -73,7 +73,7 @@
         <mat-icon
           class="add-training-icon visible"
           *ngIf="activeDay()?.toISODate() === dayOfMonth.toISODate()"
-          (click)="redirectToPath($event)"
+          (click)="openDialog()"
           matTooltip="Add training"
           matTooltipPosition="below"
           >add_circle
@@ -101,3 +101,5 @@
     </div>
   </div>
 </div>
+
+

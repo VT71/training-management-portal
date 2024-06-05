@@ -7,12 +7,15 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink , RouterLinkActive } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DialogComponentComponent, DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatIconModule, MatMenuModule, MatMenuTrigger, NgIf, MatBadgeModule, RouterLink, RouterLinkActive, CommonModule, ReactiveFormsModule],
+  imports: [MatIconModule, MatMenuModule,MatTooltipModule, MatMenuTrigger, NgIf, MatBadgeModule, RouterLink, RouterLinkActive, CommonModule, ReactiveFormsModule, DialogComponentComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -21,6 +24,7 @@ export class NavbarComponent {
   authService = inject(AuthService);
   router = inject(Router);
 
+  constructor( public dialog: MatDialog) {}
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
   toggleDropdown() {
@@ -37,4 +41,13 @@ export class NavbarComponent {
       },
     });
   }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+
 }
