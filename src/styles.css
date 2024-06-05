@@ -221,3 +221,7 @@ app-trainings-calendar {
 .training-list .section-container .main-button:hover {
   background-color: var(--main-80);
 }
+
+.mdc-text-field--outlined {
+    height: 30px;
+}
