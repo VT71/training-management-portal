@@ -233,10 +233,25 @@ app-trainings-calendar {
   padding-right: 8px !important;
 }
 
-.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--outlined.mdc-text-field--focused {
-  color: green !important;
+.mat-mdc-input-element {
+  caret-color: var(
+    --secondary
+  ) !important; /* Change 'red' to any color you want */
 }
 
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: var(--secondary) !important; /* Your desired color */
+}
+
+.mat-focused
+  .mdc-floating-label.mat-mdc-floating-label.mdc-floating-label--float-above {
+  color: var(--secondary) !important;
+}
 
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
