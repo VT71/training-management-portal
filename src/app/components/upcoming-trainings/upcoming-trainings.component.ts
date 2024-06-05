@@ -10,5 +10,4 @@ import { of } from 'rxjs';
   styleUrl: './upcoming-trainings.component.css',
 })
 export class UpcomingTrainingsComponent {
-  test = of([1]);
 }
