@@ -83,6 +83,7 @@
       }
     </div>
   </div>
+
   <div class="schedule">
     <div class="schedule-headline">
       @if (activeDay(); as activeDay) {
@@ -91,15 +92,28 @@
       <div class="schedule-headline-p">Please select a day</div>
       }
     </div>
+  
     <div>
       @if (activeDay() && activeDayMeetings().length === 0) {
       <div>No Planned Meetings today</div>
-      } @if (activeDay() && activeDayMeetings().length > 0) { @for (meeting of
-      activeDayMeetings(); track $index) {
-      <div>{{ meeting }}</div>
-      }}
+      } @if (activeDay() && activeDayMeetings().length > 0) {
+        @for (meeting of activeDayMeetings(); track $index) {
+        <div class="mettings-container">
+          <button class="meeting-button" [ngStyle]="{'background-color': getBackgroundColor($index)}"> {{ meeting }}</button>
+        </div>
+        }
+      }
     </div>
   </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
 </div>
-
-

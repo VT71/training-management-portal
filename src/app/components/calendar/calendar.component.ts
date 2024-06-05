@@ -26,6 +26,7 @@ export class CalendarComponent {
 
   public activeDay: WritableSignal<DateTime | null> = signal(null);
   public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
+
   public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
       this.firstDayOfActiveMonth().startOf('week'),
@@ -39,7 +40,9 @@ export class CalendarComponent {
         return d.start;
       });
   });
+
   public DATE_MED = DateTime.DATE_MED;
+
   public activeDayMeetings: Signal<string[]> = computed(() => {
     const activeDay = this.activeDay();
     if (activeDay === null) {
@@ -74,6 +77,13 @@ export class CalendarComponent {
     const today = this.today();
     this.firstDayOfActiveMonth.set(this.today().startOf('month'));
     this.activeDay.set(today);
+  }
+  
+
+  getBackgroundColor(index: number): string {
+    // Define different background colors based on the index or other logic
+    const colors = ['aqua', 'lightgreen', 'lightcoral'];
+    return colors[index % colors.length];
   }
 
   openDialog(){

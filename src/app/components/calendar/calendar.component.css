@@ -234,3 +234,18 @@
 .schedule-headline-p {
   font-family: var(--main-font);
 }
+
+.meeting-container {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+}
+
+.meeting-button {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: transparent; /* Fundalul implicit */
+  color: black; /* Culoarea textului */
+}
