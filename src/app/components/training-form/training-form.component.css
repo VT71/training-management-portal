@@ -2,3 +2,60 @@
   padding: 0.5rem 1rem;
 }
 
+.form-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+section {
+  width: 100%;
+  margin-left: 15px;
+  background: var(--tertiary);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 20px;
+  margin-left: auto;
+  font-family: bold var(--main-font);
+  color: var(--secondary);
+  font-size: medium;
+}
+
+.date-time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date{
+  width: 48%;
+}
+
+.time {
+  height: 55px;
+  width: 48%;
+  border-radius: 5px;
+  border-color: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+
+}
+
+.time:focus-visible{
+  border-bottom: 1px solid var(--secondary) !important;
+  border-right: 1px solid var(--secondary) !important;
+  border-left: 1px solid var(--secondary) !important;
+  border-top: 1px solid var(--secondary) !important;
+
+}
+
+.departament {
+  margin-top: 10px;
+}
+
+h2 {
+text-align: center;
+}
+

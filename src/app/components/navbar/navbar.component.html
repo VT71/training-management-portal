@@ -2,17 +2,6 @@
   <div class="navbar-right-section">
     <a class="navbar-brand" href="/dashboard">Navbar</a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
   </div>
 
   <!-- navbar -->
@@ -67,10 +56,10 @@
       <li><a class="dropdown-item" (click)="logOut()">Log out</a></li>
     </ul>
     <div class="navbar-icons-container">
-      <mat-icon class="navbar-icon-button" matBadge="15" matBadgeColor="warn" routerLink="/dashboard/notifications"
+      <mat-icon class="navbar-icon-button" matBadge="7" matBadgeColor="warn" routerLink="/dashboard/notifications"
         >notifications</mat-icon
       >
-      <mat-icon class="navbar-icon-button" routerLink="/dashboard/trainings/add-training"
+      <mat-icon class="navbar-icon-button" click="openDialog()"
         >note_add</mat-icon
       >
     </div>

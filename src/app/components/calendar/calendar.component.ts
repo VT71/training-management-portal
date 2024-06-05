@@ -7,12 +7,15 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TrainingFormComponent } from '../training-form/training-form.component';
+import { DialogContentExampleDialog } from './dialog-component/dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatIconModule, FormsModule,  MatTooltipModule],
+  imports: [CommonModule, MatIcon, MatIconModule, FormsModule,  MatTooltipModule , TrainingFormComponent],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
@@ -49,7 +52,7 @@ export class CalendarComponent {
     return this.meetings()[activeDayISO] ?? [];
   });
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public dialog: MatDialog) {}
 
   public goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
@@ -73,11 +76,12 @@ export class CalendarComponent {
     this.activeDay.set(today);
   }
 
-  public redirectToPath(event: Event): void {
-    event.stopPropagation(); // Prevent the cell click event from being triggered
-    const targetPath = '/dashboard/trainings/add-training'; // Replace with your desired path
-    this.router.navigate([targetPath]);
+  openDialog(){
+    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
- 
+  }
   
-}
+
