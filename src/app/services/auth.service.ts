@@ -20,7 +20,17 @@ export class AuthService {
   user: User | null;
 
   constructor(private router: Router) {
-    this.user = this.firebaseAuth.currentUser;
+    if (this.firebaseAuth.currentUser) {
+      this.user = this.firebaseAuth.currentUser;
+    } else {
+      const sessionAuthUser = sessionStorage.getItem('authUser');
+      if (sessionAuthUser) {
+        const objSessionAuthUser = JSON.parse(sessionAuthUser);
+        this.user = <User>objSessionAuthUser;
+      } else {
+        this.user = null;
+      }
+    }
   }
 
   register(
@@ -38,7 +48,6 @@ export class AuthService {
       //   updateProfile(response.user, {
       //     displayName: `${firstName} ${lastName}`,
       //   });
-
       sendEmailVerification(response.user);
     });
 
@@ -52,8 +61,9 @@ export class AuthService {
       password
     ).then(() => {
       this.user = this.firebaseAuth.currentUser;
-      console.log(
-        'FIREBASE USER: ' + JSON.stringify(this.firebaseAuth.currentUser)
+      sessionStorage.setItem(
+        'authUser',
+        JSON.stringify(this.firebaseAuth.currentUser)
       );
     });
     return from(promise);
@@ -61,6 +71,7 @@ export class AuthService {
 
   logout(): Observable<void> {
     this.user = null;
+    sessionStorage.removeItem('authUser');
     const promise = signOut(this.firebaseAuth).then(() => {});
     return from(promise);
   }
@@ -76,6 +87,6 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.user;
+    return !!this.user || !!sessionStorage.getItem('authUser');
   }
 }

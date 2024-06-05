@@ -8,8 +8,13 @@
         Role: <span class="role">{{ user.role }}</span>
       </p>
 
-      <label for="name"> Full Name:</label>
-      <input type="text" id="name" name="name" [value]="user.fullName" />
+      <!-- <label for="name"> Full Name:</label>
+      <input type="text" id="name" name="name" [value]="user.fullName" /> -->
+
+      <mat-form-field appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput [value]="user.fullName" />
+      </mat-form-field>
 
       <label for="email"> Email:</label>
       <input type="email" id="email" name="email" [value]="user.email" />
