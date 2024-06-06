@@ -80,32 +80,6 @@ export class SettingsComponentComponent {
           },
         });
       this.subscriptions.push(fireUpdateEmailSubscription);
-
-      //   const apiUserUpdateSubscription = this.userApiService
-      //     .updateUser({
-      //       ...this.fullUser,
-      //       email: rawForm.email,
-      //       fullName: rawForm.fullName,
-      //     })
-      //     .subscribe({
-      //       complete: () => {
-      //         const fireUpdateEmailSubscription = this.authService
-      //           .updateEmail(rawForm.email)
-      //           .subscribe({
-      //             complete: () => alert('Please verify your new email'),
-      //             error: () => {
-      //               const fireLogoutSubscription = this.authService
-      //                 .logout()
-      //                 .subscribe({
-      //                   complete: () => this.router.navigateByUrl('/login'),
-      //                 });
-      //               this.subscriptions.push(fireLogoutSubscription);
-      //             },
-      //           });
-      //         this.subscriptions.push(fireUpdateEmailSubscription);
-      //       },
-      //     });
-      //   this.subscriptions.push(apiUserUpdateSubscription);
     }
   }
 

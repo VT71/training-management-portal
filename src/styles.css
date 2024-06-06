@@ -4,8 +4,6 @@
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
-
-
 :root {
   /* --main: rgb(90, 106, 207); */
   /* --main-20: rgba(90, 106, 207, 0.2);
@@ -256,12 +254,12 @@ app-trainings-calendar {
 }
 
 .mat-mdc-unelevated-button.main {
-  background-color: var(--secondary) !important;
+  background-color: var(--main) !important;
   color: var(--tertiary) !important;
 }
 
 .mat-mdc-unelevated-button.main:hover {
-  background-color: var(--secondary-40) !important;
+  background-color: var(--main-80) !important;
 }
 
 .mat-mdc-dialog-content {
@@ -269,9 +267,16 @@ app-trainings-calendar {
 }
 
 ::placeholder {
-  text-align: center; 
+  text-align: center;
   display: flex;
   justify-content: end;
+}
+
+/* Other Global Elements */
+h1.component-main-title {
+  font-size: 1.6rem;
+  color: var(--secondary);
+  font-weight: 500;
 }
 
 /* // mat-icon-stepper selected color change 

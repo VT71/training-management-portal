@@ -27,13 +27,6 @@ section:hover {
   transition: transform 0.3s;
 }
 
-h1 {
-  font-family: bold var(--main-font);
-  color: var(--main);
-  font-size: 28px;
-  font-weight: bold;
-}
-
 h2 {
   font-family: bold var(--main-font);
   color: var(--secondary);
