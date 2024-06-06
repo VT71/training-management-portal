@@ -64,7 +64,11 @@ export class SettingsComponentComponent {
                 fullName: rawForm.fullName,
               })
               .subscribe({
-                complete: () => alert('Please verify your new email'),
+                complete: () => {
+                  if (this.personalForm.controls['email'].dirty) {
+                    alert('Please verify your new email');
+                  }
+                },
                 error: () => alert('Error occured when updating your email'),
               });
             this.subscriptions.push(apiUserUpdateSubscription);
@@ -101,10 +105,6 @@ export class SettingsComponentComponent {
           })
         );
     }
-    const emailFormSubscription = this.personalForm.controls[
-      'email'
-    ].valueChanges.subscribe((change) => console.log('CHANGE: ' + change));
-    this.subscriptions.push(emailFormSubscription);
   }
 
   ngOnDestroy() {
