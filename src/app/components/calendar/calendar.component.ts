@@ -47,6 +47,7 @@ export class CalendarComponent {
 
   public activeDay: WritableSignal<DateTime | null> = signal(null);
   public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
+  public isHoveringOnChild: boolean = false;
 
   public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
@@ -113,4 +114,6 @@ export class CalendarComponent {
     event.stopPropagation();
     dialogRef.afterClosed().subscribe((result) => {});
   }
+
+
 }
