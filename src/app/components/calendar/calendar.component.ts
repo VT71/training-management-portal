@@ -1,28 +1,49 @@
 // calendar.component.ts
-import { Component, InputSignal, signal, input, Signal, WritableSignal, computed } from '@angular/core';
+import {
+  Component,
+  InputSignal,
+  signal,
+  input,
+  Signal,
+  WritableSignal,
+  computed,
+} from '@angular/core';
 import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingFormComponent } from '../training-form/training-form.component';
 import { DialogContentExampleDialog } from './dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatIconModule, FormsModule,  MatTooltipModule , TrainingFormComponent],
+  imports: [
+    CommonModule,
+    MatIcon,
+    MatIconModule,
+    FormsModule,
+    MatTooltipModule,
+    TrainingFormComponent,
+    RouterLink,
+    RouterLinkActive,
+    MatButtonModule, MatMenuModule,
+  ],
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent {
   public meetings: InputSignal<Meetings> = input.required();
   public today: Signal<DateTime> = signal(DateTime.local());
-  public firstDayOfActiveMonth: WritableSignal<DateTime> = signal(this.today().startOf('month'));
+  public firstDayOfActiveMonth: WritableSignal<DateTime> = signal(
+    this.today().startOf('month')
+  );
 
   public activeDay: WritableSignal<DateTime | null> = signal(null);
   public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
@@ -78,20 +99,18 @@ export class CalendarComponent {
     this.firstDayOfActiveMonth.set(this.today().startOf('month'));
     this.activeDay.set(today);
   }
-  
 
-  getBackgroundColor(index: number): string {
-    // Define different background colors based on the index or other logic
-    const colors = ['aqua', 'lightgreen', 'lightcoral'];
-    return colors[index % colors.length];
+  public getEventsForDay(day: DateTime): string[] {
+    const dayISO = day.toISODate();
+    if (!dayISO) {
+      return [];
+    }
+    return this.meetings()[dayISO] ?? [];
   }
 
-  openDialog(){
+  openDialog(event: Event): void {
     const dialogRef = this.dialog.open(DialogContentExampleDialog);
-
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    event.stopPropagation();
+    dialogRef.afterClosed().subscribe((result) => {});
   }
-  }
-  
-
+}

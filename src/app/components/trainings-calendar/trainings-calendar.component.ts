@@ -18,6 +18,7 @@ export class TrainingsCalendarComponent {
   meetings = {
     '2024-04-05': ['Dring Coffee', 'Learn React', 'Sleep'],
     '2024-04-06': ['Dring Coffee', 'Learn Angular', 'Sleep'],
-    '2024-05-22': ['Implementation', 'Learn Angular', 'Learn'],
+    '2024-06-05': ['Implementation', 'Development', 'SaaS'],
+    '2024-06-06': ['Implementation', 'Development', 'SaaS'],
   };
 }

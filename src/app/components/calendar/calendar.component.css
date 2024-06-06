@@ -142,9 +142,10 @@
 }
 
 .add-training-icon:hover {
-  color: white
+  color: white;
 }
 /* icon settings */
+
 
 .calendar-grid-cell {
   position: relative;
@@ -175,6 +176,25 @@
   cursor: pointer;
   border-bottom: 1px solid rgb(206, 206, 206);
   border-right: 1px solid rgb(206, 206, 206);
+  position: relative;
+}
+
+.events-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 5px;
+  margin-top: 5px;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.event-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--main); 
 }
 
 .add-training-icon {
@@ -182,25 +202,25 @@
   color: var(--main); /* Change the color as needed */
   position: absolute;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
   visibility: hidden; /* Hidden by default */
+  right: 5%;
 }
 
 .calendar-grid-cell:hover {
-  background: var(--secondary);
+  background: var(--secondary-40);
   color: rgb(255, 255, 255);
 }
 
 .calendar-grid-cell-active {
-  background: var(--secondary);
+  background: var(--secondary-40);
   color: rgb(255, 255, 255);
 }
 
 .add-event-btn {
   margin-top: 20px;
   background-color: var(--primary-40);
-  color: white;
+  color: var(--main);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -235,17 +255,68 @@
   font-family: var(--main-font);
 }
 
+
+
+/* meeting section */
+
 .meeting-container {
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
+  height: 20px;
 }
 
 .meeting-button {
+  width: 100%;
+  border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
+  height: auto;
   border: 1px solid #ccc;
   cursor: pointer;
-  background-color: transparent; /* Fundalul implicit */
+  background-color: var(--secondary-10); /* Fundalul implicit */
+  text-align: center;
   color: black; /* Culoarea textului */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 0;
 }
+
+.mat-icon {
+  size: 1px;
+}
+
+.meeting-button:hover {
+  background-color: var(--secondary-40);
+  color: white;
+}
+
+.meeting-button:active{
+  background-color: var(--secondary-40);
+  color: white;
+}
+
+.material-symbols-outlined{
+  font-size: 20px
+}
+
+.edit:hover {
+  color: rgb(46, 189, 46);
+}
+.edit:active {
+  color: rgb(46, 189, 46);
+}
+
+.delete:hover{
+  color: red;
+}
+.delete:active{
+  color: red;
+}
+
+.training-edit-button {
+  z-index: 3;
+}
+
+/* meeting section */
