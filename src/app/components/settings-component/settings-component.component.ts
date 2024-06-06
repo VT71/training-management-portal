@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UsersApiService } from '../../services/users-api.service';
 import { User } from '../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
-import { Observable, map, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +35,9 @@ export class SettingsComponentComponent {
   private userApiService = inject(UsersApiService);
   private authService = inject(AuthService);
   public fb = inject(FormBuilder);
+  private router = inject(Router);
 
+  private subscriptions: Subscription[] = [];
   private fullUser!: User;
   public user$!: Observable<User>;
 
@@ -51,13 +53,59 @@ export class SettingsComponentComponent {
     if (this.personalForm.valid && this.fullUser) {
       let rawForm = this.personalForm.getRawValue();
 
-      this.userApiService
-        .updateUser({
-          ...this.fullUser,
-          email: rawForm.email,
-          fullName: rawForm.fullName,
-        })
-        .subscribe({ complete: () => alert('User updated') });
+      const fireUpdateEmailSubscription = this.authService
+        .updateEmail(rawForm.email)
+        .subscribe({
+          complete: () => {
+            const apiUserUpdateSubscription = this.userApiService
+              .updateUser({
+                ...this.fullUser,
+                email: rawForm.email,
+                fullName: rawForm.fullName,
+              })
+              .subscribe({
+                complete: () => alert('Please verify your new email'),
+                error: () => alert('Error occured when updating your email'),
+              });
+            this.subscriptions.push(apiUserUpdateSubscription);
+          },
+          error: () => {
+            const fireLogoutSubscription = this.authService.logout().subscribe({
+              complete: () => {
+                this.router.navigateByUrl('/login');
+                alert('Please log in again, then update your profile');
+              },
+            });
+            this.subscriptions.push(fireLogoutSubscription);
+          },
+        });
+      this.subscriptions.push(fireUpdateEmailSubscription);
+
+      //   const apiUserUpdateSubscription = this.userApiService
+      //     .updateUser({
+      //       ...this.fullUser,
+      //       email: rawForm.email,
+      //       fullName: rawForm.fullName,
+      //     })
+      //     .subscribe({
+      //       complete: () => {
+      //         const fireUpdateEmailSubscription = this.authService
+      //           .updateEmail(rawForm.email)
+      //           .subscribe({
+      //             complete: () => alert('Please verify your new email'),
+      //             error: () => {
+      //               const fireLogoutSubscription = this.authService
+      //                 .logout()
+      //                 .subscribe({
+      //                   complete: () => this.router.navigateByUrl('/login'),
+      //                 });
+      //               this.subscriptions.push(fireLogoutSubscription);
+      //             },
+      //           });
+      //         this.subscriptions.push(fireUpdateEmailSubscription);
+      //       },
+      //     });
+      //   this.subscriptions.push(apiUserUpdateSubscription);
     }
   }
 
@@ -79,5 +127,15 @@ export class SettingsComponentComponent {
           })
         );
     }
+    const emailFormSubscription = this.personalForm.controls[
+      'email'
+    ].valueChanges.subscribe((change) => console.log('CHANGE: ' + change));
+    this.subscriptions.push(emailFormSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
   }
 }

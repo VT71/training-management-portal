@@ -6,20 +6,26 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
+  verifyBeforeUpdateEmail,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
-  user: User | null;
+  user!: User | null;
 
   constructor(private router: Router) {
+    this.updateUser();
+  }
+
+  private updateUser() {
     if (this.firebaseAuth.currentUser) {
       this.user = this.firebaseAuth.currentUser;
     } else {
@@ -84,6 +90,16 @@ export class AuthService {
       }
     );
     return from(promise);
+  }
+
+  updateEmail(newEmail: string): Observable<void> {
+    this.updateUser();
+    let promise = null;
+    if (this.user) {
+      promise = verifyBeforeUpdateEmail(this.user, newEmail).then();
+      return from(promise);
+    }
+    return of();
   }
 
   isAuthenticated(): boolean {
