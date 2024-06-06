@@ -1,3 +1,7 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+/>
 <div class="calendar-container">
   <div class="calendar">
     <div class="calendar-headline">
@@ -73,12 +77,19 @@
         <mat-icon
           class="add-training-icon visible"
           *ngIf="activeDay()?.toISODate() === dayOfMonth.toISODate()"
-          (click)="openDialog()"
+          (click)="openDialog($event)"
           matTooltip="Add training"
           matTooltipPosition="below"
           >add_circle
         </mat-icon>
-        <!-- <span *ngIf="activeDay()?.toISODate() === dayOfMonth.toISODate()">Icon is visible</span> -->
+
+        <div class="events-container">
+          <!-- Bulină pentru fiecare eveniment -->
+          <div
+            class="event-bullet"
+            *ngFor="let event of getEventsForDay(dayOfMonth)"
+          ></div>
+        </div>
       </div>
       }
     </div>
@@ -92,28 +103,43 @@
       <div class="schedule-headline-p">Please select a day</div>
       }
     </div>
-  
+
     <div>
       @if (activeDay() && activeDayMeetings().length === 0) {
       <div>No Planned Meetings today</div>
-      } @if (activeDay() && activeDayMeetings().length > 0) {
-        @for (meeting of activeDayMeetings(); track $index) {
-        <div class="mettings-container">
-          <button class="meeting-button" [ngStyle]="{'background-color': getBackgroundColor($index)}"> {{ meeting }}</button>
+      } @if (activeDay() && activeDayMeetings().length > 0) { @for (meeting of
+      activeDayMeetings(); track $index) {
+      <div class="mettings-container">
+        <div
+          class="meeting-button"
+          routerLink="/dashboard/training-page"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          matTooltip="View training details"
+          matTooltipPosition="below"
+ 
+        >
+          {{ meeting }}
+
+          <div class="icons-end">
+            <span
+              class="material-symbols-outlined edit training-edit-button"
+          
+              (click)="openDialog($event)"
+           
+            >
+              edit
+            </span>
+            <span
+              class="material-symbols-outlined delete training-edit-button"
+            
+            >
+              delete
+            </span>
+          </div>
         </div>
-        }
-      }
+      </div>
+      } }
     </div>
   </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
 </div>

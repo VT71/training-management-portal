@@ -15,6 +15,7 @@ import { AddTrainingComponent } from './components/add-training/add-training.com
 import { DashboardHomeComponent } from './components/dashboard-home/dashboard-home.component';
 import { SettingsComponentComponent } from './components/settings-component/settings-component.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { TrainingPageComponent } from './components/training-page/training-page.component';
 
 const appName = 'Training Management Portal';
 
@@ -46,6 +47,7 @@ export const routes: Routes = [
       },
     ],
   },
+  
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -96,6 +98,11 @@ export const routes: Routes = [
         path: 'trainings/add-training',
         component: AddTrainingComponent,
         title: `Add Training | ${appName}`,
+      },
+      {
+        path: 'training-page',
+        component: TrainingPageComponent,
+        title: `Training Page | ${appName}`,
       },
     ],
   },

@@ -4,6 +4,8 @@
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
+
+
 :root {
   /* --main: rgb(90, 106, 207); */
   /* --main-20: rgba(90, 106, 207, 0.2);
@@ -263,7 +265,13 @@ app-trainings-calendar {
 }
 
 .mat-mdc-dialog-content {
-  max-height: 80vh !important;
+  max-height: 100vh !important;
+}
+
+::placeholder {
+  text-align: center; 
+  display: flex;
+  justify-content: end;
 }
 
 /* // mat-icon-stepper selected color change 
