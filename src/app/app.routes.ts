@@ -16,6 +16,7 @@ import { DashboardHomeComponent } from './components/dashboard-home/dashboard-ho
 import { SettingsComponentComponent } from './components/settings-component/settings-component.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { TrainingPageComponent } from './components/training-page/training-page.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 const appName = 'Training Management Portal';
 
@@ -47,7 +48,7 @@ export const routes: Routes = [
       },
     ],
   },
-  
+
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -100,11 +101,16 @@ export const routes: Routes = [
         title: `Add Training | ${appName}`,
       },
       {
-        path: 'training-page',
+        path: 'training',
         component: TrainingPageComponent,
-        title: `Training Page | ${appName}`,
+        title: `Training | ${appName}`,
+      },
+      {
+        path: 'employees',
+        component: EmployeesComponent,
+        title: `Employees Page | ${appName}`,
       },
     ],
   },
-  { path: '**', redirectTo: '/login' },
+  { path: '**', redirectTo: '/dashboard' },
 ];

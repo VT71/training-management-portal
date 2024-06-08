@@ -33,13 +33,16 @@
           >
             <div
               class="main-option"
-              [ngClass]="{'main-option-expanded': !menuCollapsed, 'main-option-collapsed' : menuCollapsed }"
+              [ngClass]="{
+                'main-option-expanded': !menuCollapsed,
+                'main-option-collapsed': menuCollapsed
+              }"
               (click)="manuallyUpdateTrainingsDropDownOpen()"
             >
               <div class="left">
-                <mat-icon class="menu-button-icon" routerLinkActive="active"
-                  >assignment_ind</mat-icon
-                >
+                <mat-icon class="menu-button-icon" routerLinkActive="active">
+                  assignment
+                </mat-icon>
                 <span class="menu-button-label" routerLinkActive="active"
                   >Trainings</span
                 >
@@ -152,6 +155,31 @@
             </div>
           </div>
         </li>
+
+        <li>
+          <div
+            class="menu-button"
+            routerLink="/dashboard/employees"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="left">
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >badge</mat-icon
+              >
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Employees</span
+              >
+            </div>
+          </div>
+        </li>
+
         <li>
           <div
             class="menu-button"
