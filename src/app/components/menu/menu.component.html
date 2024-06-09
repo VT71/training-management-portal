@@ -183,6 +183,31 @@
         <li>
           <div
             class="menu-button"
+            routerLink="/dashboard/departments"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="left">
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                apartment
+              </mat-icon>
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Departments</span
+              >
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div
+            class="menu-button"
             routerLink="/dashboard/notifications"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"

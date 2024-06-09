@@ -17,6 +17,7 @@ import { SettingsComponentComponent } from './components/settings-component/sett
 import { ReportsComponent } from './components/reports/reports.component';
 import { TrainingPageComponent } from './components/training-page/training-page.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { DepartmentsComponent } from './components/departments/departments.component';
 
 const appName = 'Training Management Portal';
 
@@ -109,6 +110,11 @@ export const routes: Routes = [
         path: 'employees',
         component: EmployeesComponent,
         title: `Employees Page | ${appName}`,
+      },
+      {
+        path: 'departments',
+        component: DepartmentsComponent,
+        title: `Departments Page | ${appName}`,
       },
     ],
   },

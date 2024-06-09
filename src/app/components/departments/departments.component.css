@@ -1,0 +1,8 @@
+.table-wrapper {
+  background: var(--tertiary);
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
+  -moz-box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
+  box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
+  padding: 1rem;
+}
