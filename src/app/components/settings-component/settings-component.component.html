@@ -36,19 +36,23 @@
 
     <section class="password">
       <h2>Change Password</h2>
-      <form class="form password">
+      <form
+        class="form password"
+        [formGroup]="passwordForm"
+        (submit)="onSubmitPassword()"
+      >
         <!-- <label for="old-password">Old Password:</label>
       <input type="password" id="old-password" name="password" /> -->
         <mat-form-field appearance="outline">
-          <mat-label>Old Password</mat-label>
-          <input matInput />
+          <mat-label>New Password</mat-label>
+          <input matInput formControlName="newPassword" type="password" />
         </mat-form-field>
 
         <!-- <label for="new-password">New Password:</label>
       <input type="password" id="new-password" name="password" /> -->
         <mat-form-field appearance="outline">
-          <mat-label>New Password</mat-label>
-          <input matInput />
+          <mat-label>Repeat New Password</mat-label>
+          <input matInput formControlName="newPasswordRepeat" type="password" />
         </mat-form-field>
 
         <!-- <button type="submit">Save Changes</button> -->

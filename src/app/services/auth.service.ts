@@ -6,8 +6,9 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
-  updateEmail,
   verifyBeforeUpdateEmail,
+  updatePassword,
+  reauthenticateWithCredential,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
@@ -94,9 +95,24 @@ export class AuthService {
 
   updateEmail(newEmail: string): Observable<void> {
     this.updateUser();
-    let promise = null;
     if (this.user) {
-      promise = verifyBeforeUpdateEmail(this.user, newEmail).then();
+      const promise = verifyBeforeUpdateEmail(this.user, newEmail).then();
+      return from(promise);
+    }
+    return of();
+  }
+
+  updatePassword(newPassword: string): Observable<void> {
+    this.updateUser();
+    if (this.user) {
+      const promise = updatePassword(this.user, newPassword)
+        .then(() => alert('Password Updated'))
+        .catch((err) => {
+          if (err?.code === 'auth/requires-recent-login') {
+            this.router.navigateByUrl('/login');
+            alert('Please log in again');
+          }
+        });
       return from(promise);
     }
     return of();

@@ -49,6 +49,11 @@ export class SettingsComponentComponent {
     email: ['', [Validators.required, Validators.email]],
   });
 
+  public passwordForm = this.fb.nonNullable.group({
+    newPassword: ['', [Validators.required, Validators.maxLength(255)]],
+    newPasswordRepeat: ['', [Validators.required, Validators.maxLength(255)]],
+  });
+
   public onSubmitPersonal(): void {
     if (this.personalForm.valid && this.fullUser) {
       let rawForm = this.personalForm.getRawValue();
@@ -64,7 +69,11 @@ export class SettingsComponentComponent {
                 fullName: rawForm.fullName,
               })
               .subscribe({
-                complete: () => alert('Please verify your new email'),
+                complete: () => {
+                  if (this.personalForm.controls['email'].dirty) {
+                    alert('Please verify your new email');
+                  }
+                },
                 error: () => alert('Error occured when updating your email'),
               });
             this.subscriptions.push(apiUserUpdateSubscription);
@@ -80,6 +89,21 @@ export class SettingsComponentComponent {
           },
         });
       this.subscriptions.push(fireUpdateEmailSubscription);
+    }
+  }
+  public onSubmitPassword(): void {
+    if (this.passwordForm.valid) {
+      let rawForm = this.passwordForm.getRawValue();
+      if (rawForm.newPassword === rawForm.newPasswordRepeat) {
+        const firePassSubscription = this.authService
+          .updatePassword(rawForm?.newPassword)
+          .subscribe({ complete: () => this.passwordForm.reset() });
+        this.subscriptions.push(firePassSubscription);
+      } else {
+        alert('Passwords are not the same');
+      }
+    } else {
+      alert('Please complete the form');
     }
   }
 
@@ -101,10 +125,6 @@ export class SettingsComponentComponent {
           })
         );
     }
-    const emailFormSubscription = this.personalForm.controls[
-      'email'
-    ].valueChanges.subscribe((change) => console.log('CHANGE: ' + change));
-    this.subscriptions.push(emailFormSubscription);
   }
 
   ngOnDestroy() {
