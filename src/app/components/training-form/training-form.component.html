@@ -1,22 +1,32 @@
 <div class="root-container">
   <h2>Add training</h2>
-  <div class="form-left">
-    <form class="training-form">
+  <div class="form-left" *ngIf="trainingForm">
+    <form
+      class="training-form"
+      *ngIf="trainingForm"
+      [formGroup]="trainingForm"
+      (ngSubmit)="onSubmitTrainings()"
+    >
+    
       <section clas="training-form-left">
         <div class="input-container">
           <mat-form-field appearance="outline">
             <mat-label>Title</mat-label>
-            <input matInput placeholder="Ttile name" />
+            <input matInput formControlName="title" placeholder="Ttile name" />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Description</mat-label>
-            <textarea matInput placeholder="Details about training"></textarea>
+            <textarea
+              matInput
+              formControlName="description"
+              placeholder="Details about training"
+            ></textarea>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Offline/Online</mat-label>
-            <mat-select>
+            <mat-select formControlName="online">
               <mat-option value="one">Offline</mat-option>
               <mat-option value="two">Online</mat-option>
             </mat-select>
@@ -25,7 +35,11 @@
           <div class="date-time">
             <mat-form-field appearance="outline" class="date">
               <mat-label>Choose a date</mat-label>
-              <input matInput [matDatepicker]="picker" />
+              <input
+                matInput
+                formControlName="deadline"
+                [matDatepicker]="picker"
+              />
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
@@ -34,12 +48,18 @@
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
-            <input class="time" placeholder="Select time" type="time" />
+            <input
+              class="time"
+              formControlName="time"
+              placeholder="Select time"
+              type="time"
+            />
           </div>
 
           <mat-button-toggle-group
             name="favoriteColor"
             aria-label="Favorite Color"
+            formControlName="department"
           >
             <mat-button-toggle value="red">Departament</mat-button-toggle>
             <mat-button-toggle value="green">Employee</mat-button-toggle>
@@ -47,7 +67,7 @@
 
           <app-chips-autocomplete></app-chips-autocomplete>
         </div>
-        <button class="main" mat-flat-button>Save</button>
+        <button class="main" type="submit" mat-flat-button>Submit</button>
       </section>
     </form>
   </div>
