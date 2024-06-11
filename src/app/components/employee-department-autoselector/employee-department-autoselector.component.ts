@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteSelectedEvent,
@@ -29,21 +29,23 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   styleUrl: './employee-department-autoselector.component.css',
 })
 export class EmployeeDepartmentAutoselectorComponent {
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl('');
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  @Input() type!: 'Departments' | 'Employees';
 
-  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  formCtrl = new FormControl('');
+  filteredValues: Observable<string[]>;
+  selectedValues: string[] = ['Lemon'];
+  allValues: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  @ViewChild('selectorInput') selectorInput!: ElementRef<HTMLInputElement>;
 
   announcer = inject(LiveAnnouncer);
 
   constructor() {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    this.filteredValues = this.formCtrl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.allFruits.slice()
+      map((value: string | null) =>
+        value ? this._filter(value) : this.allValues.slice()
       )
     );
   }
@@ -51,38 +53,38 @@ export class EmployeeDepartmentAutoselectorComponent {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
+    // Add our value
     if (value) {
-      this.fruits.push(value);
+      this.selectedValues.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.formCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(value: string): void {
+    const index = this.selectedValues.indexOf(value);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.selectedValues.splice(index, 1);
 
-      this.announcer.announce(`Removed ${fruit}`);
+      this.announcer.announce(`Removed ${value}`);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.selectedValues.push(event.option.viewValue);
+    this.selectorInput.nativeElement.value = '';
+    this.formCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter((fruit) =>
-      fruit.toLowerCase().includes(filterValue)
+    return this.allValues.filter((value) =>
+      value.toLowerCase().includes(filterValue)
     );
   }
 }

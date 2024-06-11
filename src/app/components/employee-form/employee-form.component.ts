@@ -8,8 +8,15 @@ import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-
 @Component({
   selector: 'app-employee-form',
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule, MatButtonModule, MatInputModule, EmployeeDepartmentAutoselectorComponent],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatInputModule,
+    EmployeeDepartmentAutoselectorComponent,
+  ],
   templateUrl: './employee-form.component.html',
   styleUrl: './employee-form.component.css',
 })
-export class EmployeeFormComponent {}
+export class EmployeeFormComponent {
+}
