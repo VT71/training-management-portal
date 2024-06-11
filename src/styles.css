@@ -279,6 +279,19 @@ h1.component-main-title {
   font-weight: 500;
 }
 
+h2.dialog-title {
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+.mat-mdc-dialog-panel {
+    width: 100% !important;
+    max-width: 400px !important;
+}
+
+
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
     background-color: red!important;

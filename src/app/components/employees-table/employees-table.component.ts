@@ -19,6 +19,7 @@ export class EmployeesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'employeeId',
     'userId',
+    'email',
     'fullName',
     'departmentName',
     'trainer',
