@@ -19,4 +19,7 @@ import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-
   styleUrl: './employee-form.component.css',
 })
 export class EmployeeFormComponent {
+  onDepartmentsChange(departmentsList: number[]) {
+    console.log('CHILD LIST: ' + departmentsList);
+  }
 }

@@ -224,7 +224,6 @@ app-trainings-calendar {
 
 /* Material UI Elements Customizations */
 
-
 .mat-mdc-text-field-wrapper {
   padding-left: 8px !important;
   padding-right: 8px !important;
@@ -263,6 +262,22 @@ app-trainings-calendar {
   max-height: 100vh !important;
 }
 
+mat-form-field.error
+  > .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__leading,
+mat-form-field.error
+  > .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__notch,
+mat-form-field.error
+  > .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__trailing {
+  border-color: #ba1a1a !important; /* Your desired color */
+  border-width: 2px;
+}
+
+mat-label.error {
+  color: #ba1a1a !important;
+}
 /* ::placeholder {
   text-align: center;
   display: flex;
@@ -284,10 +299,9 @@ h2.dialog-title {
 }
 
 .mat-mdc-dialog-panel {
-    width: 100% !important;
-    max-width: 400px !important;
+  width: 100% !important;
+  max-width: 400px !important;
 }
-
 
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {

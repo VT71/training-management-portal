@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, inject, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { EmployeeComplete } from '../../interfaces/employee-complete';
@@ -12,7 +12,7 @@ import { EmployeesApiService } from '../../services/employees-api.service';
   templateUrl: './employees-table.component.html',
   styleUrl: './employees-table.component.css',
 })
-export class EmployeesTableComponent implements AfterViewInit, OnInit {
+export class EmployeesTableComponent implements AfterViewInit, OnInit, OnDestroy {
   private employeesCompleteData: EmployeeComplete[] = [];
   private subscriptions: Subscription[] = [];
 

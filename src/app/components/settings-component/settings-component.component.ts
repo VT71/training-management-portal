@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UsersApiService } from '../../services/users-api.service';
 import { User } from '../../interfaces/user';
@@ -31,7 +31,7 @@ import {
   templateUrl: './settings-component.component.html',
   styleUrl: './settings-component.component.css',
 })
-export class SettingsComponentComponent implements OnInit {
+export class SettingsComponentComponent implements OnInit, OnDestroy {
   private userApiService = inject(UsersApiService);
   private authService = inject(AuthService);
   public fb = inject(FormBuilder);

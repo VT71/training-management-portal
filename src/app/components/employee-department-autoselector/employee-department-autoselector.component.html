@@ -1,5 +1,5 @@
-<mat-form-field appearance="outline" class="example-chip-list">
-  <mat-label>{{ type }}</mat-label>
+<mat-form-field appearance="outline" [ngClass]="{'error': true}" class="example-chip-list">
+  <mat-label [ngClass]="{'error': true}">{{ type + "*" }}</mat-label>
   <mat-chip-grid #chipGrid [attr.aria-label]="type + ' input'">
     @for (value of selectedValues; track value) {
     <mat-chip-row (removed)="remove(value)">
@@ -11,15 +11,21 @@
     }
   </mat-chip-grid>
   <input
-    [placeholder]="'New' + type + '...'"
+    type="text"
+    required
     #selectorInput
+    matInput
     [formControl]="formCtrl"
     [matChipInputFor]="chipGrid"
     [matAutocomplete]="auto"
     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
     (matChipInputTokenEnd)="add($event)"
   />
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="selected($event)"
+    requireSelection
+  >
     @for (value of filteredValues | async; track value) {
     <mat-option [value]="value">{{ value }}</mat-option>
     }
