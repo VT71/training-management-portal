@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit,  } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, Subscription,  } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TrainingInterface } from '../../interfaces/training.interface';
 
 @Component({
@@ -35,25 +35,24 @@ import { TrainingInterface } from '../../interfaces/training.interface';
     MatButtonToggleModule,
     CommonModule,
     ReactiveFormsModule,
-    
   ],
   templateUrl: './training-form.component.html',
   styleUrl: './training-form.component.css',
   providers: [provideNativeDateAdapter()],
 })
-export class TrainingFormComponent implements OnInit, OnDestroy {
-
+export class TrainingFormComponent implements OnDestroy {
   trainingForm: FormGroup = new FormGroup({});
 
-  constructor(private fb: FormBuilder, private trainingApiService: TrainingsService) {
+  constructor(
+    private fb: FormBuilder,
+    private trainingApiService: TrainingsService
+  ) {
     this.trainingForm = this.fb.group({
-      trainingId: [0, Validators.required],
       title: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', Validators.required],
-      online: [0, Validators.required],
+      online: [true, Validators.required],
       deadline: ['', Validators.required],
-      department: ['', Validators.required],
-      employee: ['', Validators.required],
+      time: ['', Validators.required],
     });
   }
 
@@ -61,45 +60,41 @@ export class TrainingFormComponent implements OnInit, OnDestroy {
   public trainingId!: number;
   public training$!: Observable<TrainingInterface>;
 
-  ngOnInit() {
-    // Subscribe to form changes
-    const trainingFormSubscription = this.trainingForm.valueChanges.subscribe((change) => {
-      console.log('Form changes:', change);
-    });
-    this.subscriptions.push(trainingFormSubscription);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
-
   onSubmitTrainings() {
-    const formData = this.trainingForm.value;
+    // Subscribe to form changes
+    if (this.trainingForm.valid) {
+      console.log('valid');
+    } else {
+      console.log('invalid');
+    }
+    const { title, description, online, deadline } = this.trainingForm.value;
 
-
-    const trainingData: Partial<TrainingInterface> = {
-      trainingId: +formData.trainingId,
-      title: formData.title,
-      description: formData.description,
-      online:  +formData.online,
-      deadline: formData.deadline,
-      department: formData.department,
-      employee: formData.employee,
+    const trainingData = {
+      title,
+      description,
+      online: 1,
+      deadline: 'jjh',
     };
 
-    this.trainingApiService.updateTraining(trainingData as TrainingInterface).subscribe({
-      next: () => {
-        console.log('Training updated successfully');
-        // Poți face un redirect către o altă pagină sau să faci alte acțiuni după ce training-ul a fost actualizat
-      },
-      error: (error) => {
-        console.error('Error updating training:', error);
-        // Poți trata eroarea în funcție de necesități
-      },
-    });
+    this.trainingApiService
+      .createTraining(trainingData as TrainingInterface)
+      .subscribe({
+        next: () => {
+          console.log('Training created successfully');
+          // Poți face un redirect către o altă pagină sau să faci alte acțiuni după ce training-ul a fost actualizat
+        },
+        error: (error) => {
+          console.error('Error creating training:', error);
+          // Poți trata eroarea în funcție de necesități
+        },
+      });
   }
 
   resetForm() {
     this.trainingForm.reset();
+  }
+  
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

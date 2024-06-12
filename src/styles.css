@@ -224,9 +224,6 @@ app-trainings-calendar {
 
 /* Material UI Elements Customizations */
 
-.mat-mdc-form-field-infix {
-  padding: 8px !important;
-}
 
 .mat-mdc-text-field-wrapper {
   padding-left: 8px !important;
@@ -266,11 +263,11 @@ app-trainings-calendar {
   max-height: 100vh !important;
 }
 
-::placeholder {
+/* ::placeholder {
   text-align: center;
   display: flex;
   justify-content: end;
-}
+} */
 
 /* Other Global Elements */
 h1.component-main-title {

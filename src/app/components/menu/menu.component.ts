@@ -12,11 +12,12 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable, Subscription, filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [MatIconModule, RouterLink, RouterLinkActive, NgIf, CommonModule],
+  imports: [MatIconModule, RouterLink, RouterLinkActive, NgIf, CommonModule, MatTooltipModule],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })

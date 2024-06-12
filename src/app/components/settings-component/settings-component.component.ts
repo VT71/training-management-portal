@@ -91,6 +91,7 @@ export class SettingsComponentComponent {
       this.subscriptions.push(fireUpdateEmailSubscription);
     }
   }
+
   public onSubmitPassword(): void {
     if (this.passwordForm.valid) {
       let rawForm = this.passwordForm.getRawValue();
@@ -107,7 +108,7 @@ export class SettingsComponentComponent {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.authService?.user?.uid) {
       this.user$ = this.userApiService
         .getUserById(this.authService?.user?.uid)
@@ -127,7 +128,7 @@ export class SettingsComponentComponent {
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });

@@ -8,24 +8,19 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class TrainingsService {
-  private baseUrl = 'http://localhost:5290/Trainings';
+  private baseUrl: string = 'http://localhost:5290/Trainings';
 
   constructor(private http: HttpClient) {}
 
-  public updateTraining(
-    training: TrainingInterface
-  ): Observable<TrainingInterface> {
 
+  public createTraining(training: TrainingInterface): Observable<TrainingInterface> {
     return this.http
-      .put<TrainingInterface>(
-        `${this.baseUrl}/UpdateTraining/${training.trainingId}`,
-        training
-      )
+      .post<TrainingInterface>(`${this.baseUrl}/CreateTraining`, training)
       .pipe(
         catchError((error) => {
-          alert('Error when updating training:');
+          alert('Error when creating training:');
           console.log('Errors:', error.error.errors); // Afișează erorile de validare în consolă
-          throw error;
+          return throwError(error);
         })
       );
   }
