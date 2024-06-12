@@ -3,6 +3,6 @@ export interface TrainingInterface {
   description: string;
   online: number;
   deadline: string;
-  // department: string;
-  // employee: string;
+  forEmployees: number;
+  forDepartments: number;
 }

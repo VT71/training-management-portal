@@ -1,0 +1,27 @@
+<mat-form-field appearance="outline" class="example-chip-list">
+  <mat-label>{{ type }}</mat-label>
+  <mat-chip-grid #chipGrid [attr.aria-label]="type + ' input'">
+    @for (value of selectedValues; track value) {
+    <mat-chip-row (removed)="remove(value)">
+      {{ value }}
+      <button matChipRemove [attr.aria-label]="'remove ' + value">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+    }
+  </mat-chip-grid>
+  <input
+    [placeholder]="'New' + type + '...'"
+    #selectorInput
+    [formControl]="formCtrl"
+    [matChipInputFor]="chipGrid"
+    [matAutocomplete]="auto"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    (matChipInputTokenEnd)="add($event)"
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    @for (value of filteredValues | async; track value) {
+    <mat-option [value]="value">{{ value }}</mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>
