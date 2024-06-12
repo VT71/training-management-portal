@@ -34,8 +34,8 @@ export class EmployeeDepartmentAutoselectorComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   formCtrl = new FormControl('');
   filteredValues: Observable<string[]>;
-  selectedValues: string[] = ['Lemon'];
-  allValues: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  selectedValues: string[] = [];
+  allValues: string[] = [];
 
   @ViewChild('selectorInput') selectorInput!: ElementRef<HTMLInputElement>;
 

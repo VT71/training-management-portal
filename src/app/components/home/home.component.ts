@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Router,
   RouterOutlet,
@@ -21,7 +21,7 @@ import { RegisterComponent } from '../register/register.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   ActivatedRoute,
@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   public trainingsDropDownOpen = false;
   public trainingsDropDownActive = false;
   private subscriptions?: Subscription[];
