@@ -124,15 +124,16 @@
           <div class="icons-end">
             <span
               class="material-symbols-outlined edit training-edit-button"
-          
-              (click)="openDialog($event)"
-           
+            
+              (click)="openDialogEdit($event)"
+
             >
               edit
             </span>
             <span
               class="material-symbols-outlined delete training-edit-button"
-            
+              mat-button
+              (click)="openConfirmDialog($event)"
             >
               delete
             </span>

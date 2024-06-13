@@ -8,14 +8,14 @@
             routerLink="/dashboard"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
-            matTooltip="Home"
-            matTooltipPosition="right"
           >
             <div class="left">
               <mat-icon
                 class="menu-button-icon"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
+                matTooltip="Home"
+                matTooltipPosition="below"
                 >home</mat-icon
               >
               <span
@@ -32,8 +32,6 @@
             [class.open]="trainingsDropDownOpen"
             [class.active]="trainingsDropDownActive"
             class="menu-button dropdown"
-            matTooltip="Trainings"
-            matTooltipPosition="right"
           >
             <div
               class="main-option"
@@ -43,7 +41,11 @@
               }"
               (click)="manuallyUpdateTrainingsDropDownOpen()"
             >
-              <div class="left">
+              <div
+                class="left"
+                matTooltip="Trainings"
+                matTooltipPosition="below"
+              >
                 <mat-icon class="menu-button-icon" routerLinkActive="active">
                   assignment
                 </mat-icon>
@@ -166,14 +168,14 @@
             routerLink="/dashboard/employees"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
-            matTooltip="Employees"
-            matTooltipPosition="right"
           >
             <div class="left">
               <mat-icon
                 class="menu-button-icon"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
+                matTooltip="Employees"
+                matTooltipPosition="below"
                 >badge</mat-icon
               >
               <span
@@ -199,7 +201,7 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 matTooltip="Departments"
-                matTooltipPosition="right"
+                matTooltipPosition="below"
               >
                 apartment
               </mat-icon>
@@ -219,14 +221,14 @@
             routerLink="/dashboard/notifications"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
-            matTooltip="Notifications"
-            matTooltipPosition="right"
           >
             <div class="left">
               <mat-icon
                 class="menu-button-icon"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
+                matTooltip="Notifications"
+                matTooltipPosition="below"
                 >notifications</mat-icon
               >
               <span
@@ -245,14 +247,14 @@
             routerLink="/dashboard/reports"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
-            matTooltip="Reports"
-            matTooltipPosition="right"
           >
             <div class="left">
               <mat-icon
                 class="menu-button-icon"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
+                matTooltip="Reports"
+                matTooltipPosition="below"
                 >reports</mat-icon
               >
               <span
@@ -306,7 +308,6 @@
               class="icon-aligned"
               [ngClass]="{ centered: menuCollapsed, right: !menuCollapsed }"
               (click)="toggleMenu()"
-
             >
               <mat-icon>{{
                 menuCollapsed

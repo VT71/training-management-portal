@@ -20,6 +20,7 @@ import { DialogContentExampleDialog } from './dialog-component/dialog-component.
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfirmDialogComponent } from './confirm-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -34,6 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
     RouterLink,
     RouterLinkActive,
     MatButtonModule, MatMenuModule,
+
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
@@ -48,6 +50,7 @@ export class CalendarComponent {
   public activeDay: WritableSignal<DateTime | null> = signal(null);
   public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
   public isHoveringOnChild: boolean = false;
+
 
   public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
@@ -77,7 +80,7 @@ export class CalendarComponent {
     return this.meetings()[activeDayISO] ?? [];
   });
 
-  constructor(private router: Router, public dialog: MatDialog) {}
+  constructor(private router: Router, public dialog: MatDialog,) {}
 
   public goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
@@ -110,10 +113,26 @@ export class CalendarComponent {
   }
 
   openDialog(event: Event): void {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {data: {type:'add'}});
     event.stopPropagation();
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  openDialogEdit(event: Event): void {
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {data: {type:'edit'}});
+    event.stopPropagation();
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  public openConfirmDialog(event: Event): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+  event.stopPropagation();
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Logică pentru ștergere
+    }
+  });
+  }
 
 }

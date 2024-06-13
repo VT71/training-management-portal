@@ -1,4 +1,5 @@
-import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { HostListener, OnDestroy, OnInit, } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   ActivatedRoute,
@@ -27,6 +28,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscriptions?: Subscription[];
   private authService: AuthService = inject(AuthService);
   public menuCollapsed = false;
+  // public departmentsTooltip = 'Departments';
+  // public notificationsTooltip = 'Notifications';
+  // public reportsTooltip = 'Reports';
+  
 
   public manuallyUpdateTrainingsDropDownOpen(): void {
     this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
@@ -36,7 +41,22 @@ export class MenuComponent implements OnInit, OnDestroy {
   public toggleMenu() {
     this.menuCollapsed = !this.menuCollapsed;
     this.trainingsDropDownOpen = false;
+
+      // this.updateTooltipVisibility();
+    
   }
+
+  // public updateTooltipVisibility() {
+  //   if (this.menuCollapsed) {
+  //     this.departmentsTooltip = 'Departments';
+  //     this.notificationsTooltip = 'Notifications';
+  //     this.reportsTooltip = 'Reports';
+  //   } else {
+  //     this.departmentsTooltip = '';
+  //     this.notificationsTooltip = '';
+  //     this.reportsTooltip = '';
+  //   }
+  // }
 
   private updateTrainingsDropDown(url: string): void {
     if (url.includes('trainings')) {
@@ -65,6 +85,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router) {}
+  
+  // ngAfterViewInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
 
   ngOnInit(): void {
     this.updateTrainingsDropDown(this.router.url);

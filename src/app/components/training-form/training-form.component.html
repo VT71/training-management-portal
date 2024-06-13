@@ -1,5 +1,5 @@
 <div class="root-container">
-  <h2>Add training</h2>
+  <h2>{{type === "add" ? 'Add Training' : 'Edit Training'}}</h2>
   <div class="form-left" *ngIf="trainingForm">
     <form
       class="training-form"
@@ -49,14 +49,14 @@
 
             <input
               class="time"
-              formControlName="time"
               placeholder="Select time"
+              formControlName="time"
               type="time"
             />
           </div>
           <!-- <app-chips-autocomplete></app-chips-autocomplete> -->
         </div>
-        <button class="main" type="submit" mat-flat-button>Submit</button>
+        <button class="main" type="submit" mat-flat-button (click)=" onSubmitTrainings()" >Submit</button>
       </section>
     </form>
   </div>
