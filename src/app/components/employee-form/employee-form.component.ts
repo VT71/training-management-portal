@@ -9,6 +9,8 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormDialogComponent } from '../employees/employee-form-dialog/employee-form-dialog.component';
+import { UsersApiService } from '../../services/users-api.service';
+import { EmployeesApiService } from '../../services/employees-api.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -27,6 +29,8 @@ import { EmployeeFormDialogComponent } from '../employees/employee-form-dialog/e
 export class EmployeeFormComponent implements OnDestroy {
   public fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private usersApiService = inject(UsersApiService);
+  private employeeApiService = inject(EmployeesApiService);
 
   public departmentsError = false;
   public departmentsErrorMsg = '';
@@ -59,11 +63,16 @@ export class EmployeeFormComponent implements OnDestroy {
     if (this.department >= 0) {
       if (this.form.valid) {
         const rawForm = this.form.getRawValue();
-        console.log({ department: this.department, ...rawForm });
-        const createUserSubscr = this.authService
-          .createNewUser(rawForm?.email)
+
+        const createUserSubscr = this.employeeApiService
+          .createEmployee(
+            rawForm?.fullName,
+            rawForm?.email,
+            rawForm?.trainer,
+            this.department
+          )
           .subscribe((res) => {
-            alert('User account created');
+            alert('Employee Created');
             this.closeDialog();
           });
 
@@ -75,7 +84,7 @@ export class EmployeeFormComponent implements OnDestroy {
   }
 
   public onDepartmentsChange(departmentsList: number[]) {
-    if (departmentsList?.length > 1) {
+    if (departmentsList?.length > 1 || departmentsList?.length === 0) {
       this.setDepartmentsError();
       this.department = -1;
     } else if (departmentsList?.length === 1) {

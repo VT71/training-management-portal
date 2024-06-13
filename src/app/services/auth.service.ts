@@ -128,7 +128,7 @@ export class AuthService {
     return password;
   }
 
-  createNewUser(email: string): Observable<void> {
+  createNewUser(email: string): Observable<void | User | null> {
     const tempPassword = this.generatePassword(12);
 
     const promise = createUserWithEmailAndPassword(
@@ -139,8 +139,11 @@ export class AuthService {
       .then((response) => {
         if (response?.user?.email) {
           sendPasswordResetEmail(this.firebaseAuth, response.user.email);
-          sendEmailVerification(response.user);
         }
+        const newUser = this.firebaseAuth?.currentUser;
+        return this.firebaseAuth.signOut().then(() => {
+          return newUser;
+        });
       })
       .catch((err) => alert('An error occured when creating a user account'));
     return from(promise);
