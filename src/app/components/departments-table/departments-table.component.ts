@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, inject } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, inject, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DepartmentsApiService } from '../../services/departments-api.service';
@@ -13,7 +13,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
   templateUrl: './departments-table.component.html',
   styleUrl: './departments-table.component.css',
 })
-export class DepartmentsTableComponent implements AfterViewInit {
+export class DepartmentsTableComponent implements AfterViewInit, OnInit, OnDestroy {
   private departmentsData: Department[] = [];
   private subscriptions: Subscription[] = [];
 

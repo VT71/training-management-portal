@@ -8,7 +8,6 @@ import {
   signOut,
   verifyBeforeUpdateEmail,
   updatePassword,
-  reauthenticateWithCredential,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
@@ -116,6 +115,35 @@ export class AuthService {
       return from(promise);
     }
     return of();
+  }
+
+  generatePassword(length: number): string {
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%?';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      password += chars[randomIndex];
+    }
+    return password;
+  }
+
+  createNewUser(email: string): Observable<void> {
+    const tempPassword = this.generatePassword(12);
+
+    const promise = createUserWithEmailAndPassword(
+      this.firebaseAuth,
+      email,
+      tempPassword
+    )
+      .then((response) => {
+        if (response?.user?.email) {
+          sendPasswordResetEmail(this.firebaseAuth, response.user.email);
+          sendEmailVerification(response.user);
+        }
+      })
+      .catch((err) => alert('An error occured when creating a user account'));
+    return from(promise);
   }
 
   isAuthenticated(): boolean {
