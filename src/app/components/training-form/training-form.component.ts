@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,6 +41,12 @@ import { TrainingInterface } from '../../interfaces/training.interface';
   providers: [provideNativeDateAdapter()],
 })
 export class TrainingFormComponent implements OnDestroy {
+  @Input() type!: string;
+
+  ngOnInit() {
+    console.log(this.type);
+  }
+
   trainingForm: FormGroup = new FormGroup({});
 
   constructor(
@@ -50,8 +56,8 @@ export class TrainingFormComponent implements OnDestroy {
     this.trainingForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', Validators.required],
-      online: [true, Validators.required],
-      deadline: ['', Validators.required],
+      online: [1, Validators.required],
+      deadline: ['formattedDeadline', Validators.required],
       time: ['', Validators.required],
     });
   }
@@ -64,35 +70,54 @@ export class TrainingFormComponent implements OnDestroy {
     // Subscribe to form changes
     if (this.trainingForm.valid) {
       console.log('valid');
+      const rawForm = this.trainingForm.getRawValue();
+      console.log(rawForm);
+
+      const formattedDeadline = this.formatDateForAzure(rawForm.deadline, rawForm.time);
+
+      const { title, description, online, } = this.trainingForm.value;
+
+      const trainingData = {
+        title,
+        description,
+        online,
+        deadline: formattedDeadline,
+        forEmployees: 1,
+        forDepartments: 1,
+      };
+
+      this.trainingApiService
+        .createTraining(trainingData as TrainingInterface)
+        .subscribe({
+          next: () => {
+            console.log('Training created successfully');
+           
+          },
+          error: (error) => {
+            console.error('Error creating training:', error);
+           
+          },
+        });
     } else {
       console.log('invalid');
     }
-    const { title, description, online, deadline } = this.trainingForm.value;
+  } 
 
-    const trainingData = {
-      title,
-      description,
-      online: 1,
-      deadline: 'jjh',
-    };
+  public formatDateForAzure(dateString: string, timeString: string): string {
+    
+    let date = new Date(dateString);
 
-    this.trainingApiService
-      .createTraining(trainingData as TrainingInterface)
-      .subscribe({
-        next: () => {
-          console.log('Training created successfully');
-          // Poți face un redirect către o altă pagină sau să faci alte acțiuni după ce training-ul a fost actualizat
-        },
-        error: (error) => {
-          console.error('Error creating training:', error);
-          // Poți trata eroarea în funcție de necesități
-        },
-      });
-  }
+    let year = date.getFullYear();
+    let month = String(date.getMonth() + 1).padStart(2, '0'); 
+    let day = String(date.getDate()).padStart(2, '0');
+    
+    let [hours, minutes] = timeString.split(':');
+    let seconds = '00'; // Poți adăuga secunde dacă este necesar
+    let milliseconds = '000'
+    // Combinăm componentele într-un singur string
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+}
 
-  resetForm() {
-    this.trainingForm.reset();
-  }
   
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

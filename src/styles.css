@@ -288,6 +288,10 @@ h2.dialog-title {
     max-width: 400px !important;
 }
 
+app-confirm-dialog{
+  width: 1000px;
+}
+
 
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {

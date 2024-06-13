@@ -7,7 +7,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink , RouterLinkActive } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { DialogComponentComponent, DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
+import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatIconModule, MatMenuModule,MatTooltipModule, MatMenuTrigger, NgIf, MatBadgeModule, RouterLink, RouterLinkActive, CommonModule, ReactiveFormsModule, DialogComponentComponent],
+  imports: [MatIconModule, MatMenuModule,MatTooltipModule, MatMenuTrigger, NgIf, MatBadgeModule, RouterLink, RouterLinkActive, CommonModule, ReactiveFormsModule,],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -43,7 +43,7 @@ export class NavbarComponent {
   }
 
   openDialog(){
-    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {data: {type:'add'}} );
 
     dialogRef.afterClosed().subscribe(result => {
     });

@@ -19,7 +19,7 @@ export class TrainingsService {
       .pipe(
         catchError((error) => {
           alert('Error when creating training:');
-          console.log('Errors:', error.error.errors); // Afișează erorile de validare în consolă
+          console.log('Errors:', error.error.errors);
           return throwError(error);
         })
       );
