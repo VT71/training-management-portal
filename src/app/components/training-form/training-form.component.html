@@ -1,12 +1,7 @@
 <div class="root-container">
-  <h2>{{type === "add" ? 'Add Training' : 'Edit Training'}}</h2>
+  <h2>{{ type === "add" ? "Add Training" : "Edit Training" }}</h2>
   <div class="form-left" *ngIf="trainingForm">
-    <form
-      class="training-form"
-      *ngIf="trainingForm"
-      [formGroup]="trainingForm"
-    >
-    
+    <form class="training-form" *ngIf="trainingForm" [formGroup]="trainingForm">
       <section clas="training-form-left">
         <div class="input-container">
           <mat-form-field appearance="outline">
@@ -47,16 +42,46 @@
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
-            <input
-              class="time"
-              placeholder="Select time"
-              formControlName="time"
-              type="time"
-            />
+            <div class="toggle-custom-icon-example">
+              <input
+                [format]="24"
+                [ngxTimepicker]="toggleIcon"
+                [disableClick]="true"
+                readonly
+                class="time-picker"
+                formControlName="time"
+              />
+              <ngx-material-timepicker-toggle [for]="toggleIcon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 30 30"
+                  width="30px"
+                  height="30px"
+                  ngxMaterialTimepickerToggleIcon
+                  color="var"
+                  matTooltip="Click to choose time"
+                  matTooltipPosition="below"
+                >
+                  <path
+                    d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                  />
+                </svg>
+              </ngx-material-timepicker-toggle>
+              <ngx-material-timepicker #toggleIcon></ngx-material-timepicker>
+            </div>
+
+            <!-- <input type="time" formControlName="time"> -->
           </div>
           <!-- <app-chips-autocomplete></app-chips-autocomplete> -->
         </div>
-        <button class="main" type="submit" mat-flat-button (click)=" onSubmitTrainings()" >Submit</button>
+        <button
+          class="main"
+          type="submit"
+          mat-flat-button
+          (click)="onSubmitTrainings()"
+        >
+          Submit
+        </button>
       </section>
     </form>
   </div>

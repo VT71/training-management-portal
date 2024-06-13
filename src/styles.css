@@ -309,9 +309,38 @@ h2.dialog-title {
   max-width: 400px !important;
 }
 
-mat-form-field {
+.mat-form-field {
   margin-top: 0 !important;
 }
+
+
+.cdk-overlay-container{
+  z-index: 99;
+}
+
+.timepicker__header {
+  background-color: var(--secondary) !important;
+}
+
+.clock-face__clock-hand {
+  background-color: var(--main) !important
+  
+}
+
+.clock-face__number > span.active{
+  background-color: var(--main) !important
+}
+
+.clock-face__number .clock-face__number--outer ng-star-inserted{
+  background-color: var(--secondary) !important;
+}
+
+
+.timepicker-button {
+  color: var(--secondary) !important
+}
+
+
 
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {

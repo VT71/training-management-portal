@@ -11,6 +11,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
 import { TrainingsService } from '../../services/trainings.service';
 
+
 import {
   FormBuilder,
   FormControl,
@@ -20,11 +21,15 @@ import {
 } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { TrainingInterface } from '../../interfaces/training.interface';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-training-form',
   standalone: true,
   imports: [
+    NgxMaterialTimepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
@@ -35,6 +40,8 @@ import { TrainingInterface } from '../../interfaces/training.interface';
     MatButtonToggleModule,
     CommonModule,
     ReactiveFormsModule,
+    MatTooltipModule
+    
   ],
   templateUrl: './training-form.component.html',
   styleUrl: './training-form.component.css',
@@ -75,12 +82,12 @@ export class TrainingFormComponent implements OnDestroy {
 
       const formattedDeadline = this.formatDateForAzure(rawForm.deadline, rawForm.time);
 
-      const { title, description, online, } = this.trainingForm.value;
+      const { title, description, } = this.trainingForm.value;
 
       const trainingData = {
         title,
         description,
-        online,
+        online: 1,
         deadline: formattedDeadline,
         forEmployees: 1,
         forDepartments: 1,

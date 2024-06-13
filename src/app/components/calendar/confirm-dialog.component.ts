@@ -18,15 +18,16 @@ import { MatDialogRef } from '@angular/material/dialog';
    
 
     <style>
-
       p, h1 {
         text-align: center;
         padding: 20px;
+        color: var(--secondary);
+        font-weight: bold;
       }
       
       .mat-dialog-actions{
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
         padding: 10px;
       } 
 
@@ -38,6 +39,12 @@ import { MatDialogRef } from '@angular/material/dialog';
         border: none;
         width: 100px;
         height: 20px;
+        margin: 10px;
+        
+      }
+
+      .main {
+        margin: 10px;
       }
       
     </style>
