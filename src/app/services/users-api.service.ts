@@ -29,4 +29,13 @@ export class UsersApiService {
       })
     );
   }
+
+  public createUser(user: User) {
+    return this.http.post<User>(`${this.baseUrl}/CreateUser`, user).pipe(
+      catchError((error) => {
+        alert('Error when updating user');
+        return [];
+      })
+    );
+  }
 }
