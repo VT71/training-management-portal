@@ -2,3 +2,9 @@
   width: 100% !important;
   margin-top: 10px;
 }
+
+.error-message {
+  color: var(--mat-error);
+  font-size: 0.7rem;
+  margin-left: 1rem;
+}

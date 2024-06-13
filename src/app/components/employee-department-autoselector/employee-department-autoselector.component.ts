@@ -51,6 +51,22 @@ import { MatInputModule } from '@angular/material/input';
 export class EmployeeDepartmentAutoselectorComponent implements OnInit {
   @Input() type!: 'Departments' | 'Employees';
   @Output() valuesEmitter = new EventEmitter<number[]>();
+  @Input()
+  get errorMessage(): string {
+    return this._errorMessage;
+  }
+  set errorMessage(value: string) {
+    this._errorMessage = value;
+  }
+  public _errorMessage = '';
+  @Input()
+  get error(): boolean {
+    return this._error;
+  }
+  set error(value: boolean) {
+    this._error = value;
+  }
+  public _error = false;
 
   private departmentsApiService = inject(DepartmentsApiService);
   private subscriptions: Subscription[] = [];
@@ -102,20 +118,6 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
     }
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our value
-    if (value) {
-      this.selectedValues.push(value);
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-    this.formCtrl.setValue(null);
-  }
-
   remove(value: string): void {
     const index = this.selectedValues.indexOf(value);
 
@@ -148,16 +150,20 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
 
   private emitSelectedValues() {
     let tempArray: number[] = [];
-    if (this.apiDepartments?.length > 0) {
-      for (const value of this.selectedValues) {
-        const apiDepartment = this.apiDepartments.find(
-          (department) => department.departmentName === value
-        );
-        if (apiDepartment) {
-          tempArray.push(apiDepartment.departmentId);
+
+    if (this.type === 'Departments') {
+      if (this.apiDepartments?.length > 0) {
+        for (const value of this.selectedValues) {
+          const apiDepartment = this.apiDepartments.find(
+            (department) => department.departmentName === value
+          );
+          if (apiDepartment) {
+            tempArray.push(apiDepartment.departmentId);
+          }
         }
       }
     }
+
     this.valuesEmitter.emit(tempArray);
   }
 }

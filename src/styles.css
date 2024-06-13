@@ -24,6 +24,7 @@
   --tertiary-80: rgba(255, 255, 255, 0.8);
   --tertiary-60: rgba(255, 255, 255, 0.6);
   --main-font: "Roboto", sans-serif;
+  --mat-error: #f44336;
 }
 
 * {
@@ -271,12 +272,17 @@ mat-form-field.error
 mat-form-field.error
   > .mdc-text-field--outlined:not(.mdc-text-field--disabled)
   .mdc-notched-outline__trailing {
-  border-color: #ba1a1a !important; /* Your desired color */
-  border-width: 2px;
+  border-color: var(--mat-error) !important; /* Your desired color */
+  border-width: 1px;
 }
 
 mat-label.error {
-  color: #ba1a1a !important;
+  color: var(--mat-error) !important;
+}
+
+mat-form-field.error
+  > .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  display: none !important;
 }
 /* ::placeholder {
   text-align: center;
@@ -301,6 +307,10 @@ h2.dialog-title {
 .mat-mdc-dialog-panel {
   width: 100% !important;
   max-width: 400px !important;
+}
+
+mat-form-field {
+  margin-top: 0 !important;
 }
 
 /* // mat-icon-stepper selected color change 

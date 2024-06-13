@@ -1,22 +1,24 @@
 <div class="root-container">
   <h2 class="dialog-title">Add Employee</h2>
-  <form class="training-form">
+  <form class="training-form" [formGroup]="form" (submit)="onSubmit()">
     <section clas="training-form-left">
       <div class="input-container">
         <mat-form-field appearance="outline">
           <mat-label>Full Name</mat-label>
-          <input matInput required />
-          <mat-error>aaa</mat-error>
+          <input matInput required formControlName="fullName" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>E-mail Address</mat-label>
-          <input matInput type="email" required="" />
+          <input matInput type="email" required formControlName="email" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Trainer</mat-label>
-          <mat-select formControlName="online" required>
+          <mat-select
+            formControlName="trainer"
+            required
+          >
             <mat-option value="1">Yes</mat-option>
             <mat-option value="0">No</mat-option>
           </mat-select>
@@ -24,10 +26,12 @@
 
         <app-employee-department-autoselector
           [type]="'Departments'"
+          [error]="departmentsError"
+          [errorMessage]="departmentsErrorMsg"
           (valuesEmitter)="onDepartmentsChange($event)"
         ></app-employee-department-autoselector>
       </div>
-      <button class="main" type="submit" mat-flat-button>Submit</button>
+      <button class="main" mat-flat-button type="submit">Submit</button>
     </section>
   </form>
 </div>
