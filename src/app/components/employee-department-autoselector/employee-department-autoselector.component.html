@@ -1,10 +1,10 @@
 <div class="root-container">
   <mat-form-field
     appearance="outline"
-    [ngClass]="{ error: _error }"
+    [ngClass]="{ error: _errorMessage }"
     class="example-chip-list"
   >
-    <mat-label [ngClass]="{ error: _error }">{{ type + "*" }}</mat-label>
+    <mat-label [ngClass]="{ error: _errorMessage }">{{ type + "*" }}</mat-label>
     <mat-chip-grid #chipGrid [attr.aria-label]="type + ' input'">
       @for (value of selectedValues; track value) {
       <mat-chip-row (removed)="remove(value)">

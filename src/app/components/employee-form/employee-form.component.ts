@@ -32,7 +32,6 @@ export class EmployeeFormComponent implements OnDestroy {
   private usersApiService = inject(UsersApiService);
   private employeeApiService = inject(EmployeesApiService);
 
-  public departmentsError = false;
   public departmentsErrorMsg = '';
   private department!: number;
   private subscriptions: Subscription[] = [];
@@ -50,12 +49,10 @@ export class EmployeeFormComponent implements OnDestroy {
   });
 
   private setDepartmentsError() {
-    this.departmentsError = true;
     this.departmentsErrorMsg = 'One department must be selected';
   }
 
   private removeDepartmentsError() {
-    this.departmentsError = false;
     this.departmentsErrorMsg = '';
   }
 
