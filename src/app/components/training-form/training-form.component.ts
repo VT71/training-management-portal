@@ -42,6 +42,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     EmployeeDepartmentAutoselectorComponent,
     MatTooltipModule,
+    MatTooltipModule,
   ],
   templateUrl: './training-form.component.html',
   styleUrl: './training-form.component.css',
