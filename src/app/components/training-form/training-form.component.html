@@ -72,16 +72,18 @@
 
             <!-- <input type="time" formControlName="time"> -->
           </div>
-          <app-employee-department-autoselector
+          @if (departmentsSelected) {<app-employee-department-autoselector
             [type]="'Departments'"
             [errorMessage]="departmentsErrorMsg"
             (valuesEmitter)="onDepartmentsChange($event)"
-          ></app-employee-department-autoselector>
+          ></app-employee-department-autoselector
+          >} @if (employeesSelected) {
           <app-employee-department-autoselector
             [type]="'Employees'"
             [errorMessage]="employeesErrorMsg"
             (valuesEmitter)="onEmployeesChange($event)"
           ></app-employee-department-autoselector>
+          }
         </div>
         <button
           class="main"
