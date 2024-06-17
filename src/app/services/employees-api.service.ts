@@ -29,6 +29,15 @@ export class EmployeesApiService {
       );
   }
 
+  public getEmployees() {
+    return this.http.get<Employee[]>(`${this.baseUrl}/GetEmployees`).pipe(
+      catchError((error) => {
+        alert('Error when getting employees');
+        return [];
+      })
+    );
+  }
+
   public createEmployee(
     fullName: string,
     email: string,

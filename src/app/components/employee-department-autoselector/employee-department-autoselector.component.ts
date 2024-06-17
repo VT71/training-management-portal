@@ -20,7 +20,7 @@ import {
   MatAutocompleteModule,
 } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -29,6 +29,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DepartmentsApiService } from '../../services/departments-api.service';
 import { Department } from '../../interfaces/department';
 import { MatInputModule } from '@angular/material/input';
+import { EmployeesApiService } from '../../services/employees-api.service';
+import { Employee } from '../../interfaces/employee';
+import { EmployeeComplete } from '../../interfaces/employee-complete';
 
 @Component({
   selector: 'app-employee-department-autoselector',
@@ -59,16 +62,9 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
     this._errorMessage = value;
   }
   public _errorMessage = '';
-  @Input()
-  get error(): boolean {
-    return this._error;
-  }
-  set error(value: boolean) {
-    this._error = value;
-  }
-  public _error = false;
 
   private departmentsApiService = inject(DepartmentsApiService);
+  private employeesApiService = inject(EmployeesApiService);
   private subscriptions: Subscription[] = [];
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -78,13 +74,13 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
   allValues: string[] = [];
 
   private apiDepartments: Department[] = [];
-  private apiEmployees: Department[] = [];
+  private apiEmployees: EmployeeComplete[] = [];
 
   @ViewChild('selectorInput') selectorInput!: ElementRef<HTMLInputElement>;
 
   announcer = inject(LiveAnnouncer);
 
-  constructor() {
+  public setFormControlValueChange() {
     this.filteredValues = this.formCtrl.valueChanges.pipe(
       startWith(null),
       map((value: string | null) =>
@@ -93,9 +89,14 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
     );
   }
 
+  constructor() {
+    this.filteredValues = of([]);
+    this.setFormControlValueChange();
+  }
+
   ngOnInit(): void {
     if (this.type === 'Departments') {
-      const getDepartmentsSubscriptions = this.departmentsApiService
+      const getDepartmentsSubscription = this.departmentsApiService
         .getDepartments()
         .subscribe((res: Department[]) => {
           this.apiDepartments = res;
@@ -107,14 +108,24 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
           }
           this.allValues = tempArray;
 
-          this.filteredValues = this.formCtrl.valueChanges.pipe(
-            startWith(null),
-            map((value: string | null) =>
-              value ? this._filter(value) : this.allValues.slice()
-            )
-          );
+          this.setFormControlValueChange();
         });
-      this.subscriptions.push(getDepartmentsSubscriptions);
+      this.subscriptions.push(getDepartmentsSubscription);
+    } else if (this.type === 'Employees') {
+      const getEmployeesSubscription = this.employeesApiService
+        .getEmployeesComplete()
+        .subscribe((res: EmployeeComplete[]) => {
+          this.apiEmployees = res;
+          let tempArray = [];
+          for (const employee of this.apiEmployees) {
+            if (employee?.fullName) {
+              tempArray.push(employee?.fullName);
+            }
+          }
+          this.allValues = tempArray;
+
+          this.setFormControlValueChange();
+        });
     }
   }
 
@@ -159,6 +170,17 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
           );
           if (apiDepartment) {
             tempArray.push(apiDepartment.departmentId);
+          }
+        }
+      }
+    } else if (this.type === 'Employees') {
+      if (this.apiEmployees?.length > 0) {
+        for (const value of this.selectedValues) {
+          const apiEmployee = this.apiEmployees.find(
+            (employee) => employee.fullName === value
+          );
+          if (apiEmployee) {
+            tempArray.push(apiEmployee.employeeId);
           }
         }
       }
