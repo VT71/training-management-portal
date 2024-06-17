@@ -1,5 +1,7 @@
 <div class="root-container">
-  <h2 class="dialog-title">Add Employee</h2>
+  <h2 class="dialog-title">
+    @if (type == "edit") {Edit Employee} @else {Add Employee}
+  </h2>
   <form class="training-form" [formGroup]="form" (submit)="onSubmit()">
     <section clas="training-form-left">
       <div class="input-container">
@@ -15,10 +17,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Trainer</mat-label>
-          <mat-select
-            formControlName="trainer"
-            required
-          >
+          <mat-select formControlName="trainer" required>
             <mat-option value="1">Yes</mat-option>
             <mat-option value="0">No</mat-option>
           </mat-select>

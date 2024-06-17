@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormDialogComponent } from '../employees/employee-form-dialog/employee-form-dialog.component';
 import { UsersApiService } from '../../services/users-api.service';
 import { EmployeesApiService } from '../../services/employees-api.service';
+import { ModelSignal } from '@angular/core';
 
 @Component({
   selector: 'app-employee-form',
@@ -32,6 +33,7 @@ export class EmployeeFormComponent implements OnDestroy {
   private usersApiService = inject(UsersApiService);
   private employeeApiService = inject(EmployeesApiService);
 
+  @Input() type!: string;
   public departmentsErrorMsg = '';
   private department!: number;
   private subscriptions: Subscription[] = [];
@@ -69,8 +71,8 @@ export class EmployeeFormComponent implements OnDestroy {
             this.department
           )
           .subscribe((res) => {
-            alert('Employee Created');
             this.closeDialog();
+            window.location.reload();
           });
 
         this.subscriptions.push(createUserSubscr);
