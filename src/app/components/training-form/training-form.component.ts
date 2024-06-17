@@ -24,6 +24,12 @@ import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-training-form',
@@ -62,12 +68,16 @@ export class TrainingFormComponent implements OnDestroy {
   ngOnInit() {
     console.log(this.type);
   }
-
   trainingForm: FormGroup = new FormGroup({});
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     private fb: FormBuilder,
-    private trainingApiService: TrainingsService
+    private trainingApiService: TrainingsService,
+    private _snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<TrainingFormComponent>
   ) {
     this.trainingForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
@@ -78,6 +88,13 @@ export class TrainingFormComponent implements OnDestroy {
     });
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
   private subscriptions: Subscription[] = [];
   public trainingId!: number;
   public training$!: Observable<TrainingInterface>;
@@ -102,6 +119,21 @@ export class TrainingFormComponent implements OnDestroy {
 
         const { title, description, online } = this.trainingForm.value;
 
+      this.trainingApiService
+        .createTraining(trainingData as TrainingInterface)
+        .subscribe({
+          next: () => {
+            console.log('Training created successfully');
+            this.openSnackBar('Training created successfully', 'Close');
+            this.dialogRef.close(); // Închide dialogul
+          },
+          error: (error) => {
+            console.error('Error creating training:', error);
+            this.openSnackBar('Error creating training', 'Close');
+          },
+        });
+    } else {
+      console.log('invalid');
         const trainingData = {
           title,
           description,
