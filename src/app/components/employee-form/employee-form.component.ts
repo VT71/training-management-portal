@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { EmployeeFormDialogComponent } from '../employees/employee-form-dialog/e
 import { UsersApiService } from '../../services/users-api.service';
 import { EmployeesApiService } from '../../services/employees-api.service';
 import { ModelSignal } from '@angular/core';
+import { EmployeeComplete } from '../../interfaces/employee-complete';
 
 @Component({
   selector: 'app-employee-form',
@@ -27,13 +28,15 @@ import { ModelSignal } from '@angular/core';
   templateUrl: './employee-form.component.html',
   styleUrl: './employee-form.component.css',
 })
-export class EmployeeFormComponent implements OnDestroy {
+export class EmployeeFormComponent implements OnDestroy, OnInit {
   public fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private usersApiService = inject(UsersApiService);
   private employeeApiService = inject(EmployeesApiService);
 
   @Input() type!: string;
+  @Input() employee!: EmployeeComplete;
+  public employeeDepartment!: number;
   public departmentsErrorMsg = '';
   private department!: number;
   private subscriptions: Subscription[] = [];
@@ -49,6 +52,17 @@ export class EmployeeFormComponent implements OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     trainer: [-1, [Validators.required, Validators.min(0), Validators.max(1)]],
   });
+
+  ngOnInit() {
+    if (this.type === 'edit' && this.employee) {
+      this.form.setValue({
+        fullName: this.employee.fullName,
+        email: this.employee.email,
+        trainer: this.employee.trainer,
+      });
+      this.employeeDepartment = this.employee.departmentId;
+    }
+  }
 
   private setDepartmentsError() {
     this.departmentsErrorMsg = 'One department must be selected';

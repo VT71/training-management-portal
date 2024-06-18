@@ -18,16 +18,26 @@
         <mat-form-field appearance="outline">
           <mat-label>Trainer</mat-label>
           <mat-select formControlName="trainer" required>
-            <mat-option value="1">Yes</mat-option>
-            <mat-option value="0">No</mat-option>
+            <mat-option [value]="1">Yes</mat-option>
+            <mat-option [value]="0">No</mat-option>
           </mat-select>
         </mat-form-field>
 
+        @if (type === "edit" && employeeDepartment) {
+        <app-employee-department-autoselector
+          [type]="'Departments'"
+          [operationType]="'edit'"
+          [apiSelectedValues]="[employeeDepartment]"
+          [errorMessage]="departmentsErrorMsg"
+          (valuesEmitter)="onDepartmentsChange($event)"
+        ></app-employee-department-autoselector>
+        } @if (type !== 'edit') {
         <app-employee-department-autoselector
           [type]="'Departments'"
           [errorMessage]="departmentsErrorMsg"
           (valuesEmitter)="onDepartmentsChange($event)"
         ></app-employee-department-autoselector>
+        }
       </div>
       <button class="main" mat-flat-button type="submit">Submit</button>
     </section>

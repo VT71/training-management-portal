@@ -100,63 +100,58 @@ export class TrainingFormComponent implements OnDestroy {
   public training$!: Observable<TrainingInterface>;
 
   onSubmitTrainings() {
-    if (this.checkAutocompletes()) {
-      if (this.departmentsSelected) {
-        if (this.departments?.length === 0) {
-          this.setDepartmentsError();
-        }
-      }
-
-      if (this.trainingForm.valid) {
-        console.log('valid');
-        const rawForm = this.trainingForm.getRawValue();
-        console.log(rawForm);
-
-        const formattedDeadline = this.formatDateForAzure(
-          rawForm.deadline,
-          rawForm.time
-        );
-
-        const { title, description, online } = this.trainingForm.value;
-
-      this.trainingApiService
-        .createTraining(trainingData as TrainingInterface)
-        .subscribe({
-          next: () => {
-            console.log('Training created successfully');
-            this.openSnackBar('Training created successfully', 'Close');
-            this.dialogRef.close(); // Închide dialogul
-          },
-          error: (error) => {
-            console.error('Error creating training:', error);
-            this.openSnackBar('Error creating training', 'Close');
-          },
-        });
-    } else {
-      console.log('invalid');
-        const trainingData = {
-          title,
-          description,
-          online: 1,
-          deadline: formattedDeadline,
-          forEmployees: 1,
-          forDepartments: 1,
-        };
-
-        this.trainingApiService
-          .createTraining(trainingData as TrainingInterface)
-          .subscribe({
-            next: () => {
-              console.log('Training created successfully');
-            },
-            error: (error) => {
-              console.error('Error creating training:', error);
-            },
-          });
-      } else {
-        console.log('invalid');
-      }
-    }
+    // if (this.checkAutocompletes()) {
+    //   if (this.departmentsSelected) {
+    //     if (this.departments?.length === 0) {
+    //       this.setDepartmentsError();
+    //     }
+    //   }
+    //   if (this.trainingForm.valid) {
+    //     console.log('valid');
+    //     const rawForm = this.trainingForm.getRawValue();
+    //     console.log(rawForm);
+    //     const formattedDeadline = this.formatDateForAzure(
+    //       rawForm.deadline,
+    //       rawForm.time
+    //     );
+    //     const { title, description, online } = this.trainingForm.value;
+    //   this.trainingApiService
+    //     .createTraining(trainingData as TrainingInterface)
+    //     .subscribe({
+    //       next: () => {
+    //         console.log('Training created successfully');
+    //         this.openSnackBar('Training created successfully', 'Close');
+    //         this.dialogRef.close(); // Închide dialogul
+    //       },
+    //       error: (error) => {
+    //         console.error('Error creating training:', error);
+    //         this.openSnackBar('Error creating training', 'Close');
+    //       },
+    //     });
+    // } else {
+    //   console.log('invalid');
+    //     const trainingData = {
+    //       title,
+    //       description,
+    //       online: 1,
+    //       deadline: formattedDeadline,
+    //       forEmployees: 1,
+    //       forDepartments: 1,
+    //     };
+    //     this.trainingApiService
+    //       .createTraining(trainingData as TrainingInterface)
+    //       .subscribe({
+    //         next: () => {
+    //           console.log('Training created successfully');
+    //         },
+    //         error: (error) => {
+    //           console.error('Error creating training:', error);
+    //         },
+    //       });
+    //   } else {
+    //     console.log('invalid');
+    //   }
+    // }
   }
 
   public formatDateForAzure(dateString: string, timeString: string): string {

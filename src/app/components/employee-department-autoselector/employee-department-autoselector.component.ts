@@ -53,7 +53,9 @@ import { EmployeeComplete } from '../../interfaces/employee-complete';
 })
 export class EmployeeDepartmentAutoselectorComponent implements OnInit {
   @Input() type!: 'Departments' | 'Employees';
+  @Input() operationType!: string;
   @Output() valuesEmitter = new EventEmitter<number[]>();
+  @Input() apiSelectedValues!: number[];
   @Input()
   get errorMessage(): string {
     return this._errorMessage;
@@ -96,37 +98,81 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.type === 'Departments') {
-      const getDepartmentsSubscription = this.departmentsApiService
-        .getDepartments()
-        .subscribe((res: Department[]) => {
-          this.apiDepartments = res;
-          let tempArray = [];
-          for (const department of this.apiDepartments) {
-            if (department?.departmentName) {
-              tempArray.push(department?.departmentName);
-            }
-          }
-          this.allValues = tempArray;
-
-          this.setFormControlValueChange();
-        });
-      this.subscriptions.push(getDepartmentsSubscription);
+      if (this.operationType === 'edit' && this.apiSelectedValues) {
+        this.getApiDepartments(this.apiSelectedValues);
+      } else {
+        this.getApiDepartments();
+      }
     } else if (this.type === 'Employees') {
-      const getEmployeesSubscription = this.employeesApiService
-        .getEmployeesComplete()
-        .subscribe((res: EmployeeComplete[]) => {
-          this.apiEmployees = res;
+      if (this.operationType === 'edit' && this.apiSelectedValues) {
+        this.getApiEmployees(this.apiSelectedValues);
+      } else {
+        this.getApiEmployees();
+      }
+    }
+  }
+
+  private getApiDepartments(apiValues?: number[]) {
+    const getDepartmentsSubscription = this.departmentsApiService
+      .getDepartments()
+      .subscribe((res: Department[]) => {
+        this.apiDepartments = res;
+        let tempArray = [];
+        for (const department of this.apiDepartments) {
+          if (department?.departmentName) {
+            tempArray.push(department?.departmentName);
+          }
+        }
+        this.allValues = tempArray;
+
+        if (apiValues) {
           let tempArray = [];
-          for (const employee of this.apiEmployees) {
-            if (employee?.fullName) {
-              tempArray.push(employee?.fullName);
+          for (const apiValue of apiValues) {
+            const valueToFind = this.apiDepartments.find(
+              (apiDepartment) => apiDepartment?.departmentId === apiValue
+            );
+            if (valueToFind) {
+              tempArray.push(valueToFind?.departmentName);
             }
           }
-          this.allValues = tempArray;
+          this.selectedValues = tempArray;
+          console.log('SELECTED VALUES: ' + this.selectedValues);
+        }
 
-          this.setFormControlValueChange();
-        });
-    }
+        this.setFormControlValueChange();
+      });
+    this.subscriptions.push(getDepartmentsSubscription);
+  }
+
+  private getApiEmployees(apiValues?: number[]) {
+    const getEmployeesSubscription = this.employeesApiService
+      .getEmployeesComplete()
+      .subscribe((res: EmployeeComplete[]) => {
+        this.apiEmployees = res;
+        let tempArray = [];
+        for (const employee of this.apiEmployees) {
+          if (employee?.fullName) {
+            tempArray.push(employee?.fullName);
+          }
+        }
+        this.allValues = tempArray;
+
+        if (apiValues) {
+          let tempArray = [];
+          for (const apiValue of apiValues) {
+            const valueToFind = this.apiEmployees.find(
+              (apiEmployee) => apiEmployee?.employeeId === apiValue
+            );
+            if (valueToFind) {
+              tempArray.push(valueToFind?.fullName);
+            }
+          }
+          this.selectedValues = tempArray;
+        }
+
+        this.setFormControlValueChange();
+      });
+    this.subscriptions.push(getEmployeesSubscription);
   }
 
   remove(value: string): void {

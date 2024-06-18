@@ -54,9 +54,9 @@ export class EmployeesTableComponent
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog() {
+  openDialog(employee: EmployeeComplete) {
     const dialogRef = this.dialog.open(EmployeeFormDialogComponent, {
-      data: { type: 'edit' },
+      data: { type: 'edit', employee },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
