@@ -1,3 +1,7 @@
 <mat-dialog-content class="mat-mdc-dialog-content">
+  @if(type === "edit" && employee) {
+  <app-employee-form [type]="type" [employee]="employee"></app-employee-form>
+  } @else {
   <app-employee-form></app-employee-form>
+  }
 </mat-dialog-content>

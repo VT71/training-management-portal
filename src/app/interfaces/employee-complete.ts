@@ -5,4 +5,5 @@ export interface EmployeeComplete {
   email: string;
   fullName: string;
   departmentName: string;
+  departmentId: number;
 }

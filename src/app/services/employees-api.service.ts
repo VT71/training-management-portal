@@ -29,6 +29,19 @@ export class EmployeesApiService {
       );
   }
 
+  public getEmployeeComplete(employeeId: number) {
+    return this.http
+      .get<EmployeeComplete>(
+        `${this.baseUrl}/GetEmployeeComplete/${employeeId}`
+      )
+      .pipe(
+        catchError((error) => {
+          alert('Error when getting employee data');
+          return [];
+        })
+      );
+  }
+
   public getEmployees() {
     return this.http.get<Employee[]>(`${this.baseUrl}/GetEmployees`).pipe(
       catchError((error) => {

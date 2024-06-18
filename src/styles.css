@@ -284,6 +284,10 @@ mat-form-field.error
   > .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
   display: none !important;
 }
+
+.table-wrapper {
+  padding: 0.5rem !important;
+}
 /* ::placeholder {
   text-align: center;
   display: flex;
@@ -313,8 +317,7 @@ h2.dialog-title {
   margin-top: 0 !important;
 }
 
-
-.cdk-overlay-container{
+.cdk-overlay-container {
   z-index: 99;
 }
 
@@ -323,24 +326,20 @@ h2.dialog-title {
 }
 
 .clock-face__clock-hand {
-  background-color: var(--main) !important
-  
+  background-color: var(--main) !important;
 }
 
-.clock-face__number > span.active{
-  background-color: var(--main) !important
+.clock-face__number > span.active {
+  background-color: var(--main) !important;
 }
 
-.clock-face__number .clock-face__number--outer ng-star-inserted{
+.clock-face__number .clock-face__number--outer ng-star-inserted {
   background-color: var(--secondary) !important;
 }
 
-
 .timepicker-button {
-  color: var(--secondary) !important
+  color: var(--secondary) !important;
 }
-
-
 
 /* // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {

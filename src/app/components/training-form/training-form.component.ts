@@ -122,53 +122,7 @@ export class TrainingFormComponent implements OnDestroy {
     }
   }
 
-  // onSubmitTrainings() {
-  //   if (this.checkAutocompletes()) {
-  //     if (this.departmentsSelected) {
-  //       if (this.departments?.length === 0) {
-  //         this.setDepartmentsError();
-  //       }
-  //     }
-
-  //     if (this.trainingForm.valid) {
-  //       console.log('valid');
-  //       const rawForm = this.trainingForm.getRawValue();
-  //       console.log(rawForm);
-
-  //       const formattedDeadline = this.formatDateForAzure(
-  //         rawForm.deadline,
-  //         rawForm.time
-  //       );
-
-  //       const {  title, description, online, deadline } = this.trainingForm.value;
-
-  //       const trainingData: TrainingInterface = {
-  //         title: 'asda',
-  //         description: 'asdkja',
-  //         online: 1,
-  //         deadline: formattedDeadline,
-  //       };
-
-  //       this.trainingApiService
-
-  //         .createTraining(trainingData as TrainingInterface)
-  //         .subscribe({
-  //           next: () => {
-  //             console.log('Training created successfully');
-  //             this.openSnackBar('Training created successfully', 'Close');
-  //             this.dialogRef.close();
-  //           },
-  //           error: (error) => {
-  //             console.error('Error creating training:', error);
-  //             this.openSnackBar('Error creating training', 'Close');
-  //           },
-  //         });
-
-  //     } else {
-  //       console.log('invalid');
-  //     }
-  //   }
-  // }
+  
 
   onSubmitTrainings() {
     const rawForm = this.trainingForm.getRawValue();
