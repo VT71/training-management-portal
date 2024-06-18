@@ -1,7 +1,7 @@
 <div class="root-container">
   <h2>{{ type === "add" ? "Add Training" : "Edit Training" }}</h2>
   <div class="form-left" *ngIf="trainingForm">
-    <form class="training-form" *ngIf="trainingForm" [formGroup]="trainingForm">
+    <form class="training-form" *ngIf="trainingForm" [formGroup]="trainingForm" (ngSubmit)="onSubmitTrainings()">
       <section clas="training-form-left">
         <div class="input-container">
           <mat-form-field appearance="outline">
@@ -47,9 +47,9 @@
                 [format]="24"
                 [ngxTimepicker]="toggleIcon"
                 [disableClick]="true"
+                formControlName="time"
                 readonly
                 class="time-picker"
-                formControlName="time"
               />
               <ngx-material-timepicker-toggle [for]="toggleIcon">
                 <svg
@@ -69,9 +69,21 @@
               </ngx-material-timepicker-toggle>
               <ngx-material-timepicker #toggleIcon></ngx-material-timepicker>
             </div>
-
-            <!-- <input type="time" formControlName="time"> -->
           </div>
+
+          <mat-button-toggle-group
+            name="selectionType"
+            aria-label="Selection Type"
+            formControlName="selectionType"
+            (change)="onToggleChange($event)"
+            multiple
+          >
+            <mat-button-toggle value="departments"
+              >Departments</mat-button-toggle
+            >
+            <mat-button-toggle value="employees">Employees</mat-button-toggle>
+          </mat-button-toggle-group>
+
           @if (departmentsSelected) {<app-employee-department-autoselector
             [type]="'Departments'"
             [errorMessage]="departmentsErrorMsg"
@@ -85,6 +97,7 @@
           ></app-employee-department-autoselector>
           }
         </div>
+
         <button
           class="main"
           type="submit"

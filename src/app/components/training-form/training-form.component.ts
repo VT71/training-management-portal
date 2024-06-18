@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -53,21 +60,23 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './training-form.component.html',
   styleUrl: './training-form.component.css',
   providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrainingFormComponent implements OnDestroy {
   @Input() type!: string;
-  public departmentsSelected = true;
-  public employeesSelected = true;
+  public departmentsSelected = false;
+  public employeesSelected = false;
 
   public departmentsErrorMsg = '';
-  private departments: number[] = [];
+  public departments: number[] = [];
 
   public employeesErrorMsg = '';
-  private employees: number[] = [];
+  public employees: number[] = [];
 
   ngOnInit() {
     console.log(this.type);
   }
+
   trainingForm: FormGroup = new FormGroup({});
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -82,9 +91,10 @@ export class TrainingFormComponent implements OnDestroy {
     this.trainingForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', Validators.required],
-      online: [1, Validators.required],
-      deadline: ['formattedDeadline', Validators.required],
+      online: ['', Validators.required],
+      deadline: ['', Validators.required],
       time: ['', Validators.required],
+      selectionType: ['', Validators.required],
     });
   }
 
@@ -96,67 +106,120 @@ export class TrainingFormComponent implements OnDestroy {
     });
   }
   private subscriptions: Subscription[] = [];
-  public trainingId!: number;
   public training$!: Observable<TrainingInterface>;
 
-  onSubmitTrainings() {
-    if (this.checkAutocompletes()) {
-      if (this.departmentsSelected) {
-        if (this.departments?.length === 0) {
-          this.setDepartmentsError();
-        }
-      }
-
-      if (this.trainingForm.valid) {
-        console.log('valid');
-        const rawForm = this.trainingForm.getRawValue();
-        console.log(rawForm);
-
-        const formattedDeadline = this.formatDateForAzure(
-          rawForm.deadline,
-          rawForm.time
-        );
-
-        const { title, description, online } = this.trainingForm.value;
-
-      this.trainingApiService
-        .createTraining(trainingData as TrainingInterface)
-        .subscribe({
-          next: () => {
-            console.log('Training created successfully');
-            this.openSnackBar('Training created successfully', 'Close');
-            this.dialogRef.close(); // Închide dialogul
-          },
-          error: (error) => {
-            console.error('Error creating training:', error);
-            this.openSnackBar('Error creating training', 'Close');
-          },
-        });
-    } else {
-      console.log('invalid');
-        const trainingData = {
-          title,
-          description,
-          online: 1,
-          deadline: formattedDeadline,
-          forEmployees: 1,
-          forDepartments: 1,
-        };
-
-        this.trainingApiService
-          .createTraining(trainingData as TrainingInterface)
-          .subscribe({
-            next: () => {
-              console.log('Training created successfully');
-            },
-            error: (error) => {
-              console.error('Error creating training:', error);
-            },
-          });
-      } else {
-        console.log('invalid');
-      }
+  onToggleChange(event: any) {
+    const selectedValue = event.value;
+    this.trainingForm.get('selectionType')?.setValue(selectedValue);
+    console.log(selectedValue);
+    this.employeesSelected = false;
+    this.departmentsSelected = false;
+    if (selectedValue.find((value: string)=> value==='departments')) {
+      this.departmentsSelected = true;
+    } 
+    if (selectedValue.find((value: string)=> value==='employees')) {
+      this.employeesSelected = true;
     }
+  }
+
+  // onSubmitTrainings() {
+  //   if (this.checkAutocompletes()) {
+  //     if (this.departmentsSelected) {
+  //       if (this.departments?.length === 0) {
+  //         this.setDepartmentsError();
+  //       }
+  //     }
+
+  //     if (this.trainingForm.valid) {
+  //       console.log('valid');
+  //       const rawForm = this.trainingForm.getRawValue();
+  //       console.log(rawForm);
+
+  //       const formattedDeadline = this.formatDateForAzure(
+  //         rawForm.deadline,
+  //         rawForm.time
+  //       );
+
+  //       const {  title, description, online, deadline } = this.trainingForm.value;
+
+  //       const trainingData: TrainingInterface = {
+  //         title: 'asda',
+  //         description: 'asdkja',
+  //         online: 1,
+  //         deadline: formattedDeadline,
+  //       };
+
+  //       this.trainingApiService
+
+  //         .createTraining(trainingData as TrainingInterface)
+  //         .subscribe({
+  //           next: () => {
+  //             console.log('Training created successfully');
+  //             this.openSnackBar('Training created successfully', 'Close');
+  //             this.dialogRef.close();
+  //           },
+  //           error: (error) => {
+  //             console.error('Error creating training:', error);
+  //             this.openSnackBar('Error creating training', 'Close');
+  //           },
+  //         });
+
+  //     } else {
+  //       console.log('invalid');
+  //     }
+  //   }
+  // }
+
+  onSubmitTrainings() {
+    const rawForm = this.trainingForm.getRawValue();
+      console.log('Raw form values:', rawForm);
+    if(this.checkAutocompletes()){
+    if ( this.trainingForm.valid) {
+      console.log('Form is valid.');
+
+      const rawForm = this.trainingForm.getRawValue();
+      console.log('Raw form values:', rawForm);
+
+      const formattedDeadline = this.formatDateForAzure(
+        rawForm.deadline,
+        rawForm.time
+      );
+      console.log('Formatted deadline:', formattedDeadline);
+
+      const trainingData: TrainingInterface = {
+        title: rawForm.title,
+        description: rawForm.description,
+        online: rawForm.online,
+        deadline: formattedDeadline,
+        forDepartments: this.departmentsSelected,
+        forEmployees: this.employeesSelected,
+        departments: this.departments,
+        employees: this.employees,
+      };
+      console.log('Training data:', trainingData);
+
+      this.trainingApiService.createTraining(trainingData).subscribe({
+        next: () => {
+          console.log('Training created successfully'); 
+          this.openSnackBar('Training created successfully', 'Close');
+          this.dialogRef.close();
+        },
+        error: (error) => {
+          console.error('Error creating training:', error);
+          this.openSnackBar('Error creating training', 'Close');
+        },
+      });
+    } else {
+      console.log('Form is invalid.');
+      console.log('Autocompletes check:', this.checkAutocompletes());
+      console.log('Form validity:', this.trainingForm.valid);
+      console.log('Form errors:', this.trainingForm.errors);
+      // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
+      this.openSnackBar(
+        'Invalid form data. Please check the form again.',
+        'Close'
+      );
+    }}
   }
 
   public formatDateForAzure(dateString: string, timeString: string): string {
@@ -173,68 +236,64 @@ export class TrainingFormComponent implements OnDestroy {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
   }
 
-  private setDepartmentsError() {
+  public setDepartmentsError() {
     this.departmentsErrorMsg = 'At least one department must be selected.';
   }
 
-  private removeDepartmentsError() {
+  public removeDepartmentsError() {
     this.departmentsErrorMsg = '';
   }
 
-  private setEmployeesError() {
+  public setEmployeesError() {
     this.employeesErrorMsg = 'At least one employee must be selected.';
   }
 
-  private removeEmployeesError() {
+  public removeEmployeesError() {
     this.employeesErrorMsg = '';
   }
 
   public onDepartmentsChange(departmentsList: number[]) {
     if (departmentsList?.length === 0 && this.departmentsSelected) {
       this.setDepartmentsError();
-      this.departments = [];
+      this.departments = []; // Resetează valorile la un array gol
     } else if (departmentsList?.length > 0 && this.departmentsSelected) {
       this.removeDepartmentsError();
-      this.departments = departmentsList;
+      this.departments = departmentsList; // Actualizează valorile cu selecțiile
     }
   }
-
+  
   public onEmployeesChange(employeesList: number[]) {
-    console.log('Employees: ' + employeesList);
     if (employeesList?.length === 0 && this.employeesSelected) {
       this.setEmployeesError();
-      this.employees = [];
-    } else if (employeesList?.length > 0 && this.departmentsSelected) {
+      this.employees = []; // Resetează valorile la un array gol
+    } else if (employeesList?.length > 0 && this.employeesSelected) {
       this.removeEmployeesError();
-      this.employees = employeesList;
+      this.employees = employeesList; // Actualizează valorile cu selecțiile
     }
   }
+  
 
   private checkAutocompletes(): boolean {
-    let valid = false;
-    if (this.departmentsSelected || this.employeesSelected) {
-      if (this.departmentsSelected) {
-        if (this.departments?.length > 1) {
-          this.removeDepartmentsError();
-          valid = true;
-        } else {
-          this.setDepartmentsError();
-          valid = false;
-        }
-      }
-
-      if (this.employeesSelected) {
-        if (this.employees?.length > 1) {
-          this.removeDepartmentsError();
-          valid = true;
-        } else {
-          this.setDepartmentsError();
-          valid = false;
-        }
-      }
+    let valid = true;
+  
+    if (this.departmentsSelected && this.departments.length === 0) {
+      this.setDepartmentsError();
+      valid = false;
+    } else {
+      this.removeDepartmentsError();
     }
+  
+    if (this.employeesSelected && this.employees.length === 0) {
+      this.setEmployeesError();
+      valid = false;
+    } else {
+      this.removeEmployeesError();
+    }
+  
     return valid;
   }
+
+  
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

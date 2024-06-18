@@ -105,10 +105,10 @@
     </div>
 
     <div>
-      @if (activeDay() && activeDayMeetings().length === 0) {
+      @if (activeDay() && activeDayTrainings().length === 0) {
       <div>No Planned Meetings today</div>
-      } @if (activeDay() && activeDayMeetings().length > 0) { @for (meeting of
-      activeDayMeetings(); track $index) {
+      }@if (activeDayTrainings().length > 0) {
+
       <div class="mettings-container">
         <div
           class="meeting-button"
@@ -117,9 +117,10 @@
           [routerLinkActiveOptions]="{ exact: true }"
           matTooltip="View training details"
           matTooltipPosition="below"
- 
+          *ngFor="let training of activeDayTrainings()"
         >
-          {{ meeting }}
+          {{ training.title }}
+
 
           <div class="icons-end">
             <span
@@ -140,7 +141,7 @@
           </div>
         </div>
       </div>
-      } }
+    }
     </div>
   </div>
 </div>

@@ -7,8 +7,10 @@ import {
   Signal,
   WritableSignal,
   computed,
+  Input,
+  OnInit,
 } from '@angular/core';
-import { Meetings } from './meetings.interface';
+import { TrainingInterface } from '../../interfaces/training.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
@@ -34,14 +36,22 @@ import { ConfirmDialogComponent } from './confirm-dialog.component';
     TrainingFormComponent,
     RouterLink,
     RouterLinkActive,
-    MatButtonModule, MatMenuModule,
-
+    MatButtonModule,
+    MatMenuModule,
   ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
-export class CalendarComponent {
-  public meetings: InputSignal<Meetings> = input.required();
+export class CalendarComponent  {
+  @Input()
+  get trainings(): TrainingInterface[] {
+    return this._trainings;
+  }
+  set trainings(value: TrainingInterface[]) {
+    this._trainings = value;
+  }
+  public _trainings: TrainingInterface[] = [];
+
   public today: Signal<DateTime> = signal(DateTime.local());
   public firstDayOfActiveMonth: WritableSignal<DateTime> = signal(
     this.today().startOf('month')
@@ -51,6 +61,9 @@ export class CalendarComponent {
   public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
   public isHoveringOnChild: boolean = false;
 
+  // ngOnInit() {
+  //   console.log(this._trainings);
+  // }
 
   public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
@@ -66,21 +79,28 @@ export class CalendarComponent {
       });
   });
 
+
   public DATE_MED = DateTime.DATE_MED;
 
-  public activeDayMeetings: Signal<string[]> = computed(() => {
+  public activeDayTrainings: Signal<TrainingInterface[]> = computed(() => {
     const activeDay = this.activeDay();
     if (activeDay === null) {
       return [];
     }
+  
     const activeDayISO = activeDay.toISODate();
     if (!activeDayISO) {
       return [];
     }
-    return this.meetings()[activeDayISO] ?? [];
+  
+    return this.trainings.filter((training) => {
+      
+      const trainingDeadline = training.deadline.substring(0, 10);
+      return trainingDeadline === activeDayISO;
+    });
   });
 
-  constructor(private router: Router, public dialog: MatDialog,) {}
+  constructor(private router: Router, public dialog: MatDialog) {}
 
   public goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
@@ -105,21 +125,30 @@ export class CalendarComponent {
   }
 
   public getEventsForDay(day: DateTime): string[] {
-    const dayISO = day.toISODate();
-    if (!dayISO) {
-      return [];
-    }
-    return this.meetings()[dayISO] ?? [];
+    const events = this._trainings
+      .filter(training => {
+        const deadlineDate = training.deadline.substring(0, 10);
+        return deadlineDate === day.toISODate();
+      })
+      .map(training => training.title);
+    
+    // Verifică dacă se găsesc evenimentele pentru ziua respectivă
+  
+    return events;
   }
 
   openDialog(event: Event): void {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog, {data: {type:'add'}});
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+      data: { type: 'add' },
+    });
     event.stopPropagation();
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
   openDialogEdit(event: Event): void {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog, {data: {type:'edit'}});
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+      data: { type: 'edit' },
+    });
     event.stopPropagation();
     dialogRef.afterClosed().subscribe((result) => {});
   }
@@ -127,12 +156,11 @@ export class CalendarComponent {
   public openConfirmDialog(event: Event): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
 
-  event.stopPropagation();
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      // Logică pentru ștergere
-    }
-  });
+    event.stopPropagation();
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Logică pentru ștergere
+      }
+    });
   }
-
 }

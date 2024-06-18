@@ -80,3 +80,8 @@ mat-button-toggle-group {
   background-color:  #62ca8d !important;
   color: rgb(0, 0, 0) !important;
 }
+
+.mat-button-toggle-group {
+  width: 100%;
+  margin-top: 10px;
+}

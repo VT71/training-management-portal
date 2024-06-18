@@ -18,10 +18,20 @@ export class TrainingsService {
       .post<TrainingInterface>(`${this.baseUrl}/CreateTraining`, training)
       .pipe(
         catchError((error) => {
-          alert('Error when creating training:');
-          console.log('Errors:', error.error.errors);
           return throwError(error);
         })
       );
   }
+
+  public getTrainings(): Observable<TrainingInterface[]> {
+    return this.http
+      .get<TrainingInterface[]>(`${this.baseUrl}/GetTrainings`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+  
 }
