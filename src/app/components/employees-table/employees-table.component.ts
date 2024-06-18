@@ -16,6 +16,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormDialogComponent } from '../employees/employee-form-dialog/employee-form-dialog.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-employees-table',
@@ -26,6 +27,7 @@ import { EmployeeFormDialogComponent } from '../employees/employee-form-dialog/e
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    RouterLink,
   ],
   templateUrl: './employees-table.component.html',
   styleUrl: './employees-table.component.css',

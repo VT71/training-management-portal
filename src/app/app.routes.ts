@@ -18,6 +18,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { TrainingPageComponent } from './components/training-page/training-page.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { DepartmentsComponent } from './components/departments/departments.component';
+import { EmployeePageComponent } from './components/employee-page/employee-page.component';
 
 const appName = 'Training Management Portal';
 
@@ -110,6 +111,11 @@ export const routes: Routes = [
         path: 'employees',
         component: EmployeesComponent,
         title: `Employees Page | ${appName}`,
+      },
+      {
+        path: 'employee/:id',
+        component: EmployeePageComponent,
+        title: `Employee Page | ${appName}`,
       },
       {
         path: 'departments',
