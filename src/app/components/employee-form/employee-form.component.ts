@@ -60,7 +60,7 @@ export class EmployeeFormComponent implements OnDestroy, OnInit {
         email: this.employee.email,
         trainer: this.employee.trainer,
       });
-      this.employeeDepartment = this.employee.departmentId;
+      this.department = this.employee.departmentId;
     }
   }
 
@@ -76,20 +76,53 @@ export class EmployeeFormComponent implements OnDestroy, OnInit {
     if (this.department >= 0) {
       if (this.form.valid) {
         const rawForm = this.form.getRawValue();
+        let updateSqlUser = false;
+        let updateSqlEmployee = false;
 
-        const createUserSubscr = this.employeeApiService
-          .createEmployee(
-            rawForm?.fullName,
-            rawForm?.email,
-            rawForm?.trainer,
-            this.department
-          )
-          .subscribe((res) => {
-            this.closeDialog();
-            window.location.reload();
-          });
+        if (this.type === 'edit') {
+          let formChanged = false;
+          if (this.employee.fullName !== rawForm.fullName) {
+            formChanged = true;
+            updateSqlUser = true;
+          } else if (this.employee.trainer !== rawForm.trainer) {
+            formChanged = true;
+            updateSqlEmployee = true;
+          } else if (this.employee.departmentId !== this.department) {
+            formChanged = true;
+            updateSqlEmployee = true;
+          }
 
-        this.subscriptions.push(createUserSubscr);
+          if (!formChanged) {
+          } else {
+            const updateEmployeeSubs = this.employeeApiService
+              .updateEmployee(updateSqlUser, updateSqlEmployee, {
+                ...this.employee,
+                fullName: rawForm?.fullName,
+                trainer: rawForm?.trainer,
+                departmentId: this.department,
+              })
+              .subscribe((res) => {
+                this.closeDialog();
+                // window.location.reload();
+              });
+
+            this.subscriptions.push(updateEmployeeSubs);
+          }
+        } else {
+          const createUserSubscr = this.employeeApiService
+            .createEmployee(
+              rawForm?.fullName,
+              rawForm?.email,
+              rawForm?.trainer,
+              this.department
+            )
+            .subscribe((res) => {
+              this.closeDialog();
+              window.location.reload();
+            });
+
+          this.subscriptions.push(createUserSubscr);
+        }
       }
     } else {
       this.setDepartmentsError();

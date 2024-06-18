@@ -1,7 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EmployeeComplete } from '../interfaces/employee-complete';
-import { catchError, concat, concatMap, map, of } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  concat,
+  concatMap,
+  forkJoin,
+  map,
+  of,
+} from 'rxjs';
 import { AuthService } from './auth.service';
 import { User } from '../interfaces/user';
 import { UsersApiService } from './users-api.service';
@@ -63,7 +71,7 @@ export class EmployeesApiService {
       this.usersApiService.createUser(firebaseUser);
 
     const createSqlEmployee = (employee: Employee) =>
-      this.http.post<User>(`${this.baseUrl}/CreateEmployee`, employee);
+      this.http.post<Employee>(`${this.baseUrl}/CreateEmployee`, employee);
 
     return createFirebauseUserRequest.pipe(
       concatMap((firebaseUser) => {
@@ -88,5 +96,39 @@ export class EmployeesApiService {
         }
       })
     );
+  }
+
+  public updateEmployee(
+    updateSqlUser: boolean,
+    updateSqlEmployee: boolean,
+    employeeData: EmployeeComplete
+  ) {
+    const updateSqlUserObs = this.usersApiService.updateUser({
+      userId: employeeData.userId,
+      fullName: employeeData.fullName,
+      email: employeeData.email,
+      role: '',
+    } as User);
+
+    const updateSqlEmployeeObs = this.http.put<Employee>(
+      `${this.baseUrl}/EditEmployee`,
+      {
+        employeeId: employeeData.employeeId,
+        trainer: employeeData.trainer,
+        userId: employeeData.userId,
+        departmentId: employeeData.departmentId,
+      } as Employee
+    );
+
+    let observablesArray = [];
+
+    if (updateSqlUser) {
+      observablesArray.push(updateSqlUserObs);
+    }
+    if (updateSqlEmployee) {
+      observablesArray.push(updateSqlEmployeeObs);
+    }
+
+    return forkJoin(observablesArray);
   }
 }
