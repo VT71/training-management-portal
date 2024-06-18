@@ -103,7 +103,7 @@ export class EmployeeFormComponent implements OnDestroy, OnInit {
               })
               .subscribe((res) => {
                 this.closeDialog();
-                // window.location.reload();
+                window.location.reload();
               });
 
             this.subscriptions.push(updateEmployeeSubs);
