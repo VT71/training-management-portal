@@ -2,18 +2,31 @@
   <h1 class="component-main-title">Employee Page</h1>
   <div class="sections-container">
     <section class="main-info">
+      @if (employeeData$ | async; as employee) {
       <div class="personal-info-container">
         <h2>Personal Info</h2>
-        <p>Employee ID: <span class="bold">1</span></p>
+        <p>Employee ID: <span class="bold"></span>{{ employee.employeeId }}</p>
 
-        <p>User ID: <span class="bold">1</span></p>
+        <p>
+          User ID: <span class="bold">{{ employee.userId }}</span>
+        </p>
 
-        <p>Full Name: <span class="bold">Victor Toma</span></p>
+        <p>
+          Full Name: <span class="bold">{{ employee.fullName }}</span>
+        </p>
 
-        <p>Department: <span class="bold">Software Development</span></p>
+        <p>
+          Department: <span class="bold">{{ employee.departmentName }}</span>
+        </p>
 
-        <p>Trainer: <span class="bold">Yes</span></p>
+        <p>
+          Trainer:
+          <span class="bold"
+            >{{ employee.trainer ? 'True' : 'False' }}</span
+          >
+        </p>
       </div>
+      }
 
       <div class="stats-container">
         <h2>Brief Stats</h2>
