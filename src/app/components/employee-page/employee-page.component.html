@@ -1,1 +1,116 @@
-<p>employee-page works!</p>
+<div class="root-container">
+  <h1 class="component-main-title">Employee Page</h1>
+  <div class="sections-container">
+    <section class="main-info">
+      <div class="personal-info-container">
+        <h2>Personal Info</h2>
+        <p>Employee ID: <span class="bold">1</span></p>
+
+        <p>User ID: <span class="bold">1</span></p>
+
+        <p>Full Name: <span class="bold">Victor Toma</span></p>
+
+        <p>Department: <span class="bold">Software Development</span></p>
+
+        <p>Trainer: <span class="bold">Yes</span></p>
+      </div>
+
+      <div class="stats-container">
+        <h2>Brief Stats</h2>
+        <div class="stats-wrapper">
+          <div class="stat-container missed">
+            <p>Missed Trainings</p>
+            <p class="bold stat-value missed">1</p>
+          </div>
+
+          <div class="stat-container completed">
+            <p>Completed Trainings</p>
+            <p class="bold stat-value completed">8</p>
+          </div>
+
+          <div class="stat-container upcoming">
+            <p>Upcoming Trainings</p>
+            <p class="bold stat-value upcoming">10</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trainings-section">
+      <div class="trainings-container">
+        <h2>Trainings</h2>
+        <mat-tab-group>
+          <mat-tab label="Completed">
+            <ul class="training-list">
+              <li>
+                <div class="training-list-item-container">
+                  <div class="section-container">
+                    <p class="title">Training Name</p>
+                    <p class="description">Training 1</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Training Type</p>
+                    <p class="description">Face-to-face</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Deadline</p>
+                    <p class="description">01/01/2024</p>
+                  </div>
+                  <div class="section-container last">
+                    <button class="main-button">More Info</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </mat-tab>
+          <mat-tab label="Upcoming"
+            ><ul class="training-list">
+              <li>
+                <div class="training-list-item-container">
+                  <div class="section-container">
+                    <p class="title">Training Name</p>
+                    <p class="description">Training 1</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Training Type</p>
+                    <p class="description">Face-to-face</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Deadline</p>
+                    <p class="description">01/01/2024</p>
+                  </div>
+                  <div class="section-container last">
+                    <button class="main-button">More Info</button>
+                  </div>
+                </div>
+              </li>
+            </ul></mat-tab
+          >
+          <mat-tab label="Missed"
+            ><ul class="training-list">
+              <li>
+                <div class="training-list-item-container">
+                  <div class="section-container">
+                    <p class="title">Training Name</p>
+                    <p class="description">Training 1</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Training Type</p>
+                    <p class="description">Face-to-face</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Deadline</p>
+                    <p class="description">01/01/2024</p>
+                  </div>
+                  <div class="section-container last">
+                    <button class="main-button">More Info</button>
+                  </div>
+                </div>
+              </li>
+            </ul></mat-tab
+          >
+        </mat-tab-group>
+      </div>
+    </section>
+  </div>
+</div>
