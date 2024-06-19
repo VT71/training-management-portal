@@ -12,12 +12,23 @@
   justify-content: space-between;
 }
 
+.training-first-section{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.title , .type{
+  width: 48%;
+}
+
 section {
   width: 100%;
   margin-left: 15px;
   background: var(--tertiary);
   border-radius: 12px;
-  margin: 20px;
+  margin-top: 10px;
   margin-left: auto;
   font-family: bold var(--main-font);
   color: var(--secondary);

@@ -144,7 +144,7 @@ export class CalendarComponent {
   
   openDialog(event: Event): void {
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
-      width: '800px',
+      width: '650px',
       height: '600px',
       data: { type: 'add' },
     });
