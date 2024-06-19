@@ -1,10 +1,12 @@
 export interface TrainingInterface {
+  trainingId: number;
   title: string;
   description: string;
-  online: number;
+  individual: number;
+  adress: string;
   deadline: string;
-  departments: number[];
-  employees: number[];
-  forDepartments: boolean;
-  forEmployees: boolean;
+  trainer: string;
+  forDepartments: number;
+  forEmployees: number;
+
 }

@@ -1,23 +1,22 @@
 <div class="page-container">
- 
   <div class="training-list-item-container container-left">
-   <img src="../../../assets/download.jpg" alt="">
+    <img src="../../../assets/download.jpg" alt="">
   </div>
 
-<div class="training-list-item-container container-right">
+  <div class="training-list-item-container container-right" *ngIf="training">
+    <!-- Detaliile antrenamentului -->
     <div class="section-container">
-      <h1 class="title">Title</h1>
+      <p class="title">Titlu Training: {{ training.title }}</p>
     </div>
     <div class="section-container">
-      <p class="title">Status: In progress/Finished</p>
+      <p class="title">Description: {{ training.description }}</p>
     </div>
     <div class="section-container">
-      <p class="title">Training Type: Online/Face-to-Face</p>
+      <p class="title">Training Type: {{ training.individual ? 'Online' : 'Workshop' }}</p>
     </div>
     <div class="section-container">
-      <p class="title">Deadline</p>
+      <p class="title">Deadline: {{ training.deadline }}</p>
     </div>
-    <div class="section-container last"></div>
+    <!-- Alte informații pe care dorești să le afișezi -->
   </div>
-
-</div>
+  

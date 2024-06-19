@@ -12,8 +12,9 @@ export class TrainingsService {
 
   constructor(private http: HttpClient) {}
 
-
-  public createTraining(training: TrainingInterface): Observable<TrainingInterface> {
+  public createTraining(
+    training: TrainingInterface
+  ): Observable<TrainingInterface> {
     return this.http
       .post<TrainingInterface>(`${this.baseUrl}/CreateTraining`, training)
       .pipe(
@@ -26,6 +27,39 @@ export class TrainingsService {
   public getTrainings(): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(`${this.baseUrl}/GetTrainings`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+  public deleteTraining(trainingId: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.baseUrl}/DeleteTraining/${trainingId}`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+
+  public updateTraining(
+    training: TrainingInterface
+  ): Observable<TrainingInterface> {
+    return this.http
+      .put<TrainingInterface>(`${this.baseUrl}/UpdateTraining`, training)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+  public getTrainingById(trainingId: number): Observable<TrainingInterface> {
+    return this.http
+      .get<TrainingInterface>(`${this.baseUrl}/GetTraining/${trainingId}`)
       .pipe(
         catchError((error) => {
           return throwError(error);

@@ -102,7 +102,7 @@ export const routes: Routes = [
         title: `Add Training | ${appName}`,
       },
       {
-        path: 'training',
+        path: 'training/:id',
         component: TrainingPageComponent,
         title: `Training | ${appName}`,
       },

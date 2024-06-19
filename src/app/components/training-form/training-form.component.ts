@@ -20,7 +20,6 @@ import { TrainingsService } from '../../services/trainings.service';
 
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -29,14 +28,15 @@ import { Observable, Subscription } from 'rxjs';
 import { TrainingInterface } from '../../interfaces/training.interface';
 import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-autoselector/employee-department-autoselector.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { BrowserModule } from '@angular/platform-browser';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
+  MatSnackBarRef,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TrainingComplete } from '../../interfaces/training-complete';
 
 @Component({
   selector: 'app-training-form',
@@ -91,20 +91,23 @@ export class TrainingFormComponent implements OnDestroy {
     this.trainingForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', Validators.required],
-      online: ['', Validators.required],
+      individual: ['', Validators.required],
+      adress: ['', Validators.required],
       deadline: ['', Validators.required],
+      trainer: ['', Validators.required],
       time: ['', Validators.required],
       selectionType: ['', Validators.required],
     });
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
+  openSnackBar(message: string, action: string): MatSnackBarRef<any> {
+    return this._snackBar.open(message, action, {
+      duration: 1000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
     });
   }
+
   private subscriptions: Subscription[] = [];
   public training$!: Observable<TrainingInterface>;
 
@@ -140,13 +143,16 @@ export class TrainingFormComponent implements OnDestroy {
       );
       console.log('Formatted deadline:', formattedDeadline);
 
-      const trainingData: TrainingInterface = {
+      const trainingData: TrainingComplete = {
+        trainingId: rawForm.trainingId,
         title: rawForm.title,
         description: rawForm.description,
-        online: rawForm.online,
+        individual: rawForm.online,
+        adress: rawForm.adress,
         deadline: formattedDeadline,
-        forDepartments: this.departmentsSelected,
-        forEmployees: this.employeesSelected,
+        trainer: rawForm.trainer,
+        forDepartments: this.departmentsSelected ? 1 : 0,
+        forEmployees: this.employeesSelected ? 1 : 0,
         departments: this.departments,
         employees: this.employees,
       };
@@ -155,8 +161,12 @@ export class TrainingFormComponent implements OnDestroy {
       this.trainingApiService.createTraining(trainingData).subscribe({
         next: () => {
           console.log('Training created successfully'); 
-          this.openSnackBar('Training created successfully', 'Close');
+          const snackBarRef: MatSnackBarRef<any> = this.openSnackBar('Training created successfully', 'Close');
           this.dialogRef.close();
+
+          snackBarRef.afterDismissed().subscribe(() => {
+            window.location.reload();
+          });
         },
         error: (error) => {
           console.error('Error creating training:', error);
@@ -164,10 +174,6 @@ export class TrainingFormComponent implements OnDestroy {
         },
       });
     } else {
-      console.log('Form is invalid.');
-      console.log('Autocompletes check:', this.checkAutocompletes());
-      console.log('Form validity:', this.trainingForm.valid);
-      console.log('Form errors:', this.trainingForm.errors);
       // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
       this.openSnackBar(
         'Invalid form data. Please check the form again.',
@@ -247,7 +253,6 @@ export class TrainingFormComponent implements OnDestroy {
     return valid;
   }
 
-  
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

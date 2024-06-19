@@ -1,7 +1,14 @@
 <div class="root-container">
   <h2>{{ type === "add" ? "Add Training" : "Edit Training" }}</h2>
-  <div class="form-left" *ngIf="trainingForm">
-    <form class="training-form" *ngIf="trainingForm" [formGroup]="trainingForm" (ngSubmit)="onSubmitTrainings()">
+
+  <div class="training-form-container">
+    <form
+      class="training-form"
+      *ngIf="trainingForm"
+      [formGroup]="trainingForm"
+      (ngSubmit)="onSubmitTrainings()"
+    >
+    
       <section clas="training-form-left">
         <div class="input-container">
           <mat-form-field appearance="outline">
@@ -10,19 +17,10 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea
-              matInput
-              formControlName="description"
-              placeholder="Details about training"
-            ></textarea>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Offline/Online</mat-label>
+            <mat-label>Individual</mat-label>
             <mat-select formControlName="online">
-              <mat-option value="one">Offline</mat-option>
-              <mat-option value="two">Online</mat-option>
+              <mat-option [value]="1">Offline</mat-option>
+              <mat-option [value]="0">Online</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -97,16 +95,21 @@
           ></app-employee-department-autoselector>
           }
         </div>
-
-        <button
-          class="main"
-          type="submit"
-          mat-flat-button
-          (click)="onSubmitTrainings()"
-        >
-          Submit
-        </button>
       </section>
+
+      <section clas="training-form-right">
+        <mat-form-field appearance="outline">
+          <mat-label>Descriptions</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Details about training"
+          ></textarea>
+        </mat-form-field>
+        <button class="main" type="submit" mat-flat-button>Submit</button>
+        
+      </section>
+
     </form>
   </div>
 </div>

@@ -112,7 +112,7 @@
       <div class="mettings-container">
         <div
           class="meeting-button"
-          routerLink="/dashboard/training"
+          [routerLink]="'/dashboard/training/' + training.trainingId"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           matTooltip="View training details"
@@ -125,16 +125,15 @@
           <div class="icons-end">
             <span
               class="material-symbols-outlined edit training-edit-button"
-            
-              (click)="openDialogEdit($event)"
-
+              (click)="openDialogEdit($event, training.trainingId)"
+              
             >
               edit
             </span>
             <span
               class="material-symbols-outlined delete training-edit-button"
               mat-button
-              (click)="openConfirmDialog($event)"
+              (click)="openDeleteDialog($event, training.trainingId)"
             >
               delete
             </span>

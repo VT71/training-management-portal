@@ -1,4 +1,9 @@
 
 .mat-mdc-dialog-content {
-    max-height: 80vh !important
+    max-height: 80vh !important;   
 }
+
+.mat-mdc-dialog-panel{
+    max-width: 80% !important;
+}
+

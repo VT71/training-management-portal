@@ -308,10 +308,7 @@ h2.dialog-title {
   font-weight: 500;
 }
 
-.mat-mdc-dialog-panel {
-  width: 100% !important;
-  max-width: 400px !important;
-}
+
 
 .mat-form-field {
   margin-top: 0 !important;

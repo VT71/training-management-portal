@@ -1,12 +1,16 @@
 .root-container {
   padding: 0.5rem 1rem;
-  /* height: auto; */
-  /* max-height: 80vh; */
   overflow: aut0;
   max-height: 100vh !important;
   width: 100%;
 }
 
+.training-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
 
 section {
   width: 100%;
