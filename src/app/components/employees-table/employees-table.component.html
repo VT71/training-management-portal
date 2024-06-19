@@ -61,7 +61,7 @@
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item [routerLink]="['/dashboard/employee', element.employeeId]">
             <mat-icon>person</mat-icon>
             <span>View Employee</span>
           </button>

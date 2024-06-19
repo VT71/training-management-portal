@@ -16,6 +16,7 @@
   --light-orange: rgb(255, 230, 207);
   --secondary: rgb(0, 44, 104);
   --light-secondary: rgb(146, 195, 255);
+  --secondary-5: rgba(0, 44, 104, 0.05);
   --secondary-10: rgba(0, 44, 104, 0.1);
   --secondary-20: rgba(0, 44, 104, 0.2);
   --secondary-30: rgba(0, 44, 104, 0.3);
@@ -171,10 +172,10 @@ app-trainings-calendar {
   box-shadow: 0px 0px 51px -19px rgba(145, 145, 145, 1);
 }
 
-.training-list-item-container:hover {
+/* .training-list-item-container:hover {
   transform: translate(0, -5px);
   transition: transform 0.3s;
-}
+} */
 
 .training-list .section-container {
   display: flex;
@@ -285,14 +286,28 @@ mat-form-field.error
   display: none !important;
 }
 
-.table-wrapper {
-  padding: 0.5rem !important;
+.mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color: var(--main) !important;
 }
-/* ::placeholder {
-  text-align: center;
-  display: flex;
-  justify-content: end;
-} */
+
+.mdc-tab--active > .mdc-tab__content > .mdc-tab__text-label {
+  color: var(--main) !important;
+}
+
+.mat-mdc-tab-ripple {
+  /* background-color: var(--secondary-20); */
+}
+
+.mdc-tab--active > .mat-mdc-tab-ripple {
+  background-color: var(--tertiary);
+}
+
+.mat-mdc-tab-body-content {
+  background-color: var(--secondary-5) !important;
+  padding: 1.8rem 1rem;
+  padding-bottom: 0.2rem;
+  border-radius: 0 0 12px 12px;
+}
 
 /* Other Global Elements */
 h1.component-main-title {
@@ -336,6 +351,10 @@ h2.dialog-title {
 
 .timepicker-button {
   color: var(--secondary) !important;
+}
+
+.table-wrapper {
+  padding: 0.5rem !important;
 }
 
 /* // mat-icon-stepper selected color change 

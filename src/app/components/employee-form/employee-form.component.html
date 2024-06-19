@@ -12,7 +12,18 @@
 
         <mat-form-field appearance="outline">
           <mat-label>E-mail Address</mat-label>
-          <input matInput type="email" required formControlName="email" />
+          @if (type === 'edit' && employee) {
+          <input
+            matInput
+            type="email"
+            [disabled]="true"
+            [value]="employee.email"
+          />
+          } @if (type !== 'edit') {<input
+            matInput
+            type="email"
+            formControlName="email"
+          />}
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -23,11 +34,11 @@
           </mat-select>
         </mat-form-field>
 
-        @if (type === "edit" && employeeDepartment) {
+        @if (type === "edit" && employee) {
         <app-employee-department-autoselector
           [type]="'Departments'"
           [operationType]="'edit'"
-          [apiSelectedValues]="[employeeDepartment]"
+          [apiSelectedValues]="[employee.departmentId]"
           [errorMessage]="departmentsErrorMsg"
           (valuesEmitter)="onDepartmentsChange($event)"
         ></app-employee-department-autoselector>
