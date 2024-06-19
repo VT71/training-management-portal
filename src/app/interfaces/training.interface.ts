@@ -8,5 +8,4 @@ export interface TrainingInterface {
   trainer: string;
   forDepartments: number;
   forEmployees: number;
-
 }
