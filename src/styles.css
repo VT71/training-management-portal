@@ -294,9 +294,7 @@ mat-form-field.error
   color: var(--main) !important;
 }
 
-.mat-mdc-tab-ripple {
-  /* background-color: var(--secondary-20); */
-}
+
 
 .mdc-tab--active > .mat-mdc-tab-ripple {
   background-color: var(--tertiary);
