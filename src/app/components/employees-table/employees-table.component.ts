@@ -58,6 +58,7 @@ export class EmployeesTableComponent
 
   openDialog(employee: EmployeeComplete) {
     const dialogRef = this.dialog.open(EmployeeFormDialogComponent, {
+      width: '400px',
       data: { type: 'edit', employee },
     });
 
