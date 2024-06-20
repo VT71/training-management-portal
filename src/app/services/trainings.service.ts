@@ -93,4 +93,18 @@ export class TrainingsService {
         })
       );
   }
+
+  public getUpcomingTrainingsByEmployee(
+    employeeId: number
+  ): Observable<TrainingInterface[]> {
+    return this.http
+      .get<TrainingInterface[]>(
+        `${this.baseUrl}/GetUpcomingTrainingsByEmployee/${employeeId}`
+      )
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
 }
