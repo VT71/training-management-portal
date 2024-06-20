@@ -34,8 +34,12 @@ section,
   background-color: rgb(0, 173, 0);
 }
 
-.stat-container.upcoming {
+.stat-container.in-progress {
   background-color: rgb(233, 200, 34);
+}
+
+.stat-container.upcoming {
+  background-color: var(--secondary);
 }
 
 .stat-container.missed {
@@ -77,7 +81,7 @@ section,
   width: 48%;
 }
 
-.stats-wrapper :last-child {
+/* .stats-wrapper :last-child {
   width: 100%;
 }
 
@@ -85,7 +89,7 @@ section,
   .stat-container {
     width: 100%;
   }
-}
+} */
 
 .stat-container:hover {
   transform: translate(0, -5px);
@@ -100,7 +104,7 @@ section,
 .training-list-item-container {
   -webkit-box-shadow: 0;
   -moz-box-shadow: 0;
-  box-shadow:none ;
+  box-shadow: none;
 }
 
 /* h2 {

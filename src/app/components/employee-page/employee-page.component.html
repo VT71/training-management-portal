@@ -45,6 +45,11 @@
           </div>
           }
 
+          <div class="stat-container in-progress">
+            <p>In Progress Trainings</p>
+            <p class="bold stat-value upcoming">10</p>
+          </div>
+
           <div class="stat-container upcoming">
             <p>Upcoming Trainings</p>
             <p class="bold stat-value upcoming">10</p>
@@ -58,6 +63,47 @@
         <h2>Trainings</h2>
         <mat-tab-group>
           <mat-tab label="Completed">
+            @if (completedTrainings$ | async; as completedTrainings) {
+            <ul class="training-list">
+              @for (training of completedTrainings; track training) {
+              <li>
+                <div class="training-list-item-container">
+                  <div class="section-container">
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Training Type</p>
+                    <p class="description">
+                      {{ training?.individual ? "Individual" : "Workshop" }}
+                    </p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Deadline</p>
+                    <p class="description">
+                      {{
+                        convertDate(training.deadline ? training.deadline : "")
+                      }}
+                    </p>
+                  </div>
+                  <div class="section-container last">
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
+                  </div>
+                </div>
+              </li>
+              }
+            </ul>
+            }
+          </mat-tab>
+          <mat-tab label="In Progress">
             @if (completedTrainings$ | async; as completedTrainings) {
             <ul class="training-list">
               @for (training of completedTrainings; track training) {
