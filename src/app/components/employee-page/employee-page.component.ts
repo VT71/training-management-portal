@@ -22,6 +22,7 @@ export class EmployeePageComponent implements OnInit {
   private employeeApiService = inject(EmployeesApiService);
 
   public missedTrainings$!: Observable<TrainingInterface[]>;
+  public completedTrainings$!: Observable<TrainingInterface[]>;
   public employeeData$!: Observable<EmployeeComplete>;
 
   ngOnInit() {
@@ -29,6 +30,9 @@ export class EmployeePageComponent implements OnInit {
       this.employeeData$ = this.employeeApiService.getEmployeeComplete(this.id);
       this.missedTrainings$ = this.trainingsApiService
         .getMissedTrainingsByEmployee(this.id)
+        .pipe(share());
+      this.completedTrainings$ = this.trainingsApiService
+        .getCompletedTrainingsByEmployee(this.id)
         .pipe(share());
     }
   }

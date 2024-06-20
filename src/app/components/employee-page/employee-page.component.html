@@ -5,7 +5,9 @@
       @if (employeeData$ | async; as employee) {
       <div class="personal-info-container">
         <h2>Personal Info</h2>
-        <p>Employee ID: <span class="bold"></span>{{ employee.employeeId }}</p>
+        <p>
+          Employee ID: <span class="bold">{{ employee.employeeId }}</span>
+        </p>
 
         <p>
           User ID: <span class="bold">{{ employee.userId }}</span>
@@ -34,12 +36,14 @@
             <p>Missed Trainings</p>
             <p class="bold stat-value missed">{{ missedTrainings?.length }}</p>
           </div>
-          }
-
+          } @if (completedTrainings$ | async; as completedTrainings) {
           <div class="stat-container completed">
             <p>Completed Trainings</p>
-            <p class="bold stat-value completed">8</p>
+            <p class="bold stat-value completed">
+              {{ completedTrainings?.length }}
+            </p>
           </div>
+          }
 
           <div class="stat-container upcoming">
             <p>Upcoming Trainings</p>
@@ -54,27 +58,45 @@
         <h2>Trainings</h2>
         <mat-tab-group>
           <mat-tab label="Completed">
+            @if (completedTrainings$ | async; as completedTrainings) {
             <ul class="training-list">
+              @for (training of completedTrainings; track training) {
               <li>
                 <div class="training-list-item-container">
                   <div class="section-container">
-                    <p class="title">Training Name</p>
-                    <p class="description">Training 1</p>
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
                   </div>
                   <div class="section-container">
                     <p class="title">Training Type</p>
-                    <p class="description">Face-to-face</p>
+                    <p class="description">
+                      {{ training?.individual ? "Individual" : "Workshop" }}
+                    </p>
                   </div>
                   <div class="section-container">
                     <p class="title">Deadline</p>
-                    <p class="description">01/01/2024</p>
+                    <p class="description">
+                      {{
+                        convertDate(training.deadline ? training.deadline : "")
+                      }}
+                    </p>
                   </div>
                   <div class="section-container last">
-                    <button class="main-button">More Info</button>
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
                   </div>
                 </div>
               </li>
+              }
             </ul>
+            }
           </mat-tab>
           <mat-tab label="Upcoming"
             ><ul class="training-list">
@@ -106,8 +128,8 @@
               <li>
                 <div class="training-list-item-container">
                   <div class="section-container">
-                    <p class="title">{{ training?.title }}</p>
-                    <p class="description">Training 1</p>
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
                   </div>
                   <div class="section-container">
                     <p class="title">Training Type</p>
@@ -124,7 +146,15 @@
                     </p>
                   </div>
                   <div class="section-container last">
-                    <button class="main-button" [routerLink]="['/dashboard/training', training.trainingId]">More Info</button>
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
                   </div>
                 </div>
               </li>
