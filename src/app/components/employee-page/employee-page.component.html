@@ -21,9 +21,7 @@
 
         <p>
           Trainer:
-          <span class="bold"
-            >{{ employee.trainer ? 'True' : 'False' }}</span
-          >
+          <span class="bold">{{ employee.trainer ? "True" : "False" }}</span>
         </p>
       </div>
       }
@@ -31,10 +29,12 @@
       <div class="stats-container">
         <h2>Brief Stats</h2>
         <div class="stats-wrapper">
+          @if (missedTrainings$ | async; as missedTrainings) {
           <div class="stat-container missed">
             <p>Missed Trainings</p>
-            <p class="bold stat-value missed">1</p>
+            <p class="bold stat-value missed">{{ missedTrainings?.length }}</p>
           </div>
+          }
 
           <div class="stat-container completed">
             <p>Completed Trainings</p>
