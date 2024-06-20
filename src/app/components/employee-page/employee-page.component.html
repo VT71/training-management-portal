@@ -5,7 +5,9 @@
       @if (employeeData$ | async; as employee) {
       <div class="personal-info-container">
         <h2>Personal Info</h2>
-        <p>Employee ID: <span class="bold"></span>{{ employee.employeeId }}</p>
+        <p>
+          Employee ID: <span class="bold">{{ employee.employeeId }}</span>
+        </p>
 
         <p>
           User ID: <span class="bold">{{ employee.userId }}</span>
@@ -21,9 +23,7 @@
 
         <p>
           Trainer:
-          <span class="bold"
-            >{{ employee.trainer ? 'True' : 'False' }}</span
-          >
+          <span class="bold">{{ employee.trainer ? "True" : "False" }}</span>
         </p>
       </div>
       }
@@ -31,20 +31,32 @@
       <div class="stats-container">
         <h2>Brief Stats</h2>
         <div class="stats-wrapper">
+          @if (missedTrainings$ | async; as missedTrainings) {
           <div class="stat-container missed">
             <p>Missed Trainings</p>
-            <p class="bold stat-value missed">1</p>
+            <p class="bold stat-value missed">{{ missedTrainings?.length }}</p>
           </div>
-
+          } @if (completedTrainings$ | async; as completedTrainings) {
           <div class="stat-container completed">
             <p>Completed Trainings</p>
-            <p class="bold stat-value completed">8</p>
+            <p class="bold stat-value completed">
+              {{ completedTrainings?.length }}
+            </p>
           </div>
+          }
 
-          <div class="stat-container upcoming">
-            <p>Upcoming Trainings</p>
+          <div class="stat-container in-progress">
+            <p>In Progress Trainings</p>
             <p class="bold stat-value upcoming">10</p>
           </div>
+          @if (upcomingTrainings$ | async; as upcomingTrainings) {
+          <div class="stat-container upcoming">
+            <p>Upcoming Trainings</p>
+            <p class="bold stat-value upcoming">
+              {{ upcomingTrainings?.length }}
+            </p>
+          </div>
+          }
         </div>
       </div>
     </section>
@@ -54,74 +66,169 @@
         <h2>Trainings</h2>
         <mat-tab-group>
           <mat-tab label="Completed">
+            @if (completedTrainings$ | async; as completedTrainings) {
             <ul class="training-list">
+              @for (training of completedTrainings; track training) {
               <li>
                 <div class="training-list-item-container">
                   <div class="section-container">
-                    <p class="title">Training Name</p>
-                    <p class="description">Training 1</p>
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
                   </div>
                   <div class="section-container">
                     <p class="title">Training Type</p>
-                    <p class="description">Face-to-face</p>
+                    <p class="description">
+                      {{ training?.individual ? "Individual" : "Workshop" }}
+                    </p>
                   </div>
                   <div class="section-container">
                     <p class="title">Deadline</p>
-                    <p class="description">01/01/2024</p>
+                    <p class="description">
+                      {{
+                        convertDate(training.deadline ? training.deadline : "")
+                      }}
+                    </p>
                   </div>
                   <div class="section-container last">
-                    <button class="main-button">More Info</button>
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
                   </div>
                 </div>
               </li>
+              }
             </ul>
+            }
           </mat-tab>
-          <mat-tab label="Upcoming"
-            ><ul class="training-list">
+          <mat-tab label="In Progress">
+            @if (completedTrainings$ | async; as completedTrainings) {
+            <ul class="training-list">
+              @for (training of completedTrainings; track training) {
               <li>
                 <div class="training-list-item-container">
                   <div class="section-container">
-                    <p class="title">Training Name</p>
-                    <p class="description">Training 1</p>
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
                   </div>
                   <div class="section-container">
                     <p class="title">Training Type</p>
-                    <p class="description">Face-to-face</p>
+                    <p class="description">
+                      {{ training?.individual ? "Individual" : "Workshop" }}
+                    </p>
                   </div>
                   <div class="section-container">
                     <p class="title">Deadline</p>
-                    <p class="description">01/01/2024</p>
+                    <p class="description">
+                      {{
+                        convertDate(training.deadline ? training.deadline : "")
+                      }}
+                    </p>
                   </div>
                   <div class="section-container last">
-                    <button class="main-button">More Info</button>
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
                   </div>
                 </div>
               </li>
-            </ul></mat-tab
-          >
-          <mat-tab label="Missed"
-            ><ul class="training-list">
+              }
+            </ul>
+            }
+          </mat-tab>
+          <mat-tab label="Upcoming">
+            @if (upcomingTrainings$ | async; as upcomingTrainings) {
+            <ul class="training-list">
+              @for (training of upcomingTrainings; track training) {
               <li>
                 <div class="training-list-item-container">
                   <div class="section-container">
-                    <p class="title">Training Name</p>
-                    <p class="description">Training 1</p>
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
                   </div>
                   <div class="section-container">
                     <p class="title">Training Type</p>
-                    <p class="description">Face-to-face</p>
+                    <p class="description">
+                      {{ training?.individual ? "Individual" : "Workshop" }}
+                    </p>
                   </div>
                   <div class="section-container">
                     <p class="title">Deadline</p>
-                    <p class="description">01/01/2024</p>
+                    <p class="description">
+                      {{
+                        convertDate(training.deadline ? training.deadline : "")
+                      }}
+                    </p>
                   </div>
                   <div class="section-container last">
-                    <button class="main-button">More Info</button>
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
                   </div>
                 </div>
               </li>
-            </ul></mat-tab
-          >
+              }
+            </ul>
+            }
+          </mat-tab>
+          <mat-tab label="Missed">
+            @if (missedTrainings$ | async; as missedTrainings) {
+            <ul class="training-list">
+              @for (training of missedTrainings; track training) {
+              <li>
+                <div class="training-list-item-container">
+                  <div class="section-container">
+                    <p class="title">Title</p>
+                    <p class="description">{{ training?.title }}</p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Training Type</p>
+                    <p class="description">
+                      {{ training?.individual ? "Individual" : "Workshop" }}
+                    </p>
+                  </div>
+                  <div class="section-container">
+                    <p class="title">Deadline</p>
+                    <p class="description">
+                      {{
+                        convertDate(training.deadline ? training.deadline : "")
+                      }}
+                    </p>
+                  </div>
+                  <div class="section-container last">
+                    <button
+                      class="main-button"
+                      [routerLink]="[
+                        '/dashboard/training',
+                        training.trainingId
+                      ]"
+                    >
+                      More Info
+                    </button>
+                  </div>
+                </div>
+              </li>
+              }
+            </ul>
+            }
+          </mat-tab>
         </mat-tab-group>
       </div>
     </section>

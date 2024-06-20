@@ -1,12 +1,11 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="navbar-right-section">
     <div class="logo-rapper"></div>
-
   </div>
 
   <!-- search bar -->
   <div class="search">
-    <form class="form" (submit)="search()">
+    <form class="form" >
       <div class="input-group">
         <input
           class="form-control"
@@ -21,14 +20,7 @@
       </div>
     </form>
 
-    <div class="search-results" *ngIf="searchResults.length > 0">
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let result of searchResults">
-          <a [routerLink]="result.route" class="search-result-link">{{ result.title }}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+   
   
   <!-- search bar -->
 
@@ -36,6 +28,7 @@
     class="collapse navbar-collapse justify-content-end"
     id="navbarSupportedContent"
   >
+    @if (user$ | async; as user) {
     <button
       class="btn btn-white dropdown-toggle"
       role="button"
@@ -43,8 +36,9 @@
       aria-expanded="false"
       (click)="toggleDropdown()"
     >
-      Admin
+      {{ user.fullName + " : " + user.role }}
     </button>
+    }
 
     <ul
       class="dropdown-menu"
@@ -69,11 +63,14 @@
       matTooltipPosition="below"
         >notifications</mat-icon
       > -->
-      <mat-icon class="navbar-icon-button" (click)="openDialog()"
-      matTooltip="Add training"
-      matTooltipPosition="below"
+      <mat-icon
+        class="navbar-icon-button"
+        (click)="openDialog()"
+        matTooltip="Add training"
+        matTooltipPosition="below"
         >note_add</mat-icon
       >
     </div>
+  </div>
   </div>
 </nav>
