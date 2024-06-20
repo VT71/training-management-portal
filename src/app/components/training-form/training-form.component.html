@@ -10,19 +10,34 @@
     >
     
       <section clas="training-form-left">
-        <div class="input-container">
-          <mat-form-field appearance="outline">
-            <mat-label>Title</mat-label>
-            <input matInput formControlName="title" placeholder="Ttile name" />
-          </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Individual</mat-label>
-            <mat-select formControlName="online">
-              <mat-option [value]="1">Offline</mat-option>
-              <mat-option [value]="0">Online</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div class="input-container">
+
+          <div class="input-container">
+            <div class="training-first-section">
+            <mat-form-field appearance="outline" class="title">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title" placeholder="Ttile name" />
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="type">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="online">
+                <mat-option [value]="1">Individual</mat-option>
+                <mat-option [value]="0">Workshop</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+           <mat-form-field appearance="outline">
+          <mat-label>Descriptions</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Details about training"
+          ></textarea>
+        </mat-form-field>
+
 
           <div class="date-time">
             <mat-form-field appearance="outline" class="date">
@@ -95,20 +110,12 @@
           ></app-employee-department-autoselector>
           }
         </div>
+
+        <button class="main" type="submit" mat-flat-button>Submit</button>
+        </div>
       </section>
 
-      <section clas="training-form-right">
-        <mat-form-field appearance="outline">
-          <mat-label>Descriptions</mat-label>
-          <textarea
-            matInput
-            formControlName="description"
-            placeholder="Details about training"
-          ></textarea>
-        </mat-form-field>
-        <button class="main" type="submit" mat-flat-button>Submit</button>
-        
-      </section>
+    
 
     </form>
   </div>
