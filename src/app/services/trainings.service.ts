@@ -79,4 +79,18 @@ export class TrainingsService {
         })
       );
   }
+
+  public getCompletedTrainingsByEmployee(
+    employeeId: number
+  ): Observable<TrainingInterface[]> {
+    return this.http
+      .get<TrainingInterface[]>(
+        `${this.baseUrl}/GetCompletedTrainingsByEmployee/${employeeId}`
+      )
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
 }
