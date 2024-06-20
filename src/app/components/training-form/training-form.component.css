@@ -23,6 +23,10 @@
   width: 48%;
 }
 
+.adress{
+  width: 100%;
+}
+
 section {
   width: 100%;
   margin-left: 15px;
@@ -34,6 +38,29 @@ section {
   color: var(--secondary);
   font-size: medium;
 }
+
+.section1{
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.autocomplete{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.selector1, .selector2{
+  width: 48%;
+}
+
+.section1 h3{
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
 
 .date-time {
   display: flex;

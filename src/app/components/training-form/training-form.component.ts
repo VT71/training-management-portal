@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   NgModule,
@@ -20,11 +21,12 @@ import { TrainingsService } from '../../services/trainings.service';
 
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { TrainingInterface } from '../../interfaces/training.interface';
 import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-autoselector/employee-department-autoselector.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -73,31 +75,41 @@ export class TrainingFormComponent implements OnDestroy {
   public employeesErrorMsg = '';
   public employees: number[] = [];
 
-  ngOnInit() {
-    console.log(this.type);
-  }
+  public showAdditionalFields = false;
+  public isWorkshop = false;
 
-  trainingForm: FormGroup = new FormGroup({});
+  public trainingForm = new FormGroup({
+    trainingId: new FormControl(null),
+    title: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(255),
+    ]),
+    description: new FormControl('', Validators.required),
+    individual: new FormControl(null, Validators.required),
+    adress: new FormControl(''),
+    deadline: new FormControl<string>('', Validators.required),
+    trainer: new FormControl(''),
+    time: new FormControl('', Validators.required),
+    selectionType: new FormControl('', Validators.required),
+    title1: new FormControl(''),
+    description1: new FormControl(''),
+
+  });
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
-    private fb: FormBuilder,
     private trainingApiService: TrainingsService,
     private _snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<TrainingFormComponent>
-  ) {
-    this.trainingForm = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(255)]],
-      description: ['', Validators.required],
-      individual: ['', Validators.required],
-      adress: ['', Validators.required],
-      deadline: ['', Validators.required],
-      trainer: ['', Validators.required],
-      time: ['', Validators.required],
-      selectionType: ['', Validators.required],
-    });
+  ) {}
+
+  onIndividualChange() {
+    this.showAdditionalFields =
+      this.trainingForm.controls.individual.value === 1;
+    this.isWorkshop = 
+      this.trainingForm.controls.individual.value === 0;
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
@@ -117,69 +129,72 @@ export class TrainingFormComponent implements OnDestroy {
     console.log(selectedValue);
     this.employeesSelected = false;
     this.departmentsSelected = false;
-    if (selectedValue.find((value: string)=> value==='departments')) {
+    if (selectedValue.find((value: string) => value === 'departments')) {
       this.departmentsSelected = true;
-    } 
-    if (selectedValue.find((value: string)=> value==='employees')) {
+    }
+    if (selectedValue.find((value: string) => value === 'employees')) {
       this.employeesSelected = true;
     }
   }
 
-  
-
   onSubmitTrainings() {
     const rawForm = this.trainingForm.getRawValue();
-      console.log('Raw form values:', rawForm);
-    if(this.checkAutocompletes()){
-    if ( this.trainingForm.valid) {
-      console.log('Form is valid.');
+    console.log('Raw form values:', rawForm);
+    if (this.checkAutocompletes()) {
+      if (this.trainingForm.valid) {
+        console.log('Form is valid.');
 
-      const rawForm = this.trainingForm.getRawValue();
-      console.log('Raw form values:', rawForm);
+        const rawForm = this.trainingForm.getRawValue();
+        console.log('Raw form values:', rawForm);
 
-      const formattedDeadline = this.formatDateForAzure(
-        rawForm.deadline,
-        rawForm.time
-      );
-      console.log('Formatted deadline:', formattedDeadline);
+        const formattedDeadline = this.formatDateForAzure(
+          this.trainingForm.value.deadline ?? '',
+          this.trainingForm.value.time ?? ''
+        );
 
-      const trainingData: TrainingComplete = {
-        trainingId: rawForm.trainingId,
-        title: rawForm.title,
-        description: rawForm.description,
-        individual: rawForm.online,
-        adress: rawForm.adress,
-        deadline: formattedDeadline,
-        trainer: rawForm.trainer,
-        forDepartments: this.departmentsSelected ? 1 : 0,
-        forEmployees: this.employeesSelected ? 1 : 0,
-        departments: this.departments,
-        employees: this.employees,
-      };
-      console.log('Training data:', trainingData);
+        const trainingData: TrainingComplete = {
+          trainingId: 1,
+          title: this.trainingForm.value.title ?? '',
+          description: this.trainingForm.value.description ?? '',
+          individual: this.trainingForm.value.individual ?? 0,
+          adress: this.trainingForm.value.adress ?? '',
+          deadline: formattedDeadline,
+          trainer: 'sadadasd',
+          forDepartments: this.departmentsSelected ? 1 : 0,
+          forEmployees: this.employeesSelected ? 1 : 0,
+          title1: this.trainingForm.value.title1 ?? '',
+          description1: this.trainingForm.value.description1 ?? '',
+          departments: this.departments,
+          employees: this.employees,
+        };
+        console.log('Training data:', trainingData);
 
-      this.trainingApiService.createTraining(trainingData).subscribe({
-        next: () => {
-          console.log('Training created successfully'); 
-          const snackBarRef: MatSnackBarRef<any> = this.openSnackBar('Training created successfully', 'Close');
-          this.dialogRef.close();
+        this.trainingApiService.createTraining(trainingData).subscribe({
+          next: () => {
+            console.log('Training created successfully');
+            const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
+              'Training created successfully',
+              'Close'
+            );
+            this.dialogRef.close();
 
-          snackBarRef.afterDismissed().subscribe(() => {
-            window.location.reload();
-          });
-        },
-        error: (error) => {
-          console.error('Error creating training:', error);
-          this.openSnackBar('Error creating training', 'Close');
-        },
-      });
-    } else {
-      // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
-      this.openSnackBar(
-        'Invalid form data. Please check the form again.',
-        'Close'
-      );
-    }}
+            snackBarRef.afterDismissed().subscribe(() => {
+              window.location.reload();
+            });
+          },
+          error: (error) => {
+            console.error('Error creating training:', error);
+            this.openSnackBar('Error creating training', 'Close');
+          },
+        });
+      } else {
+        // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
+        this.openSnackBar(
+          'Invalid form data. Please check the form again.',
+          'Close'
+        );
+      }
+    }
   }
 
   public formatDateForAzure(dateString: string, timeString: string): string {
@@ -221,7 +236,7 @@ export class TrainingFormComponent implements OnDestroy {
       this.departments = departmentsList; // Actualizează valorile cu selecțiile
     }
   }
-  
+
   public onEmployeesChange(employeesList: number[]) {
     if (employeesList?.length === 0 && this.employeesSelected) {
       this.setEmployeesError();
@@ -231,28 +246,26 @@ export class TrainingFormComponent implements OnDestroy {
       this.employees = employeesList; // Actualizează valorile cu selecțiile
     }
   }
-  
 
   private checkAutocompletes(): boolean {
     let valid = true;
-  
+
     if (this.departmentsSelected && this.departments.length === 0) {
       this.setDepartmentsError();
       valid = false;
     } else {
       this.removeDepartmentsError();
     }
-  
+
     if (this.employeesSelected && this.employees.length === 0) {
       this.setEmployeesError();
       valid = false;
     } else {
       this.removeEmployeesError();
     }
-  
+
     return valid;
   }
-
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

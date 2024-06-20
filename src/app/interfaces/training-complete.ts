@@ -8,6 +8,8 @@ export interface TrainingComplete {
     trainer: string;
     forDepartments: number;
     forEmployees: number;
+    title1: string;
+    description1: string;
     departments: number[];
     employees: number[];
   }

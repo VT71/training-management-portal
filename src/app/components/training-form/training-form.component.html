@@ -8,36 +8,45 @@
       [formGroup]="trainingForm"
       (ngSubmit)="onSubmitTrainings()"
     >
-    
       <section clas="training-form-left">
-
         <div class="input-container">
-
-          <div class="input-container">
-            <div class="training-first-section">
+          <div class="training-first-section">
             <mat-form-field appearance="outline" class="title">
               <mat-label>Title</mat-label>
-              <input matInput formControlName="title" placeholder="Ttile name" />
+              <input
+                matInput
+                formControlName="title"
+                placeholder="Ttile name"
+              />
             </mat-form-field>
-        
+
             <mat-form-field appearance="outline" class="type">
               <mat-label>Type</mat-label>
-              <mat-select formControlName="online">
+              <mat-select
+                formControlName="individual"
+                (selectionChange)="onIndividualChange()"
+              >
                 <mat-option [value]="1">Individual</mat-option>
                 <mat-option [value]="0">Workshop</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-          
-           <mat-form-field appearance="outline">
-          <mat-label>Descriptions</mat-label>
-          <textarea
-            matInput
-            formControlName="description"
-            placeholder="Details about training"
-          ></textarea>
-        </mat-form-field>
 
+          
+          <mat-form-field appearance="outline" class="example-full-width" *ngIf="isWorkshop">
+            <mat-label>Address 2</mat-label>
+            <textarea matInput formControlName="adress"></textarea>
+          </mat-form-field>
+          
+
+          <mat-form-field appearance="outline">
+            <mat-label>Descriptions</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              placeholder="Details about training"
+            ></textarea>
+          </mat-form-field>
 
           <div class="date-time">
             <mat-form-field appearance="outline" class="date">
@@ -97,26 +106,48 @@
             <mat-button-toggle value="employees">Employees</mat-button-toggle>
           </mat-button-toggle-group>
 
-          @if (departmentsSelected) {<app-employee-department-autoselector
-            [type]="'Departments'"
-            [errorMessage]="departmentsErrorMsg"
-            (valuesEmitter)="onDepartmentsChange($event)"
-          ></app-employee-department-autoselector
-          >} @if (employeesSelected) {
-          <app-employee-department-autoselector
-            [type]="'Employees'"
-            [errorMessage]="employeesErrorMsg"
-            (valuesEmitter)="onEmployeesChange($event)"
-          ></app-employee-department-autoselector>
-          }
+          <div class="autocomplete">
+            @if (departmentsSelected) {<app-employee-department-autoselector
+              [type]="'Departments'"
+              [errorMessage]="departmentsErrorMsg"
+              (valuesEmitter)="onDepartmentsChange($event)"
+              class="selector1"
+            ></app-employee-department-autoselector
+            >} @if (employeesSelected) {
+            <app-employee-department-autoselector
+              [type]="'Employees'"
+              [errorMessage]="employeesErrorMsg"
+              (valuesEmitter)="onEmployeesChange($event)"
+              class="selector2"
+            ></app-employee-department-autoselector>
+            }
+          </div>
+        </div>
+
+
+        <div class="input-container section1" *ngIf="showAdditionalFields">
+          <h3>Section1</h3>
+          <mat-form-field appearance="outline" class="additional-field">
+            <mat-label>Additional Field 1</mat-label>
+            <input
+              matInput
+              formControlName="title1"
+              placeholder="Enter additional info 1"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="additional-field">
+            <mat-label>Additional Field 2</mat-label>
+            <input
+              matInput
+              formControlName="description1"
+              placeholder="Enter additional info 2"
+            />
+          </mat-form-field>
         </div>
 
         <button class="main" type="submit" mat-flat-button>Submit</button>
-        </div>
       </section>
-
-    
-
     </form>
   </div>
 </div>

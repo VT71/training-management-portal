@@ -20,6 +20,9 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { DepartmentsComponent } from './components/departments/departments.component';
 import { EmployeePageComponent } from './components/employee-page/employee-page.component';
 
+
+
+
 const appName = 'Training Management Portal';
 
 export const routes: Routes = [
@@ -122,6 +125,7 @@ export const routes: Routes = [
         component: DepartmentsComponent,
         title: `Departments Page | ${appName}`,
       },
+      
     ],
   },
   { path: '**', redirectTo: '/dashboard' },

@@ -10,6 +10,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SearchService } from '../../services/search-service.service';
 
 
 @Component({
@@ -23,8 +24,13 @@ export class NavbarComponent {
   isDropdownOpen = false;
   authService = inject(AuthService);
   router = inject(Router);
+  
+  query: string = '';
 
-  constructor( public dialog: MatDialog) {}
+  searchResults: { title: string, route: string }[] = [];
+
+  constructor( public dialog: MatDialog, private searchService: SearchService) {}
+
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
   toggleDropdown() {
@@ -47,6 +53,14 @@ export class NavbarComponent {
 
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  search(): void {
+    const query = this.control.value;
+    if (query) {
+      this.router.navigate(['/search'], { queryParams: { q: query } });
+      this.searchResults = this.searchService.searchRoutes(this.query);
+    }
   }
 
 
