@@ -50,6 +50,17 @@ export class EmployeesApiService {
       );
   }
 
+  public getTrainersComplete() {
+    return this.http
+      .get<EmployeeComplete[]>(`${this.baseUrl}/GetTrainersComplete`)
+      .pipe(
+        catchError((error) => {
+          alert('Error when getting trainers data');
+          return [];
+        })
+      );
+  }
+
   public getEmployees() {
     return this.http.get<Employee[]>(`${this.baseUrl}/GetEmployees`).pipe(
       catchError((error) => {

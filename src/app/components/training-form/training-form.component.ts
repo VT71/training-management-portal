@@ -75,6 +75,9 @@ export class TrainingFormComponent implements OnDestroy {
   public employeesErrorMsg = '';
   public employees: number[] = [];
 
+  public trainerErrorMsg = '';
+  public trainer: number[] = [];
+
   public showAdditionalFields = false;
   public isWorkshop = false;
 
@@ -108,8 +111,7 @@ export class TrainingFormComponent implements OnDestroy {
   onIndividualChange() {
     this.showAdditionalFields =
       this.trainingForm.controls.individual.value === 1;
-    this.isWorkshop = 
-      this.trainingForm.controls.individual.value === 0;
+    this.isWorkshop = this.trainingForm.controls.individual.value === 0;
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
@@ -162,8 +164,8 @@ export class TrainingFormComponent implements OnDestroy {
           trainer: 'sadadasd',
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
-          // title1: this.trainingForm.value.title1 ?? '',
-          // description1: this.trainingForm.value.description1 ?? '',
+        //   title1: this.trainingForm.value.title1 ?? '',
+        //   description1: this.trainingForm.value.description1 ?? '',
           departments: this.departments,
           employees: this.employees,
         };
@@ -227,23 +229,41 @@ export class TrainingFormComponent implements OnDestroy {
     this.employeesErrorMsg = '';
   }
 
+  public setTrainerError() {
+    this.trainerErrorMsg = 'One trainer must be selected.';
+  }
+
+  public removeTrainerError() {
+    this.trainerErrorMsg = '';
+  }
+
   public onDepartmentsChange(departmentsList: number[]) {
-    if (departmentsList?.length === 0 && this.departmentsSelected) {
+    if (departmentsList?.length === 0) {
       this.setDepartmentsError();
       this.departments = []; // Resetează valorile la un array gol
-    } else if (departmentsList?.length > 0 && this.departmentsSelected) {
+    } else if (departmentsList?.length > 0) {
       this.removeDepartmentsError();
       this.departments = departmentsList; // Actualizează valorile cu selecțiile
     }
   }
 
   public onEmployeesChange(employeesList: number[]) {
-    if (employeesList?.length === 0 && this.employeesSelected) {
+    if (employeesList?.length === 0) {
       this.setEmployeesError();
       this.employees = []; // Resetează valorile la un array gol
-    } else if (employeesList?.length > 0 && this.employeesSelected) {
+    } else if (employeesList?.length > 0) {
       this.removeEmployeesError();
       this.employees = employeesList; // Actualizează valorile cu selecțiile
+    }
+  }
+
+  public onTrainerChange(trainer: number[]) {
+    if (trainer?.length !== 1) {
+      this.setTrainerError();
+      this.trainer = []; // Resetează valorile la un array gol
+    } else if (trainer?.length === 1) {
+      this.removeTrainerError();
+      this.trainer = trainer; // Actualizează valorile cu selecțiile
     }
   }
 
@@ -262,6 +282,13 @@ export class TrainingFormComponent implements OnDestroy {
       valid = false;
     } else {
       this.removeEmployeesError();
+    }
+
+    if (this.isWorkshop && this.trainer.length !== 0) {
+      this.setTrainerError();
+      valid = false;
+    } else {
+      this.removeTrainerError();
     }
 
     return valid;

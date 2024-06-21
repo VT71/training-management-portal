@@ -32,12 +32,14 @@
             </mat-form-field>
           </div>
 
-          
-          <mat-form-field appearance="outline" class="example-full-width" *ngIf="isWorkshop">
+          <mat-form-field
+            appearance="outline"
+            class="example-full-width"
+            *ngIf="isWorkshop"
+          >
             <mat-label>Address 2</mat-label>
             <textarea matInput formControlName="adress"></textarea>
           </mat-form-field>
-          
 
           <mat-form-field appearance="outline">
             <mat-label>Descriptions</mat-label>
@@ -92,6 +94,13 @@
               <ngx-material-timepicker #toggleIcon></ngx-material-timepicker>
             </div>
           </div>
+          @if (this.isWorkshop) {
+          <app-employee-department-autoselector
+            [type]="'Trainer'"
+            [errorMessage]="trainerErrorMsg"
+            (valuesEmitter)="onEmployeesChange($event)"
+          ></app-employee-department-autoselector>
+          }
 
           <mat-button-toggle-group
             name="selectionType"
@@ -123,7 +132,6 @@
             }
           </div>
         </div>
-
 
         <div class="input-container section1" *ngIf="showAdditionalFields">
           <h3>Section1</h3>
