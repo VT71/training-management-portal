@@ -24,6 +24,7 @@ export class EmployeePageComponent implements OnInit {
   public missedTrainings$!: Observable<TrainingInterface[]>;
   public completedTrainings$!: Observable<TrainingInterface[]>;
   public upcomingTrainings$!: Observable<TrainingInterface[]>;
+  public inProgressTrainings$!: Observable<TrainingInterface[]>;
   public employeeData$!: Observable<EmployeeComplete>;
 
   ngOnInit() {
@@ -38,17 +39,18 @@ export class EmployeePageComponent implements OnInit {
       this.upcomingTrainings$ = this.trainingsApiService
         .getUpcomingTrainingsByEmployee(this.id)
         .pipe(share());
+      this.inProgressTrainings$ = this.trainingsApiService
+        .getInProgressTrainingsByEmployee(this.id)
+        .pipe(share());
     }
   }
 
   public convertDate(date: string): string {
     if (date) {
-      return date
-        .slice(0, 10)
-        .split('-')
-        .reverse()
-        .join('-')
-        .replaceAll('-', '/');
+      return (
+        date.slice(11, 16) + " " +
+        date.slice(0, 10).split('-').reverse().join('-').replaceAll('-', '/')
+      );
     } else {
       return '';
     }

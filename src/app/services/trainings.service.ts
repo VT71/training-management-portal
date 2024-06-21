@@ -107,4 +107,18 @@ export class TrainingsService {
         })
       );
   }
+
+  public getInProgressTrainingsByEmployee(
+    employeeId: number
+  ): Observable<TrainingInterface[]> {
+    return this.http
+      .get<TrainingInterface[]>(
+        `${this.baseUrl}/GetInProgressTrainingsByEmployee/${employeeId}`
+      )
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
 }

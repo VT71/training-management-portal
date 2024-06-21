@@ -43,13 +43,14 @@
               {{ completedTrainings?.length }}
             </p>
           </div>
-          }
-
+          } @if (inProgressTrainings$ | async; as inProgressTrainings) {
           <div class="stat-container in-progress">
             <p>In Progress Trainings</p>
-            <p class="bold stat-value upcoming">10</p>
+            <p class="bold stat-value upcoming">
+              {{ inProgressTrainings?.length }}
+            </p>
           </div>
-          @if (upcomingTrainings$ | async; as upcomingTrainings) {
+          } @if (upcomingTrainings$ | async; as upcomingTrainings) {
           <div class="stat-container upcoming">
             <p>Upcoming Trainings</p>
             <p class="bold stat-value upcoming">
@@ -107,9 +108,9 @@
             }
           </mat-tab>
           <mat-tab label="In Progress">
-            @if (completedTrainings$ | async; as completedTrainings) {
+            @if (inProgressTrainings$ | async; as inProgressTrainings) {
             <ul class="training-list">
-              @for (training of completedTrainings; track training) {
+              @for (training of inProgressTrainings; track training) {
               <li>
                 <div class="training-list-item-container">
                   <div class="section-container">
