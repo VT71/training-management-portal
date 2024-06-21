@@ -95,7 +95,6 @@ export class TrainingFormComponent implements OnDestroy {
     selectionType: new FormControl('', Validators.required),
     // title1: new FormControl(''),
     // description1: new FormControl(''),
-
   });
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -283,7 +282,7 @@ export class TrainingFormComponent implements OnDestroy {
       this.removeEmployeesError();
     }
 
-    if (this.isWorkshop && this.trainer.length !== 0) {
+    if (this.isWorkshop && this.trainer.length !== 1) {
       this.setTrainerError();
       valid = false;
     } else {
