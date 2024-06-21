@@ -5,10 +5,12 @@ export interface TrainingComplete {
     individual: number;
     adress: string;
     deadline: string;
-    trainer: string;
+    trainer: number[];
     forDepartments: number;
     forEmployees: number;
     departments: number[];
     employees: number[];
+    // title1: string;
+    // description1: string;
   }
 

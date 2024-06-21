@@ -37,7 +37,7 @@
             class="example-full-width"
             *ngIf="isWorkshop"
           >
-            <mat-label>Address 2</mat-label>
+            <mat-label>Adress or Link</mat-label>
             <textarea matInput formControlName="adress"></textarea>
           </mat-form-field>
 
@@ -99,6 +99,7 @@
             [type]="'Trainer'"
             [errorMessage]="trainerErrorMsg"
             (valuesEmitter)="onEmployeesChange($event)"
+            formControlName="trainer"
           ></app-employee-department-autoselector>
           }
 
@@ -136,20 +137,20 @@
         <div class="input-container section1" *ngIf="showAdditionalFields">
           <h3>Section1</h3>
           <mat-form-field appearance="outline" class="additional-field">
-            <mat-label>Additional Field 1</mat-label>
+            <mat-label>Ttitle</mat-label>
             <input
               matInput
               formControlName="title1"
-              placeholder="Enter additional info 1"
+              placeholder="Enter additional tilte"
             />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="additional-field">
-            <mat-label>Additional Field 2</mat-label>
+            <mat-label>Description</mat-label>
             <input
               matInput
               formControlName="description1"
-              placeholder="Enter additional info 2"
+              placeholder="Enter additional description"
             />
           </mat-form-field>
         </div>

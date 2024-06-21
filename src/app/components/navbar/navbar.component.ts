@@ -6,12 +6,13 @@ import { CommonModule, NgIf } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchService } from '../../services/search-service.service';
 import { UsersApiService } from '../../services/users-api.service';
+import { ArticleInterface } from '../../interfaces/article.interface';
 
 
 
@@ -29,6 +30,7 @@ import { UsersApiService } from '../../services/users-api.service';
     RouterLinkActive,
     CommonModule,
     ReactiveFormsModule,
+  
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -43,6 +45,12 @@ export class NavbarComponent implements OnInit {
 
   searchResults: { title: string, route: string }[] = [];
   user$: any;
+  searchValue = '';
+  articles: ArticleInterface[] = [];
+
+  public searchForm = new FormGroup({
+    search: new FormControl(''),
+  });
 
   constructor( public dialog: MatDialog, private searchService: SearchService) {}
 
@@ -55,7 +63,15 @@ export class NavbarComponent implements OnInit {
       let uid = objSessionAuthUser?.uid;
       this.user$ = this.usersApiService.getUserById(uid);
     }
+
+    this.fetchData();
   }
+
+  fetchData(): void {
+    this.searchService.getArticles(this.searchValue).subscribe((articles) => {
+      this.articles = articles;
+    });
+}
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -80,13 +96,13 @@ export class NavbarComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  search(): void {
-    const query = this.control.value;
-    if (query) {
-      this.router.navigate(['/search'], { queryParams: { q: query } });
-      this.searchResults = this.searchService.searchRoutes(this.query);
-    }
-  }
+  // search(): void {
+  //   const query = this.control.value;
+  //   if (query) {
+  //     this.router.navigate(['/search'], { queryParams: { q: query } });
+  //     this.searchValue = this.searchService.getArticle(this.query);
+  //   }
+  // }
 
 
 }

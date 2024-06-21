@@ -7,15 +7,39 @@
         <p class="title">Titlu Training: {{ training.title }}</p>
       </div>
       <div class="section-container">
-        <p class="title">Description: {{ training.description }}</p>
-      </div>
-      <div class="section-container">
         <p class="title">
           Training Type: {{ training.individual ? "Online" : "Workshop" }}
         </p>
       </div>
       <div class="section-container">
         <p class="title">Deadline: {{ training.deadline }}</p>
+      </div>
+      <div class="section-container">
+        <p class="title">
+          Training Status: {{ training.individual ? "Online" : "Workshop" }}
+        </p>
+        <div class="section-container">
+          <h2 class="section-title">Trainer Information</h2>
+          <p class="title">Trainer:</p>
+          <!-- Add more trainer details here -->
+        </div>
+
+        <div class="section-container">
+          <h2 class="section-title">Location</h2>
+          <p class="title">Address: {{ training.adress }}</p>
+          <!-- Add a map or more location details here if applicable -->
+        </div>
+
+        <div class="section-container">
+          <h2 class="section-title">Participants</h2>
+          <p class="title">
+            For Departments: {{ training.forDepartments ? "Yes" : "No" }}
+          </p>
+          <p class="title">
+            For Employees: {{ training.forEmployees ? "Yes" : "No" }}
+          </p>
+          <!-- Add more participant details here -->
+        </div>
       </div>
       <!-- Alte informații pe care dorești să le afișezi -->
     </div>
