@@ -6,13 +6,15 @@ import { CommonModule, NgIf } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SearchService } from '../../services/search-service.service';
 import { UsersApiService } from '../../services/users-api.service';
-import { Observable, map } from 'rxjs';
-import { User } from '../../interfaces/user';
+import { ArticleInterface } from '../../interfaces/article.interface';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -28,6 +30,7 @@ import { User } from '../../interfaces/user';
     RouterLinkActive,
     CommonModule,
     ReactiveFormsModule,
+  
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -37,9 +40,20 @@ export class NavbarComponent implements OnInit {
   authService = inject(AuthService);
   usersApiService = inject(UsersApiService);
   router = inject(Router);
-  public user$!: Observable<User>;
+  
+  query: string = '';
 
-  constructor(public dialog: MatDialog) {}
+  searchResults: { title: string, route: string }[] = [];
+  user$: any;
+  searchValue = '';
+  articles: ArticleInterface[] = [];
+
+  public searchForm = new FormGroup({
+    search: new FormControl(''),
+  });
+
+  constructor( public dialog: MatDialog, private searchService: SearchService) {}
+
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
   ngOnInit(): void {
@@ -49,7 +63,15 @@ export class NavbarComponent implements OnInit {
       let uid = objSessionAuthUser?.uid;
       this.user$ = this.usersApiService.getUserById(uid);
     }
+
+    this.fetchData();
   }
+
+  fetchData(): void {
+    this.searchService.getArticles(this.searchValue).subscribe((articles) => {
+      this.articles = articles;
+    });
+}
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -73,4 +95,14 @@ export class NavbarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {});
   }
+
+  // search(): void {
+  //   const query = this.control.value;
+  //   if (query) {
+  //     this.router.navigate(['/search'], { queryParams: { q: query } });
+  //     this.searchValue = this.searchService.getArticle(this.query);
+  //   }
+  // }
+
+
 }

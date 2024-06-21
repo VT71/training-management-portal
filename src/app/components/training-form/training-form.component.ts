@@ -91,11 +91,11 @@ export class TrainingFormComponent implements OnDestroy {
     individual: new FormControl(null, Validators.required),
     adress: new FormControl(''),
     deadline: new FormControl<string>('', Validators.required),
-    trainer: new FormControl(''),
     time: new FormControl('', Validators.required),
     selectionType: new FormControl('', Validators.required),
-    title1: new FormControl(''),
-    description1: new FormControl(''),
+    // title1: new FormControl(''),
+    // description1: new FormControl(''),
+
   });
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -154,17 +154,17 @@ export class TrainingFormComponent implements OnDestroy {
         );
 
         const trainingData: TrainingComplete = {
-          trainingId: 1,
+          trainingId: this.trainingForm.value.trainingId ?? 0,
           title: this.trainingForm.value.title ?? '',
           description: this.trainingForm.value.description ?? '',
           individual: this.trainingForm.value.individual ?? 0,
           adress: this.trainingForm.value.adress ?? '',
           deadline: formattedDeadline,
-          trainer: 'sadadasd',
+          trainer: this.trainer,
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
-        //   title1: this.trainingForm.value.title1 ?? '',
-        //   description1: this.trainingForm.value.description1 ?? '',
+          // title1: this.trainingForm.value.title1 ?? '',
+          // description1: this.trainingForm.value.description1 ?? '',
           departments: this.departments,
           employees: this.employees,
         };
