@@ -52,7 +52,7 @@ import { EmployeeComplete } from '../../interfaces/employee-complete';
   styleUrl: './employee-department-autoselector.component.css',
 })
 export class EmployeeDepartmentAutoselectorComponent implements OnInit {
-  @Input() type!: 'Departments' | 'Employees';
+  @Input() type!: 'Departments' | 'Employees' | 'Trainer';
   @Input() operationType!: string;
   @Output() valuesEmitter = new EventEmitter<number[]>();
   @Input() apiSelectedValues!: number[];
@@ -77,6 +77,7 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
 
   private apiDepartments: Department[] = [];
   private apiEmployees: EmployeeComplete[] = [];
+  private apiTrainers: EmployeeComplete[] = [];
 
   @ViewChild('selectorInput') selectorInput!: ElementRef<HTMLInputElement>;
 
@@ -109,6 +110,12 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
       } else {
         this.getApiEmployees();
       }
+    } else if (this.type === 'Trainer') {
+      // if (this.operationType === 'edit' && this.apiSelectedValues) {
+      //   this.getApiEmployees(this.apiSelectedValues);
+      // } else {
+      this.getApiTrainers();
+      // }
     }
   }
 
@@ -175,6 +182,37 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
     this.subscriptions.push(getEmployeesSubscription);
   }
 
+  private getApiTrainers(apiValues?: number[]) {
+    const getTrainersSubscription = this.employeesApiService
+      .getTrainersComplete()
+      .subscribe((res: EmployeeComplete[]) => {
+        this.apiTrainers = res;
+        let tempArray = [];
+        for (const trainer of this.apiTrainers) {
+          if (trainer?.fullName) {
+            tempArray.push(trainer?.fullName);
+          }
+        }
+        this.allValues = tempArray;
+
+        if (apiValues) {
+          let tempArray = [];
+          for (const apiValue of apiValues) {
+            const valueToFind = this.apiTrainers.find(
+              (apiTrainer) => apiTrainer?.employeeId === apiValue
+            );
+            if (valueToFind) {
+              tempArray.push(valueToFind?.fullName);
+            }
+          }
+          this.selectedValues = tempArray;
+        }
+
+        this.setFormControlValueChange();
+      });
+    this.subscriptions.push(getTrainersSubscription);
+  }
+
   remove(value: string): void {
     const index = this.selectedValues.indexOf(value);
 
@@ -227,6 +265,17 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
           );
           if (apiEmployee) {
             tempArray.push(apiEmployee.employeeId);
+          }
+        }
+      }
+    } else if (this.type === 'Trainer') {
+      if (this.apiTrainers?.length > 0) {
+        for (const value of this.selectedValues) {
+          const apiTrainer = this.apiTrainers.find(
+            (trainer) => trainer.fullName === value
+          );
+          if (apiTrainer) {
+            tempArray.push(apiTrainer.employeeId);
           }
         }
       }
