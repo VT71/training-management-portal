@@ -1,24 +1,27 @@
-<div class="page-container">
-  <div class="training-list-item-container container-left">
-    <img src="../../../assets/download.jpg" alt="">
+<div class="training-page-container">
+  <h1 class="component-main-title">Training Page</h1>
+  <div class="page-container">
+    <div class="training-list-item-container container-left" *ngIf="training">
+      <!-- Detaliile antrenamentului -->
+      <div class="section-container">
+        <p class="title">Titlu Training: {{ training.title }}</p>
+      </div>
+      <div class="section-container">
+        <p class="title">Description: {{ training.description }}</p>
+      </div>
+      <div class="section-container">
+        <p class="title">
+          Training Type: {{ training.individual ? "Online" : "Workshop" }}
+        </p>
+      </div>
+      <div class="section-container">
+        <p class="title">Deadline: {{ training.deadline }}</p>
+      </div>
+      <!-- Alte informații pe care dorești să le afișezi -->
+    </div>
+
+    <div class="training-list-item-container container-right">
+      <img src="../../../assets/download.jpg" alt="" />
+    </div>
   </div>
-
-  <div class="training-list-item-container container-right" *ngIf="training">
-    <!-- Detaliile antrenamentului -->
-    <div class="section-container">
-      <p class="title">Titlu Training: {{ training.title }}</p>
-    </div>
-    <div class="section-container">
-      <p class="title">Description: {{ training.description }}</p>
-    </div>
-    <div class="section-container">
-      <p class="title">Training Type: {{ training.individual ? 'Online' : 'Workshop' }}</p>
-    </div>
-    <div class="section-container">
-      <p class="title">Deadline: {{ training.deadline }}</p>
-    </div>
-    <!-- Alte informații pe care dorești să le afișezi -->
-  </div>
-  
-
-
+</div>

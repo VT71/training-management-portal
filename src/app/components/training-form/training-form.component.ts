@@ -91,8 +91,8 @@ export class TrainingFormComponent implements OnDestroy {
     trainer: new FormControl(''),
     time: new FormControl('', Validators.required),
     selectionType: new FormControl('', Validators.required),
-    title1: new FormControl(''),
-    description1: new FormControl(''),
+    // title1: new FormControl(''),
+    // description1: new FormControl(''),
 
   });
 
@@ -162,8 +162,8 @@ export class TrainingFormComponent implements OnDestroy {
           trainer: 'sadadasd',
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
-          title1: this.trainingForm.value.title1 ?? '',
-          description1: this.trainingForm.value.description1 ?? '',
+          // title1: this.trainingForm.value.title1 ?? '',
+          // description1: this.trainingForm.value.description1 ?? '',
           departments: this.departments,
           employees: this.employees,
         };

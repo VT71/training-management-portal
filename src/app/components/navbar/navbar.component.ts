@@ -10,9 +10,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SearchService } from '../../services/search-service.service';
 import { UsersApiService } from '../../services/users-api.service';
-import { Observable, map } from 'rxjs';
-import { User } from '../../interfaces/user';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -37,9 +38,14 @@ export class NavbarComponent implements OnInit {
   authService = inject(AuthService);
   usersApiService = inject(UsersApiService);
   router = inject(Router);
-  public user$!: Observable<User>;
+  
+  query: string = '';
 
-  constructor(public dialog: MatDialog) {}
+  searchResults: { title: string, route: string }[] = [];
+  user$: any;
+
+  constructor( public dialog: MatDialog, private searchService: SearchService) {}
+
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
   ngOnInit(): void {
@@ -73,4 +79,14 @@ export class NavbarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {});
   }
+
+  search(): void {
+    const query = this.control.value;
+    if (query) {
+      this.router.navigate(['/search'], { queryParams: { q: query } });
+      this.searchResults = this.searchService.searchRoutes(this.query);
+    }
+  }
+
+
 }
