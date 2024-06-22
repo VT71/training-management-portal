@@ -121,4 +121,14 @@ export class TrainingsService {
         })
       );
   }
+
+  public getMissedTrainings(): Observable<TrainingInterface[]> {
+    return this.http
+      .get<TrainingInterface[]>(`${this.baseUrl}/GetMissedTrainings`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
 }
