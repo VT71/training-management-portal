@@ -1,77 +1,39 @@
 <div class="root-container">
   <h1 class="component-main-title">Upcoming Trainings</h1>
-   <!-- <div>{{test | async}}</div> -->
   <div class="training-list-container">
+    @if (upcomingTrainings$ | async; as upcomingTrainings) {
     <ul class="training-list">
+      @for (training of upcomingTrainings; track training) {
       <li>
         <div class="training-list-item-container">
           <div class="section-container">
-            <p class="title">Training Name</p>
-            <p class="description">Training 1</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Employee Name</p>
-            <p class="description">Full Name</p>
+            <p class="title">Title</p>
+            <p class="description">{{ training?.title }}</p>
           </div>
           <div class="section-container">
             <p class="title">Training Type</p>
-            <p class="description">Face-to-face</p>
+            <p class="description">
+              {{ training?.individual ? "Individual" : "Workshop" }}
+            </p>
           </div>
           <div class="section-container">
             <p class="title">Deadline</p>
-            <p class="description">01/01/2024</p>
+            <p class="description">
+              {{ convertDate(training.deadline ? training.deadline : "") }}
+            </p>
           </div>
           <div class="section-container last">
-            <button class="main-button">More Info</button>
+            <button
+              class="main-button"
+              [routerLink]="['/dashboard/training', training.trainingId]"
+            >
+              More Info
+            </button>
           </div>
         </div>
       </li>
-      <li>
-        <div class="training-list-item-container">
-          <div class="section-container">
-            <p class="title">Training Name</p>
-            <p class="description">Training 1</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Employee Name</p>
-            <p class="description">Full Name</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Training Type</p>
-            <p class="description">Face-to-face</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Deadline</p>
-            <p class="description">01/01/2024</p>
-          </div>
-          <div class="section-container last">
-            <button class="main-button">More Info</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="training-list-item-container">
-          <div class="section-container">
-            <p class="title">Training Name</p>
-            <p class="description">Training 1</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Employee Name</p>
-            <p class="description">Full Name</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Training Type</p>
-            <p class="description">Face-to-face</p>
-          </div>
-          <div class="section-container">
-            <p class="title">Deadline</p>
-            <p class="description">01/01/2024</p>
-          </div>
-          <div class="section-container last">
-            <button class="main-button">More Info</button>
-          </div>
-        </div>
-      </li>
+      }
     </ul>
+    }
   </div>
 </div>

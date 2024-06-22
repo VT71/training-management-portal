@@ -131,4 +131,14 @@ export class TrainingsService {
         })
       );
   }
+
+  public getUpcomingTrainings(): Observable<TrainingInterface[]> {
+    return this.http
+      .get<TrainingInterface[]>(`${this.baseUrl}/GetUpcomingTrainings`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
 }
