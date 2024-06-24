@@ -51,9 +51,8 @@ section {
   color: var(--main);
 }
 
-.start-date,
-.end-date {
-  width: 36%;
+.range-date {
+  width: 76%;
 }
 
 button.main {

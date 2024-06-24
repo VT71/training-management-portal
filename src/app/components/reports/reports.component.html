@@ -5,29 +5,30 @@
   <div class="sections-container">
     <section class="date-ranges">
       <form class="date-range-form">
-        <mat-form-field appearance="outline" class="start-date">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="picker" />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-form-field appearance="outline" class="range-date">
+          <mat-label>Date Range</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="Start date"
+            />
+            <input matEndDate formControlName="end" placeholder="End date" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle
             matIconSuffix
             [for]="picker"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+          <mat-date-range-picker #picker></mat-date-range-picker>
 
-        <mat-form-field appearance="outline" class="end-date">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="picker" />
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          @if (range.controls.start.hasError('matStartDateInvalid')) {
+          <mat-error>Invalid start date</mat-error>
+          } @if (range.controls.end.hasError('matEndDateInvalid')) {
+          <mat-error>Invalid end date</mat-error>
+          }
         </mat-form-field>
-
-        <button class="main" mat-flat-button type="submit">Submit</button>
+        <button class="main" mat-flat-button type="submit">Apply Range</button>
       </form>
     </section>
 
