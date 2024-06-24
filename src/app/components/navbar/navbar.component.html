@@ -5,7 +5,7 @@
 
   <!-- search bar -->
   <div class="search">
-    <form class="form" >
+    <form class="form">
       <div class="input-group">
         <input
           class="form-control"
@@ -23,12 +23,14 @@
     <div class="search-results" *ngIf="searchResults.length > 0">
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let result of searchResults">
-          <a [routerLink]="result.route" class="search-result-link">{{ result.title }}</a>
+          <a [routerLink]="result.route" class="search-result-link">{{
+            result.title
+          }}</a>
         </li>
       </ul>
     </div>
   </div>
-  
+
   <!-- search bar -->
 
   <div
@@ -43,8 +45,8 @@
       aria-expanded="false"
       (click)="toggleDropdown()"
     >
-    Admin
-      <!-- {{ user.fullName + " : " + user.role }} -->
+      <span class="user-name">{{ user.fullName }}</span> :
+      <span class="user-role">{{ user.role }}</span>
     </button>
     }
 

@@ -20,7 +20,6 @@
   height: 60px;
   width: 240px;
   padding: 0.5rem;
- 
 }
 
 .logo-rapper {
@@ -71,9 +70,9 @@
 
 .dropdown-item {
   cursor: pointer;
-  font-family:  var(--main-font);
+  font-family: var(--main-font);
   color: rgb(255, 255, 255);
-  font-size: large,;
+  font-size: large;
   width: 100%;
   font-weight: solid;
 }
@@ -87,8 +86,6 @@
   background-color: rgb(255, 255, 255);
   color: var(--secondary);
 }
-
-
 
 .navbar-icons-container {
   display: flex;
@@ -153,7 +150,6 @@
   border-color: var(--secondary);
 }
 
-
 .btn1 {
   position: absolute;
   padding-top: 10px;
@@ -169,8 +165,8 @@
   color: var(--secondary);
 }
 
-
-
-
+.user-name {
+  color: var(--secondary);
+}
 
 /* navbar  */

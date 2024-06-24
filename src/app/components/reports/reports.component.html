@@ -1,20 +1,52 @@
 <div class="report-container">
-    <h2>Training Reports</h2>
-    
-    <!-- Filter Section -->
-    <div class="filter-section">
-      <label for="date-range">Select Date Range:</label>
-      <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
-    </div>
-    
-    <!-- Report Visualization Section -->
-    <div class="report-visualization">
-      <!-- Example: Bar Chart for Training Attendance -->
-      <div id="training-attendance-chart" class="chart"></div>
-      
-      <!-- Example: Pie Chart for Training Completion Status -->
-      <div id="completion-status-chart" class="chart"></div>
-      
-      <!-- Add more report visualizations here -->
-    </div>
+  <h1 class="component-main-title">Reports</h1>
+  <h2 class="range-heading">01/06/2024 - 01/06/2024</h2>
+
+  <div class="sections-container">
+    <section class="date-ranges">
+      <form class="date-range-form">
+        <mat-form-field appearance="outline" class="start-date">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="end-date">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <button class="main" mat-flat-button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <section class="main-info">
+      <div class="personal-info-container">
+        <h2>Personal Info</h2>
+        <p>Employee ID: <span class="bold">eee</span></p>
+
+        <p>User ID: <span class="bold">ddd</span></p>
+
+        <p>Full Name: <span class="bold">ccc</span></p>
+
+        <p>Department: <span class="bold">bbb</span></p>
+
+        <p>
+          Trainer:
+          <span class="bold">aaa</span>
+        </p>
+      </div>
+    </section>
   </div>
+</div>

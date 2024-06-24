@@ -13,8 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchService } from '../../services/search-service.service';
 import { UsersApiService } from '../../services/users-api.service';
 import { ArticleInterface } from '../../interfaces/article.interface';
-
-
+import { User } from '../../interfaces/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -30,7 +30,6 @@ import { ArticleInterface } from '../../interfaces/article.interface';
     RouterLinkActive,
     CommonModule,
     ReactiveFormsModule,
-  
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -40,11 +39,11 @@ export class NavbarComponent implements OnInit {
   authService = inject(AuthService);
   usersApiService = inject(UsersApiService);
   router = inject(Router);
-  
+
   query: string = '';
 
-  searchResults: { title: string, route: string }[] = [];
-  user$: any;
+  searchResults: { title: string; route: string }[] = [];
+  user$!: Observable<User>;
   searchValue = '';
   articles: ArticleInterface[] = [];
 
@@ -52,7 +51,7 @@ export class NavbarComponent implements OnInit {
     search: new FormControl(''),
   });
 
-  constructor( public dialog: MatDialog, private searchService: SearchService) {}
+  constructor(public dialog: MatDialog, private searchService: SearchService) {}
 
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
@@ -71,7 +70,7 @@ export class NavbarComponent implements OnInit {
     this.searchService.getArticles(this.searchValue).subscribe((articles) => {
       this.articles = articles;
     });
-}
+  }
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -103,6 +102,4 @@ export class NavbarComponent implements OnInit {
   //     this.searchValue = this.searchService.getArticle(this.query);
   //   }
   // }
-
-
 }
