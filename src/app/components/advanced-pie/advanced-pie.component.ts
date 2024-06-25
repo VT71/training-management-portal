@@ -30,21 +30,21 @@ export class AdvancedPieComponent {
   isDoughnut: boolean = false;
 
   colorScheme = {
-    name: 'cool',
-    selectable: true,
+    name: 'ocean',
+    selectable: false,
     group: ScaleType.Ordinal,
     domain: [
-      '#a8385d',
-      '#7aa3e5',
-      '#a27ea8',
-      '#aae3f5',
-      '#adcded',
-      '#a95963',
-      '#8796c0',
-      '#7ed3ed',
-      '#50abcc',
-      '#ad6886',
-    ],
+      '#1D68FB',
+      '#33C0FC',
+      '#4AFFFE',
+      '#AFFFFF',
+      '#FFFC63',
+      '#FDBD2D',
+      '#FC8A25',
+      '#FA4F1E',
+      '#FA141B',
+      '#BA38D1'
+    ]
   };
 
   constructor() {

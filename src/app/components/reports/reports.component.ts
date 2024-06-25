@@ -14,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { PieGridComponent } from '../pie-grid/pie-grid.component';
 import { AdvancedPieComponent } from '../advanced-pie/advanced-pie.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { GaugeChartComponent } from '../gauge-chart/gauge-chart.component';
 
 export const single = [
   {
@@ -44,6 +46,8 @@ export const single = [
     CommonModule,
     PieGridComponent,
     AdvancedPieComponent,
+    MatTabsModule,
+    GaugeChartComponent
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './reports.component.html',
