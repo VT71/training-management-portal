@@ -46,7 +46,7 @@ export const single = [
     NgxChartsModule,
     CommonModule,
     PieGridComponent,
-    AdvancedPieComponent,
+    AdvancedPieComponent, 
     MatTabsModule,
     GaugeChartComponent,
     GroupedVerticalBarChartComponent,
