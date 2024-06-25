@@ -1,5 +1,5 @@
 export interface EmployeeComplete {
-  trainingId: number;
+  trainingId: number; 
   employeeId: number;
   trainer: number;
   userId: string;

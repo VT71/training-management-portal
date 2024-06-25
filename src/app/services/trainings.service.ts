@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TrainingInterface } from '../interfaces/training.interface';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { TrainingComplete } from '../interfaces/training-complete';
 
 @Injectable({
   providedIn: 'root',

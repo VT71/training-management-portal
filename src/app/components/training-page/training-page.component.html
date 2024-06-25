@@ -1,51 +1,70 @@
 <div class="training-page-container">
   <h1 class="component-main-title">Training Page</h1>
+
   <div class="page-container">
     <div class="training-list-item-container container-left" *ngIf="training">
       <!-- Detaliile antrenamentului -->
-      <div class="section-container">
-        <p class="title">Titlu Training: {{ training.title }}</p>
+      <div class="section-container first">
+        <h2 class="title">Title:</h2>
+        <h2 class="content">{{ training.title }}</h2>
       </div>
-      <div class="section-container">
-        <p class="title">
-          Training Type: {{ training.individual ? "Online" : "Workshop" }}
-        </p>
+      <div class="section-container type">
+        <h2 class="title">Training Type:</h2>
+        <h2 class="content">
+          {{ training.individual ? "Online" : "Workshop" }}
+        </h2>
       </div>
-      <div class="section-container">
-        <p class="title">Deadline: {{ training.deadline }}</p>
-      </div>
-      <div class="section-container">
-        <p class="title">
-          Training Status: {{ training.individual ? "Online" : "Workshop" }}
-        </p>
-        <div class="section-container">
-          <h2 class="section-title">Trainer Information</h2>
-          <p class="title">Trainer:</p>
-          <!-- Add more trainer details here -->
-        </div>
 
-        <div class="section-container">
-          <h2 class="section-title">Location</h2>
-          <p class="title">Address: {{ training.adress }}</p>
-          <!-- Add a map or more location details here if applicable -->
-        </div>
+      
+      <div class="section-container status">
+        <h2 class="title">Training Status:</h2>
+        <h2 class="content"></h2>
+      </div>
 
-        <div class="section-container">
-          <h2 class="section-title">Participants</h2>
-          <p class="title">
-            For Departments: {{ training.forDepartments ? "Yes" : "No" }}
-          </p>
-          <p class="title">
-            For Employees: {{ training.forEmployees ? "Yes" : "No" }}
-          </p>
-          <!-- Add more participant details here -->
+      <div class="section-container trainer">
+        <h2 class="title">Trainer:</h2>
+        <h2 class="content">{{ training.trainer }}</h2>
+        <!-- Add more trainer details here -->
+      </div>
+
+      <div class="section-container adress">
+        <h2 class="title">Address:</h2>
+        <h2 class="content">{{ training.adress }}</h2>
+      </div>
+
+      <div class="section-container deadline">
+        <h2 class="title">Deadline:</h2>
+        <h2 class="content">{{ training.deadline }}</h2>
+      </div>
+      <!-- Add more participant details here -->
+      <div class="section-container departments">
+        <h2 class="title">Participants:</h2>
+        <div class="participants-details">
+          <h2 class="content">
+            For Departments:
+            <ul></ul>
+          </h2>
+          <h2 class="content">
+            For Employees:
+            <ul></ul>
+          </h2>
         </div>
       </div>
-      <!-- Alte informații pe care dorești să le afișezi -->
+
     </div>
 
-    <div class="training-list-item-container container-right">
-      <img src="../../../assets/download.jpg" alt="" />
+    
+
+    <div class="right-content-wrapper">
+      <div class="container-right img">
+        <img src="../../../assets/download.jpg" alt="" />
+      </div>
+      <div class="training-list-item-container description container-right">
+        <h2 class="title">Description:</h2>
+        <h2 class="content">{{ training.description }}</h2>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Alte informații pe care dorești să le afișezi -->
