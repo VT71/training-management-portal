@@ -3,16 +3,12 @@ import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 
 export const single = [
   {
-    name: 'Overall',
-    value: 8940000,
+    name: 'Software Development',
+    value: 89,
   },
   {
-    name: 'By Departments',
-    value: 5000000,
-  },
-  {
-    name: 'By Employees',
-    value: 7200000,
+    name: 'Customer Support',
+    value: 120,
   },
 ];
 
