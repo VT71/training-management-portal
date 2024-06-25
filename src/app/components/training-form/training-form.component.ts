@@ -160,6 +160,8 @@ export class TrainingFormComponent implements OnDestroy {
           adress: this.trainingForm.value.adress ?? '',
           deadline: formattedDeadline,
           trainer: this.trainer,
+          status: '',
+          trainerName: [],
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
           // title1: this.trainingForm.value.title1 ?? '',

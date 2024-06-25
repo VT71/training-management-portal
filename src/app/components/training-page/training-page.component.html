@@ -1,70 +1,119 @@
 <div class="training-page-container">
   <h1 class="component-main-title">Training Page</h1>
 
-  <div class="page-container">
-    <div class="training-list-item-container container-left" *ngIf="training">
-      <!-- Detaliile antrenamentului -->
-      <div class="section-container first">
-        <h2 class="title">Title:</h2>
-        <h2 class="content">{{ training.title }}</h2>
-      </div>
-      <div class="section-container type">
-        <h2 class="title">Training Type:</h2>
-        <h2 class="content">
-          {{ training.individual ? "Online" : "Workshop" }}
-        </h2>
+  <div class="page-container ">
+    @if (training | async; as training) {
+    <div class="training-list-item-container container-left" >
+      <div class="info">
+        <h2 class="title">Training Info</h2>
+        <p>
+          Title: <span class="bold">{{ training.title }}</span>
+        </p>
+        <p>
+          Training Type:
+          <span class="bold">
+            {{ training.individual ? "Online" : "Workshop" }}</span
+          >
+        </p>
+        <p>
+          Training Status:
+          <span class="bold">
+            {{ training.individual ? "Online" : "Workshop" }}</span
+          >
+        </p>
+
+        <div class="trainer-continer">
+          <p>
+            Trainer: <span class="bold">{{ training.trainer }}</span>
+          </p>
+        </div>
+
+        <p>
+          Address: <span class="bold">{{ training.adress }}</span>
+        </p>
+        <p>
+          Deadline:
+          <span class="bold"> {{
+            convertDate(training.deadline ? training.deadline : "")
+          }}</span>
+        </p>
       </div>
 
-      
-      <div class="section-container status">
-        <h2 class="title">Training Status:</h2>
-        <h2 class="content"></h2>
-      </div>
+      <div class="departments">
+        <h2 class="title">Participants</h2>
 
-      <div class="section-container trainer">
-        <h2 class="title">Trainer:</h2>
-        <h2 class="content">{{ training.trainer }}</h2>
-        <!-- Add more trainer details here -->
-      </div>
-
-      <div class="section-container adress">
-        <h2 class="title">Address:</h2>
-        <h2 class="content">{{ training.adress }}</h2>
-      </div>
-
-      <div class="section-container deadline">
-        <h2 class="title">Deadline:</h2>
-        <h2 class="content">{{ training.deadline }}</h2>
-      </div>
-      <!-- Add more participant details here -->
-      <div class="section-container departments">
-        <h2 class="title">Participants:</h2>
         <div class="participants-details">
-          <h2 class="content">
-            For Departments:
-            <ul></ul>
-          </h2>
-          <h2 class="content">
-            For Employees:
-            <ul></ul>
-          </h2>
+          <div class="departments-container">
+            <p>
+              Departments:
+              <span class="bold">{{ training.forDepartments }}</span>
+            </p>
+            <button
+              mat-mini-fab
+              aria-label="icon-menu"
+              matTooltip="Show departments"
+              [matMenuTriggerFor]="listDepartments"
+            >
+              <mat-icon>menu</mat-icon>
+            </button>
+
+            <mat-menu class="list-employees" #listDepartments="matMenu">
+              <div class="list-employees">
+                <ul>
+                  <li mat-menu-item>Department 1</li>
+                  <li mat-menu-item>Department 2</li>
+                  <li mat-menu-item>Department 3</li>
+                  <li mat-menu-item>Department 4</li>
+                </ul>
+              </div>
+            </mat-menu>
+          </div>
+
+          <div class="employees-container">
+            <p>
+              Employees: <span class="bold">{{ training.forEmployees }}</span>
+            </p>
+
+            <div class="list-container">
+
+              <button
+                mat-mini-fab
+                aria-label="icon-menu"
+                matTooltip="Show employees"
+                [matMenuTriggerFor]="listEemployees"
+              >
+                <mat-icon>menu</mat-icon>
+              </button>
+
+              <mat-menu class="list-employees" #listEemployees="matMenu">
+                <div class="list-employees">
+                  <ul>
+                    <li mat-menu-item>Employee 1</li>
+                    <li mat-menu-item>Employee 2</li>
+                    <li mat-menu-item>Employee 3</li>
+                    <li mat-menu-item>Employee 4</li>
+                  </ul>
+                </div>
+              </mat-menu>
+
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
-
-    
-
+  
     <div class="right-content-wrapper">
       <div class="container-right img">
-        <img src="../../../assets/download.jpg" alt="" />
+        <img src="../../../assets/img-training.jpg" alt="" />
       </div>
       <div class="training-list-item-container description container-right">
         <h2 class="title">Description:</h2>
         <h2 class="content">{{ training.description }}</h2>
       </div>
     </div>
+  }
   </div>
+    
 </div>
 
 <!-- Alte informații pe care dorești să le afișezi -->

@@ -6,6 +6,8 @@ export interface TrainingComplete {
     adress: string;
     deadline: string;
     trainer: number[];
+    trainerName: string[];
+    status: string;
     forDepartments: number;
     forEmployees: number;
     departments: number[];
