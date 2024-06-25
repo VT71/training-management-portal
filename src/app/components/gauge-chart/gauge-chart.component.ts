@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { LegendPosition } from '@swimlane/ngx-charts';
 
+export const single = [
+  {
+    name: 'All',
+    value: 84,
+  },
+];
+
 @Component({
   selector: 'app-gauge-chart',
   standalone: true,
@@ -11,29 +18,33 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 })
 export class GaugeChartComponent {
   single!: any[];
-  view: [number, number] = [900, 250];
+  view: [number, number] = [400, 300];
 
   // options
-  legend: boolean = false;
+  legend: boolean = true;
   legendPosition = LegendPosition.Below;
 
   colorScheme = {
-    name: 'natural',
+    name: 'cool',
     selectable: true,
     group: ScaleType.Ordinal,
     domain: [
-      '#bf9d76',
-      '#e99450',
-      '#d89f59',
-      '#f2dfa7',
-      '#a5d7c6',
-      '#7794b1',
-      '#afafaf',
-      '#707160',
-      '#ba9383',
-      '#d9d5c3',
+      '#a8385d',
+      '#7aa3e5',
+      '#a27ea8',
+      '#aae3f5',
+      '#adcded',
+      '#a95963',
+      '#8796c0',
+      '#7ed3ed',
+      '#50abcc',
+      '#ad6886',
     ],
   };
+
+  constructor() {
+    Object.assign(this, { single });
+  }
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));

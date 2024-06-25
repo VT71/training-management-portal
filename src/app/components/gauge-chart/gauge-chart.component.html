@@ -1,8 +1,16 @@
-<ngx-charts-linear-gauge
-  [scheme]="colorScheme"
-  [value]="450"
-  [previousValue]="1000"
-  (select)="onSelect($event)"
-  [units]="'Total %'">
->
-</ngx-charts-linear-gauge>
+<div class="root-container">
+  <ngx-charts-gauge
+    [scheme]="colorScheme"
+    [results]="single"
+    [legend]="legend"
+    [legendPosition]="legendPosition"
+    (select)="onSelect($event)"
+    (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)"
+    [max]="100"
+    [bigSegments]="4"
+    [smallSegments]="4"
+    [units]="'Total %'"
+  >
+  </ngx-charts-gauge>
+</div>
