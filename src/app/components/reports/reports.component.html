@@ -1,20 +1,53 @@
 <div class="report-container">
-    <h2>Training Reports</h2>
-    
-    <!-- Filter Section -->
-    <div class="filter-section">
-      <label for="date-range">Select Date Range:</label>
-      <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
-    </div>
-    
-    <!-- Report Visualization Section -->
-    <div class="report-visualization">
-      <!-- Example: Bar Chart for Training Attendance -->
-      <div id="training-attendance-chart" class="chart"></div>
-      
-      <!-- Example: Pie Chart for Training Completion Status -->
-      <div id="completion-status-chart" class="chart"></div>
-      
-      <!-- Add more report visualizations here -->
-    </div>
+  <h1 class="component-main-title">Reports</h1>
+  <h2 class="range-heading">01/06/2024 - 01/06/2024</h2>
+
+  <div class="sections-container">
+    <section class="date-ranges">
+      <form class="date-range-form">
+        <mat-form-field appearance="outline" class="range-date">
+          <mat-label>Date Range</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="Start date"
+            />
+            <input matEndDate formControlName="end" placeholder="End date" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+
+          @if (range.controls.start.hasError('matStartDateInvalid')) {
+          <mat-error>Invalid start date</mat-error>
+          } @if (range.controls.end.hasError('matEndDateInvalid')) {
+          <mat-error>Invalid end date</mat-error>
+          }
+        </mat-form-field>
+        <button class="main" mat-flat-button type="submit">Apply Range</button>
+      </form>
+    </section>
+
+    <section class="main-info">
+      <div class="personal-info-container">
+        <h2>Personal Info</h2>
+        <p>Employee ID: <span class="bold">eee</span></p>
+
+        <p>User ID: <span class="bold">ddd</span></p>
+
+        <p>Full Name: <span class="bold">ccc</span></p>
+
+        <p>Department: <span class="bold">bbb</span></p>
+
+        <p>
+          Trainer:
+          <span class="bold">aaa</span>
+        </p>
+      </div>
+    </section>
   </div>
+</div>
