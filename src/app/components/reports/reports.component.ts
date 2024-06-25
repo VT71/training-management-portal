@@ -16,6 +16,7 @@ import { PieGridComponent } from '../pie-grid/pie-grid.component';
 import { AdvancedPieComponent } from '../advanced-pie/advanced-pie.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GaugeChartComponent } from '../gauge-chart/gauge-chart.component';
+import { GroupedVerticalBarChartComponent } from '../grouped-vertical-bar-chart/grouped-vertical-bar-chart.component';
 
 export const single = [
   {
@@ -47,7 +48,8 @@ export const single = [
     PieGridComponent,
     AdvancedPieComponent,
     MatTabsModule,
-    GaugeChartComponent
+    GaugeChartComponent,
+    GroupedVerticalBarChartComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './reports.component.html',
