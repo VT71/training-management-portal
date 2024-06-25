@@ -294,8 +294,6 @@ mat-form-field.error
   color: var(--main) !important;
 }
 
-
-
 .mdc-tab--active > .mat-mdc-tab-ripple {
   background-color: var(--tertiary);
 }
@@ -320,7 +318,6 @@ h2.dialog-title {
   color: var(--secondary);
   font-weight: 500;
 }
-
 
 .mat-form-field {
   margin-top: 0 !important;
@@ -352,6 +349,20 @@ h2.dialog-title {
 
 .table-wrapper {
   padding: 0.5rem !important;
+}
+
+/* NGX Styling Override */
+
+.advanced-pie-legend > .total-value {
+  margin-bottom: 0.5rem !important;
+}
+
+.advanced-pie-legend > .legend-items-container > .legend-items > .legend-item > .item-value {
+    margin-top: 0 !important;
+}
+
+.advanced-pie-legend > .legend-items-container > .legend-items > .legend-item > .item-label {
+    margin-top: 0.2rem !important;
 }
 
 /* // mat-icon-stepper selected color change 

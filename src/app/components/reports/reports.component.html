@@ -32,21 +32,32 @@
       </form>
     </section>
 
-    <section class="main-info">
-      <div class="personal-info-container">
-        <h2>Personal Info</h2>
-        <p>Employee ID: <span class="bold">eee</span></p>
+    <section class="completion-rates">
+      <div class="completion-rates-container">
+        <h2>Trainings Completed Rate</h2>
+        <!-- <app-pie-grid></app-pie-grid> -->
+        <app-gauge-chart></app-gauge-chart>
+      </div>
+    </section>
 
-        <p>User ID: <span class="bold">ddd</span></p>
+    <section class="total-assigned-trainings">
+      <div class="total-assigned-trainings-container">
+        <h2>Total assigned trainings</h2>
+        <mat-tab-group>
+          <mat-tab label="By Department"
+            ><app-advanced-pie></app-advanced-pie
+          ></mat-tab>
+          <mat-tab label="By Type"
+            ><app-advanced-pie></app-advanced-pie
+          ></mat-tab>
+        </mat-tab-group>
+      </div>
+    </section>
 
-        <p>Full Name: <span class="bold">ccc</span></p>
-
-        <p>Department: <span class="bold">bbb</span></p>
-
-        <p>
-          Trainer:
-          <span class="bold">aaa</span>
-        </p>
+    <section class="departments-stats">
+      <div class="departments-stats-container">
+        <h2>Departments Stats</h2>
+        <app-grouped-vertical-bar-chart></app-grouped-vertical-bar-chart>
       </div>
     </section>
   </div>

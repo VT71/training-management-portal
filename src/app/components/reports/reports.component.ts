@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormGroup,
@@ -10,6 +11,27 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
+import { PieGridComponent } from '../pie-grid/pie-grid.component';
+import { AdvancedPieComponent } from '../advanced-pie/advanced-pie.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { GaugeChartComponent } from '../gauge-chart/gauge-chart.component';
+import { GroupedVerticalBarChartComponent } from '../grouped-vertical-bar-chart/grouped-vertical-bar-chart.component';
+
+export const single = [
+  {
+    name: 'Overall',
+    value: 8940000,
+  },
+  {
+    name: 'By Departments',
+    value: 5000000,
+  },
+  {
+    name: 'By Employees',
+    value: 7200000,
+  },
+];
 
 @Component({
   selector: 'app-reports',
@@ -21,6 +43,13 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatButtonModule,
     ReactiveFormsModule,
+    NgxChartsModule,
+    CommonModule,
+    PieGridComponent,
+    AdvancedPieComponent,
+    MatTabsModule,
+    GaugeChartComponent,
+    GroupedVerticalBarChartComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './reports.component.html',

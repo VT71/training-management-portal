@@ -59,3 +59,7 @@ button.main {
   height: 56px;
   width: 22%;
 }
+
+section.completion-rates {
+    overflow: auto;
+}
