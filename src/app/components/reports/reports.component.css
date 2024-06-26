@@ -21,6 +21,10 @@ section {
   padding: 2rem;
 }
 
+.completion-rates-container {
+    height: auto;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -62,4 +66,10 @@ button.main {
 
 section.completion-rates {
     overflow: auto;
+}
+
+.gauge-charts-container {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
 }
