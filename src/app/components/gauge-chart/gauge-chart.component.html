@@ -1,16 +1,16 @@
 <div class="root-container">
   <ngx-charts-gauge
     [scheme]="colorScheme"
-    [results]="single"
+    [results]="data"
     [legend]="legend"
     [legendPosition]="legendPosition"
     (select)="onSelect($event)"
     (activate)="onActivate($event)"
     (deactivate)="onDeactivate($event)"
     [max]="100"
-    [bigSegments]="4"
-    [smallSegments]="4"
-    [units]="'Total %'"
+    [bigSegments]="10"
+    [smallSegments]="10"
+    [units]="title"
   >
   </ngx-charts-gauge>
 </div>

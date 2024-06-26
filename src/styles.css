@@ -386,6 +386,10 @@ h2.dialog-title {
     font-size: 0.4rem !important;
 }
 
+.gauge.chart > text > tspan:first-child {
+    display: none !important;
+}
+
 .ngx-charts-outer {
     height: auto !important;
 }

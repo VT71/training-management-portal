@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { LegendPosition } from '@swimlane/ngx-charts';
-
-export const single = [
-  {
-    name: 'All',
-    value: 84,
-  },
-];
 
 @Component({
   selector: 'app-gauge-chart',
@@ -17,7 +10,14 @@ export const single = [
   styleUrl: './gauge-chart.component.css',
 })
 export class GaugeChartComponent {
-  single!: any[];
+  @Input() data!: { name: string; value: number }[];
+  @Input() title!: string;
+  //   single = [
+  //     {
+  //       name: 'All',
+  //       value: 84,
+  //     },
+  //   ];
   view: [number, number] = [400, 300];
 
   // options
@@ -43,7 +43,7 @@ export class GaugeChartComponent {
   };
 
   constructor() {
-    Object.assign(this, { single });
+    Object.assign(this, { single: this.data });
   }
 
   onSelect(data: any): void {
