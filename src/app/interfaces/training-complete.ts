@@ -1,3 +1,6 @@
+import { Department } from "./department";
+import { EmployeeComplete } from "./employee-complete";
+
 export interface TrainingComplete {
     trainingId: number;
     title: string;
@@ -5,14 +8,12 @@ export interface TrainingComplete {
     individual: number;
     adress: string;
     deadline: string;
-    trainer: number[];
+    trainer: number;
     trainerName: string[];
-    status: string;
     forDepartments: number;
     forEmployees: number;
-    departments: number[];
-    employees: number[];
-    // title1: string;
-    // description1: string;
+    departments: Department[];
+    employees: EmployeeComplete[];
+
   }
 

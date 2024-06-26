@@ -1,3 +1,4 @@
 export interface DialogData {
-    type: string
+    type: string,
+    trainingId: number,
   }

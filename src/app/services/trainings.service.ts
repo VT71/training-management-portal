@@ -2,8 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TrainingInterface } from '../interfaces/training.interface';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Router } from '@angular/router';
 import { TrainingComplete } from '../interfaces/training-complete';
+import { Department } from '../interfaces/department';
+import { Employee } from '../interfaces/employee';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,12 @@ export class TrainingsService {
   constructor(private http: HttpClient) {}
 
   public createTraining(
-    training: TrainingInterface
-  ): Observable<TrainingInterface> {
+    training: TrainingInterface,
+    departmentsData: Department[],
+    employeesData: Employee[]
+  ): Observable<TrainingComplete> {
     return this.http
-      .post<TrainingInterface>(`${this.baseUrl}/CreateTraining`, training)
+      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {...training, departments: departmentsData, employees: employeesData})
       .pipe(
         catchError((error) => {
           return throwError(error);
@@ -45,7 +48,7 @@ export class TrainingsService {
       );
   }
 
-  public updateTraining(
+  public updateTrainingById(
     training: TrainingInterface
   ): Observable<TrainingInterface> {
     return this.http
@@ -57,9 +60,9 @@ export class TrainingsService {
       );
   }
 
-  public getTrainingById(trainingId: number): Observable<TrainingInterface> {
+  public getTrainingById(trainingId: number): Observable<TrainingComplete> {
     return this.http
-      .get<TrainingInterface>(`${this.baseUrl}/GetTraining/${trainingId}`)
+      .get<TrainingComplete>(`${this.baseUrl}/GetTraining/${trainingId}`)
       .pipe(
         catchError((error) => {
           return throwError(error);
