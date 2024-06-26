@@ -20,13 +20,12 @@ import { CommonModule } from '@angular/common';
 import { TrainingsService } from '../../services/trainings.service';
 
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TrainingInterface } from '../../interfaces/training.interface';
 import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-autoselector/employee-department-autoselector.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -39,6 +38,9 @@ import {
 } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TrainingComplete } from '../../interfaces/training-complete';
+import { Department } from '../../interfaces/department';
+import { Employee } from '../../interfaces/employee';
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-training-form',
@@ -64,8 +66,9 @@ import { TrainingComplete } from '../../interfaces/training-complete';
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrainingFormComponent implements OnDestroy {
+export class TrainingFormComponent implements OnDestroy, OnInit {
   @Input() type!: string;
+  @Input() trainingId!: number;
   public departmentsSelected = false;
   public employeesSelected = false;
 
@@ -82,17 +85,17 @@ export class TrainingFormComponent implements OnDestroy {
   public isWorkshop = false;
 
   public trainingForm = new FormGroup({
-    trainingId: new FormControl(null),
+    trainingId: new FormControl(null as number | null),
     title: new FormControl('', [
       Validators.required,
       Validators.maxLength(255),
     ]),
     description: new FormControl('', Validators.required),
-    individual: new FormControl(null, Validators.required),
+    individual: new FormControl(0, Validators.required),
     adress: new FormControl(''),
     deadline: new FormControl<string>('', Validators.required),
     time: new FormControl('', Validators.required),
-    selectionType: new FormControl('', Validators.required),
+    selectionType: new FormControl<string[]>([], Validators.required),
     // title1: new FormControl(''),
     // description1: new FormControl(''),
   });
@@ -105,6 +108,37 @@ export class TrainingFormComponent implements OnDestroy {
     private _snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<TrainingFormComponent>
   ) {}
+
+  ngOnInit() {
+    if (this.type === 'edit') {
+        this.trainingApiService
+          .getTrainingById(this.trainingId)
+          .subscribe((training) => {
+            const date = new Date(training.deadline);
+            const datePart = date.toISOString().split('T')[0]; // Obține partea de dată
+            const timePart = date.toTimeString().split(' ')[0].slice(0, 5);
+            this.trainingForm.setValue({
+              trainingId: training.trainingId,
+              title: training.title,
+              description: training.description,
+              individual: training.individual,
+              adress: training.adress,
+              deadline: datePart,
+              time: timePart,
+              selectionType:
+                training.forDepartments === 1 && training.forEmployees === 1
+                  ? ['departments', 'employees']
+                  : training.forDepartments === 1
+                  ? ['departments']
+                  : training.forEmployees === 1
+                  ? ['employees']
+                  : [],
+            });
+            this.departmentsSelected = training.forDepartments === 1;
+            this.employeesSelected = training.forEmployees === 1;
+          });
+    }
+  }
 
   onIndividualChange() {
     this.showAdditionalFields =
@@ -121,7 +155,7 @@ export class TrainingFormComponent implements OnDestroy {
   }
 
   private subscriptions: Subscription[] = [];
-  public training$!: Observable<TrainingInterface>;
+  public training$!: Observable<TrainingComplete>;
 
   onToggleChange(event: any) {
     const selectedValue = event.value;
@@ -151,44 +185,57 @@ export class TrainingFormComponent implements OnDestroy {
           this.trainingForm.value.deadline ?? '',
           this.trainingForm.value.time ?? ''
         );
+        const departmentsData = this.departments.map((department) => {
+          return { departmentId: department } as Department;
+        });
+        const employeesData = this.employees.map((employee) => {
+          return {
+            employeeId: employee,
+            trainer: 0,
+            userId: '',
+            departmentId: 0,
+          } as Employee;
+        });
 
-        const trainingData: TrainingComplete = {
+        const trainingData: TrainingInterface = {
           trainingId: this.trainingForm.value.trainingId ?? 0,
           title: this.trainingForm.value.title ?? '',
           description: this.trainingForm.value.description ?? '',
           individual: this.trainingForm.value.individual ?? 0,
           adress: this.trainingForm.value.adress ?? '',
           deadline: formattedDeadline,
-          trainer: this.trainer,
-          status: '',
-          trainerName: [],
+          trainer: this.trainer[0],
+          // status: '',
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
-          // title1: this.trainingForm.value.title1 ?? '',
-          // description1: this.trainingForm.value.description1 ?? '',
-          departments: this.departments,
-          employees: this.employees,
         };
-        console.log('Training data:', trainingData);
+        console.log(
+          'Training data:',
+          trainingData,
+          departmentsData,
+          employeesData
+        );
 
-        this.trainingApiService.createTraining(trainingData).subscribe({
-          next: () => {
-            console.log('Training created successfully');
-            const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
-              'Training created successfully',
-              'Close'
-            );
-            this.dialogRef.close();
+        this.trainingApiService
+          .createTraining(trainingData, departmentsData, employeesData)
+          .subscribe({
+            next: () => {
+              console.log('Training created successfully');
+              const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
+                'Training created successfully',
+                'Close'
+              );
+              this.dialogRef.close();
 
-            snackBarRef.afterDismissed().subscribe(() => {
-              window.location.reload();
-            });
-          },
-          error: (error) => {
-            console.error('Error creating training:', error);
-            this.openSnackBar('Error creating training', 'Close');
-          },
-        });
+              snackBarRef.afterDismissed().subscribe(() => {
+                window.location.reload();
+              });
+            },
+            error: (error) => {
+              console.error('Error creating training:', error);
+              this.openSnackBar('Error creating training', 'Close');
+            },
+          });
       } else {
         // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
         this.openSnackBar(

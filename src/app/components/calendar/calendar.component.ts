@@ -158,7 +158,7 @@ export class CalendarComponent {
     this.trainingsService.getTrainingById(trainingId).pipe(
       tap((training) => {
         const dialogRef = this.dialog.open(DialogContentExampleDialog, {
-          data: { type: 'edit', training: training },
+          data: { type: 'edit', trainingId: training.trainingId },
         });
       
         dialogRef.afterClosed().subscribe((result) => {

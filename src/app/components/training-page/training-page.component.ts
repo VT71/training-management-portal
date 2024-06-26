@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrainingsService } from '../../services/trainings.service';
 import { CommonModule } from '@angular/common';
-import { TrainingInterface } from '../../interfaces/training.interface';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { Observable } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TrainingComplete } from '../../interfaces/training-complete';
 
 @Component({
   selector: 'app-training-page',
@@ -26,7 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class TrainingPageComponent implements OnInit {
   public trainingId: number;
-  public training!: Observable<TrainingInterface>;
+  public training!: Observable<TrainingComplete>;
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
 

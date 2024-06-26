@@ -15,6 +15,9 @@
   color: var(--secondary) !important;
 }
 
+.mat-icon{
+  color: var(--secondary) !important;
+}
 /* container-section-right*/
 
 .container-right {
@@ -76,6 +79,7 @@
   font-weight: bold;
 }
 
+
 .departments-container , .employees-container 
 {  display: flex;
   flex-direction: row;
@@ -124,6 +128,7 @@ button {
   cursor: pointer;
 } */
 
+
 .list-employees li:hover {
   background-color: #e0e0e0;
 }
@@ -134,15 +139,12 @@ button {
   font-size: 16px;
   color: #666;
   line-height: 1.5;
+  align-items: center;
+  align-content: center
 }
 
 .bold {
   color: var(--secondary);
-}
-
-.content {
-
-  font-size: 16px;
 }
 
 .title {

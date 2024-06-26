@@ -7,31 +7,42 @@
       <div class="info">
         <h2 class="title">Training Info</h2>
         <p>
+          <span class="material-symbols-outlined left">
+            titlecase
+            </span>
           Title: <span class="bold">{{ training.title }}</span>
         </p>
         <p>
+          <span class="material-symbols-outlined left" >
+            cast_for_education
+            </span>
           Training Type:
           <span class="bold">
             {{ training.individual ? "Online" : "Workshop" }}</span
           >
         </p>
-        <p>
+        <!-- <p>
           Training Status:
           <span class="bold">
             {{ training.individual ? "Online" : "Workshop" }}</span
           >
-        </p>
-
-        <div class="trainer-continer">
-          <p>
-            Trainer: <span class="bold">{{ training.trainer }}</span>
-          </p>
-        </div>
-
+        </p> -->
         <p>
-          Address: <span class="bold">{{ training.adress }}</span>
+          <span class="material-symbols-outlined left">
+              person
+              </span>
+          Trainer: <span class="bold">{{ training.trainerName }}</span>
         </p>
         <p>
+          <span class="material-symbols-outlined left">
+            distance
+            </span>
+          Address/Link: <span class="bold">{{ training.adress }}</span>
+        </p>
+        <p>
+          <span class="material-symbols-outlined left">
+            date_range
+            </span>
           Deadline:
           <span class="bold">
             {{ convertDate(training.deadline ? training.deadline : "") }}</span
@@ -54,13 +65,17 @@
               matTooltip="Show departments"
               [matMenuTriggerFor]="listDepartments"
             >
-              <mat-icon>menu</mat-icon>
+            <span class="material-symbols-outlined">
+              format_list_bulleted
+              </span>
             </button>
 
             <mat-menu class="list-employees" #listDepartments="matMenu">
               <div class="list-employees">
                 <ul>
-                  <li mat-menu-item>Department 1</li>
+                  <li mat-menu-item> @for (departments of training.departments; track departments) {
+                    <li mat-menu-item>{{departments.departmentName}}</li>
+                  }</li>
                 </ul>
               </div>
             </mat-menu>
@@ -80,13 +95,17 @@
                 matMenuTriggerForPositionX="before"
                 matMenuTriggerForPositionY="above"
               >
-                <mat-icon>menu</mat-icon>
+              <span class="material-symbols-outlined right">
+                format_list_bulleted
+                </span>
               </button>
 
               <mat-menu class="list-employees" #listEemployees="matMenu">
                 <div class="list-employees">
                   <ul>
-                    <li mat-menu-item>Employee 1</li>
+                    @for (employee of training.employees; track employee) {
+                      <li mat-menu-item>{{employee.fullName}}</li>
+                    }
                   </ul>
                 </div>
               </mat-menu>

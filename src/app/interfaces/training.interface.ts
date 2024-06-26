@@ -4,7 +4,7 @@ export interface TrainingInterface {
   description: string;
   individual: number;
   adress: string;
-  trainer: number[];
+  trainer: number;
   deadline: string;
   forDepartments: number;
   forEmployees: number;
