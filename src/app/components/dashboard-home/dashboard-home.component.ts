@@ -58,6 +58,10 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   individualDepartmentProgress: { name: string; value: number }[] = [];
   individualDepartmentTotalTrainings: { name: string; value: number }[] = [];
   individualTypeTotalTrainings: { name: string; value: number }[] = [];
+  individualDepartmentCompleteProgress: {
+    name: string;
+    series: { name: string; value: number }[];
+  }[] = [];
   overallPercentage: number = 0;
   totalTrainings: number = 0;
   totalCompletedTrainings: number = 0;
@@ -94,6 +98,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.individualDepartmentProgress = [];
     this.individualDepartmentTotalTrainings = [];
     this.individualTypeTotalTrainings = [];
+    this.individualDepartmentCompleteProgress = [];
 
     this.trainingTypeStatsSub = this.reportsAPiService
       .getTotalTrainingsByType(startDate?.toISOString(), endDate?.toISOString())
@@ -132,7 +137,27 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
             value: department.totalTrainingsCount,
           });
 
-          this.individualTypeTotalTrainings.push();
+          this.individualDepartmentCompleteProgress.push({
+            name: department.departmentName,
+            series: [
+              {
+                name: 'Missed',
+                value: department.totalMissedTrainingsCount,
+              },
+              {
+                name: 'In Progress',
+                value: department.totalInProgressTrainingsCount,
+              },
+              {
+                name: 'Completed',
+                value: department.totalCompletedTrainingsCount,
+              },
+              {
+                name: 'Upcoming',
+                value: department.totalUpcomingTrainingsCount,
+              },
+            ],
+          });
         }
 
         if (this.totalTrainings > 0) {

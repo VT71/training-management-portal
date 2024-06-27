@@ -93,7 +93,15 @@
     <section class="departments-stats">
       <div class="departments-stats-container">
         <h2>Departments Stats</h2>
-        <app-grouped-vertical-bar-chart></app-grouped-vertical-bar-chart>
+        @if (individualDepartmentCompleteProgress.length > 0) {
+        <app-grouped-vertical-bar-chart
+          [data]="individualDepartmentCompleteProgress"
+        ></app-grouped-vertical-bar-chart>
+        } @else {
+        <app-grouped-vertical-bar-chart
+          [data]="[]"
+        ></app-grouped-vertical-bar-chart>
+        }
       </div>
     </section>
   </div>
