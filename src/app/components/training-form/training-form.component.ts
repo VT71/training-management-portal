@@ -177,6 +177,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
     }
   }
 
+
   onSubmitTrainings() {
     const rawForm = this.trainingForm.getRawValue();
     console.log('Raw form values:', rawForm);
@@ -222,6 +223,29 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           employeesData
         );
 
+        if (this.type === 'edit') {
+          this.trainingApiService
+            .updateTrainingById(trainingData, departmentsData, employeesData)
+            .subscribe({
+              next: () => {
+                console.log('Training updated successfully');
+                const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
+                  'Training updated successfully',
+                  'Close'
+                );
+                this.dialogRef.close();
+
+                snackBarRef.afterDismissed().subscribe(() => {
+                  window.location.reload();
+                });
+              },
+              error: (error) => {
+                console.error('Error updating training:', error);
+                this.openSnackBar('Error updating training', 'Close');
+              },
+            });
+          return;
+        }
         this.trainingApiService
           .createTraining(trainingData, departmentsData, employeesData)
           .subscribe({
