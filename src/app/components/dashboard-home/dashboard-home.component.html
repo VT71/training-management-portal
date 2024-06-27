@@ -65,9 +65,17 @@
       <div class="total-assigned-trainings-container">
         <h2>Total assigned trainings</h2>
         <mat-tab-group>
+          @if( individualDepartmentTotalTrainings.length > 0 ) {
           <mat-tab label="By Department"
-            ><app-advanced-pie></app-advanced-pie
+            ><app-advanced-pie
+              [data]="individualDepartmentTotalTrainings"
+            ></app-advanced-pie
           ></mat-tab>
+          } @else {
+          <mat-tab label="By Department"
+            ><app-advanced-pie [data]="[]"></app-advanced-pie
+          ></mat-tab>
+          }
           <mat-tab label="By Type"
             ><app-advanced-pie></app-advanced-pie
           ></mat-tab>

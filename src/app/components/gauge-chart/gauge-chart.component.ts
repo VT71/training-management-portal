@@ -16,7 +16,6 @@ export class GaugeChartComponent {
   }
   set data(value: { name: string; value: number }[]) {
     this._data = value;
-    console.log('data', this._data);
   }
   public _data: { name: string; value: number }[] = [];
   @Input() title!: string;

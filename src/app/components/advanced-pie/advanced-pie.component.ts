@@ -1,16 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
-
-export const single = [
-  {
-    name: 'Software Development',
-    value: 89,
-  },
-  {
-    name: 'Customer Support',
-    value: 120,
-  },
-];
 
 @Component({
   selector: 'app-advanced-pie',
@@ -20,7 +9,15 @@ export const single = [
   styleUrl: './advanced-pie.component.css',
 })
 export class AdvancedPieComponent {
-  single!: any[];
+  @Input()
+  get data(): { name: string; value: number }[] {
+    return this._data;
+  }
+  set data(value: { name: string; value: number }[]) {
+    this._data = value;
+  }
+  public _data: { name: string; value: number }[] = [];
+
   view: [number, number] = [900, 300];
 
   // options
@@ -43,12 +40,12 @@ export class AdvancedPieComponent {
       '#FC8A25',
       '#FA4F1E',
       '#FA141B',
-      '#BA38D1'
-    ]
+      '#BA38D1',
+    ],
   };
 
   constructor() {
-    Object.assign(this, { single });
+    Object.assign(this, { single: this._data });
   }
 
   onSelect(data: any): void {

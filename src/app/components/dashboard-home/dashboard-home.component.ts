@@ -50,11 +50,13 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   allSubscriptions: Subscription[] = [];
   departmentsProgressSub!: Subscription;
 
-  startDate: Date = new Date('2024-01-01T00:00:00.000');
-  endDate: Date = new Date('2024-12-31T00:00:00.000');
+  startDate: Date = new Date('2020-01-01T00:00:00.000');
+  endDate: Date = new Date('2026-12-31T00:00:00.000');
 
   departmentsProgress: DepartmentProgress[] = [];
   individualDepartmentProgress: { name: string; value: number }[] = [];
+  individualDepartmentTotalTrainings: { name: string; value: number }[] = [];
+  individualTypeTotalTrainings: { name: string; value: number }[] = [];
   overallPercentage: number = 0;
   totalTrainings: number = 0;
   totalCompletedTrainings: number = 0;
@@ -89,6 +91,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.totalCompletedTrainings = 0;
     this.overallPercentage = 0;
     this.individualDepartmentProgress = [];
+    this.individualDepartmentTotalTrainings = [];
+    this.individualTypeTotalTrainings = [];
 
     this.departmentsProgressSub = this.reportsAPiService
       .getDepartmentsProgress(startDate?.toISOString(), endDate?.toISOString())
@@ -108,6 +112,13 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
                   100
                 : 0,
           });
+
+          this.individualDepartmentTotalTrainings.push({
+            name: department.departmentName,
+            value: department.totalTrainingsCount,
+          });
+
+          this.individualTypeTotalTrainings.push();
         }
 
         if (this.totalTrainings > 0) {
@@ -115,7 +126,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
             (this.totalCompletedTrainings / this.totalTrainings) * 100;
         }
 
-        console.log("INDIVIDUAL Progress: ", this.individualDepartmentProgress);
+        console.log('INDIVIDUAL Progress: ', this.individualDepartmentProgress);
       });
     this.allSubscriptions.push(this.departmentsProgressSub);
   }
