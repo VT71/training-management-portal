@@ -94,13 +94,21 @@
               <ngx-material-timepicker #toggleIcon></ngx-material-timepicker>
             </div>
           </div>
-          @if (this.isWorkshop) {
+          @if (this.isWorkshop) { @if (type === "edit") {
+          <app-employee-department-autoselector
+            [type]="'Trainer'"
+            [operationType]="'edit'"
+            [apiSelectedValues]="trainer"
+            [errorMessage]="departmentsErrorMsg"
+            (valuesEmitter)="onTrainerChange($event)"
+          ></app-employee-department-autoselector>
+          } @if (type !== 'edit') {
           <app-employee-department-autoselector
             [type]="'Trainer'"
             [errorMessage]="trainerErrorMsg"
             (valuesEmitter)="onTrainerChange($event)"
           ></app-employee-department-autoselector>
-          }
+          } }
 
           <mat-button-toggle-group
             name="selectionType"
@@ -116,20 +124,37 @@
           </mat-button-toggle-group>
 
           <div class="autocomplete">
-            @if (departmentsSelected) {<app-employee-department-autoselector
+            @if (departmentsSelected) { @if (type === "edit") {
+            <app-employee-department-autoselector
+              [type]="'Departments'"
+              [operationType]="'edit'"
+              [apiSelectedValues]="departments"
+              [errorMessage]="departmentsErrorMsg"
+              (valuesEmitter)="onDepartmentsChange($event)"
+            ></app-employee-department-autoselector>
+            } @if (type !== 'edit') {
+            <app-employee-department-autoselector
               [type]="'Departments'"
               [errorMessage]="departmentsErrorMsg"
               (valuesEmitter)="onDepartmentsChange($event)"
               class="selector1"
-            ></app-employee-department-autoselector
-            >} @if (employeesSelected) {
+            ></app-employee-department-autoselector>
+            } } @if (employeesSelected) { @if (type === "edit") {
+            <app-employee-department-autoselector
+              [type]="'Employees'"
+              [operationType]="'edit'"
+              [apiSelectedValues]="employees"
+              [errorMessage]="departmentsErrorMsg"
+              (valuesEmitter)="onEmployeesChange($event)"
+            ></app-employee-department-autoselector>
+            } @if (type !== 'edit') {
             <app-employee-department-autoselector
               [type]="'Employees'"
               [errorMessage]="employeesErrorMsg"
               (valuesEmitter)="onEmployeesChange($event)"
               class="selector2"
             ></app-employee-department-autoselector>
-            }
+            } }
           </div>
         </div>
 

@@ -111,32 +111,38 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     if (this.type === 'edit') {
-        this.trainingApiService
-          .getTrainingById(this.trainingId)
-          .subscribe((training) => {
-            const date = new Date(training.deadline);
-            const datePart = date.toISOString().split('T')[0]; // Obține partea de dată
-            const timePart = date.toTimeString().split(' ')[0].slice(0, 5);
-            this.trainingForm.setValue({
-              trainingId: training.trainingId,
-              title: training.title,
-              description: training.description,
-              individual: training.individual,
-              adress: training.adress,
-              deadline: datePart,
-              time: timePart,
-              selectionType:
-                training.forDepartments === 1 && training.forEmployees === 1
-                  ? ['departments', 'employees']
-                  : training.forDepartments === 1
-                  ? ['departments']
-                  : training.forEmployees === 1
-                  ? ['employees']
-                  : [],
-            });
-            this.departmentsSelected = training.forDepartments === 1;
-            this.employeesSelected = training.forEmployees === 1;
+      this.trainingApiService
+        .getTrainingById(this.trainingId)
+        .subscribe((training) => {
+          const date = new Date(training.deadline);
+          const datePart = date.toISOString().split('T')[0]; // Obține partea de dată
+          const timePart = date.toTimeString().split(' ')[0].slice(0, 5);
+          this.trainingForm.setValue({
+            trainingId: training.trainingId,
+            title: training.title,
+            description: training.description,
+            individual: training.individual,
+            adress: training.adress,
+            deadline: datePart,
+            time: timePart,
+            selectionType:
+              training.forDepartments === 1 && training.forEmployees === 1
+                ? ['departments', 'employees']
+                : training.forDepartments === 1
+                ? ['departments']
+                : training.forEmployees === 1
+                ? ['employees']
+                : [],
           });
+          this.departments = training.departments.map(
+            (department) => department.departmentId
+          );
+          this.employees = training.employees.map(
+            (employee) => employee.employeeId
+          );
+          this.departmentsSelected = training.forDepartments === 1;
+          this.employeesSelected = training.forEmployees === 1;
+        });
     }
   }
 
