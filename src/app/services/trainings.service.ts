@@ -49,10 +49,12 @@ export class TrainingsService {
   }
 
   public updateTrainingById(
-    training: TrainingInterface
-  ): Observable<TrainingInterface> {
+    training: TrainingInterface,
+    departmentsData: Department[],
+    employeesData: Employee[]
+  ): Observable<TrainingComplete> {
     return this.http
-      .put<TrainingInterface>(`${this.baseUrl}/UpdateTraining`, training)
+      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining`, {...training,  departments: departmentsData, employees: employeesData})
       .pipe(
         catchError((error) => {
           return throwError(error);
