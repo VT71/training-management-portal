@@ -49,6 +49,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   allSubscriptions: Subscription[] = [];
   departmentsProgressSub!: Subscription;
+  trainingTypeStatsSub!: Subscription;
 
   startDate: Date = new Date('2020-01-01T00:00:00.000');
   endDate: Date = new Date('2026-12-31T00:00:00.000');
@@ -93,6 +94,19 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.individualDepartmentProgress = [];
     this.individualDepartmentTotalTrainings = [];
     this.individualTypeTotalTrainings = [];
+
+    this.trainingTypeStatsSub = this.reportsAPiService
+      .getTotalTrainingsByType(startDate?.toISOString(), endDate?.toISOString())
+      .subscribe((res) => {
+        for (const stat of res) {
+          this.individualTypeTotalTrainings.push({
+            name: stat.individual ? 'Individual' : 'Workshop',
+            value: stat.totalTrainings,
+          });
+        }
+      });
+
+    this.allSubscriptions.push(this.trainingTypeStatsSub);
 
     this.departmentsProgressSub = this.reportsAPiService
       .getDepartmentsProgress(startDate?.toISOString(), endDate?.toISOString())
