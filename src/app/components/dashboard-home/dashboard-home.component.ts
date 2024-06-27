@@ -54,6 +54,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   endDate: Date = new Date('2024-12-31T00:00:00.000');
 
   departmentsProgress: DepartmentProgress[] = [];
+  individualDepartmentProgress: { name: string; value: number }[] = [];
   overallPercentage: number = 0;
   totalTrainings: number = 0;
   totalCompletedTrainings: number = 0;
@@ -87,6 +88,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.totalTrainings = 0;
     this.totalCompletedTrainings = 0;
     this.overallPercentage = 0;
+    this.individualDepartmentProgress = [];
 
     this.departmentsProgressSub = this.reportsAPiService
       .getDepartmentsProgress(startDate?.toISOString(), endDate?.toISOString())
@@ -97,12 +99,23 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
           this.totalTrainings += department.totalTrainingsCount;
           this.totalCompletedTrainings +=
             department.totalCompletedTrainingsCount;
+          this.individualDepartmentProgress.push({
+            name: department.departmentName,
+            value:
+              department.totalTrainingsCount !== 0
+                ? (department.totalCompletedTrainingsCount /
+                    department.totalTrainingsCount) *
+                  100
+                : 0,
+          });
         }
 
         if (this.totalTrainings > 0) {
           this.overallPercentage =
             (this.totalCompletedTrainings / this.totalTrainings) * 100;
         }
+
+        console.log("INDIVIDUAL Progress: ", this.individualDepartmentProgress);
       });
     this.allSubscriptions.push(this.departmentsProgressSub);
   }

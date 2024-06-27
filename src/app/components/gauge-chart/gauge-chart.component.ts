@@ -10,14 +10,17 @@ import { LegendPosition } from '@swimlane/ngx-charts';
   styleUrl: './gauge-chart.component.css',
 })
 export class GaugeChartComponent {
-  @Input() data!: { name: string; value: number }[];
+  @Input()
+  get data(): { name: string; value: number }[] {
+    return this._data;
+  }
+  set data(value: { name: string; value: number }[]) {
+    this._data = value;
+    console.log('data', this._data);
+  }
+  public _data: { name: string; value: number }[] = [];
   @Input() title!: string;
-  //   single = [
-  //     {
-  //       name: 'All',
-  //       value: 84,
-  //     },
-  //   ];
+
   view: [number, number] = [400, 300];
 
   // options
@@ -43,7 +46,7 @@ export class GaugeChartComponent {
   };
 
   constructor() {
-    Object.assign(this, { single: this.data });
+    Object.assign(this, { single: this._data });
   }
 
   onSelect(data: any): void {

@@ -46,14 +46,17 @@
             [data]="[{ name: 'All', value: overallPercentage }]"
             [title]="'All trainings %'"
           ></app-gauge-chart>
-
+          @if (individualDepartmentProgress.length > 0) {
           <app-gauge-chart
-            [data]="[
-              { name: 'Software Development', value: 84 },
-              { name: 'Customer Development', value: 95 }
-            ]"
+            [data]="individualDepartmentProgress"
             [title]="'Departments %'"
           ></app-gauge-chart>
+          } @else {
+          <app-gauge-chart
+            [data]="[]"
+            [title]="'Departments %'"
+          ></app-gauge-chart>
+          }
         </div>
       </div>
     </section>
