@@ -1,14 +1,18 @@
 <div class="report-container">
   <h1 class="component-main-title">Hello Admin</h1>
   <h2 class="component-subtitle">Last Stats</h2>
-  <h2 class="range-heading">01/06/2024 - 31/08/2024</h2>
+  @if (startDate && endDate) {
+  <h2 class="range-heading">
+    {{ convertDate(startDate) + " - " + convertDate(endDate) }}
+  </h2>
+  }
 
   <div class="sections-container">
     <section class="date-ranges">
-      <form class="date-range-form">
+      <form class="date-range-form" (submit)="onSubmit()" [formGroup]="range">
         <mat-form-field appearance="outline" class="range-date">
           <mat-label>Date Range</mat-label>
-          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <mat-date-range-input [rangePicker]="picker">
             <input
               matStartDate
               formControlName="start"
@@ -35,13 +39,16 @@
 
     <section class="completion-rates">
       <div class="completion-rates-container">
-        <h2>Trainings Completion Rates</h2>
+        <h2>Overall Completion Rates (except Workshops)</h2>
         <!-- <app-pie-grid></app-pie-grid> -->
         <div class="gauge-charts-container">
+          @if (completedTrainingsFromTotal$ | async; as
+          completedTrainingsFromTotal) {
           <app-gauge-chart
-            [data]="[{ name: 'All', value: 84 }]"
+            [data]="[{ name: 'All', value: completedTrainingsFromTotal * 100 }]"
             [title]="'All trainings %'"
           ></app-gauge-chart>
+          }
           <app-gauge-chart
             [data]="[
               { name: 'Software Development', value: 84 },

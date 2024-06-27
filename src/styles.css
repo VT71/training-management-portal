@@ -391,7 +391,7 @@ h2.dialog-title {
 }
 
 .ngx-charts-outer {
-    height: auto !important;
+    /* height: auto !important; */
 }
 
 .ngx-charts {
