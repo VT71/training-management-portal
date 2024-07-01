@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 
 export const multi = [
@@ -55,7 +55,17 @@ export const multi = [
   styleUrl: './grouped-vertical-bar-chart.component.css',
 })
 export class GroupedVerticalBarChartComponent {
-  multi!: any[];
+  @Input()
+  get data(): { name: string; series: { name: string; value: number }[] }[] {
+    return this._data;
+  }
+  set data(
+    value: { name: string; series: { name: string; value: number }[] }[]
+  ) {
+    this._data = value;
+  }
+  public _data: { name: string; series: { name: string; value: number }[] }[] =
+    [];
   view: any[] = [700, 400];
 
   // options
@@ -88,7 +98,7 @@ export class GroupedVerticalBarChartComponent {
   };
 
   constructor() {
-    Object.assign(this, { multi });
+    Object.assign(this, { multi: this._data });
   }
 
   onSelect(data: any): void {
