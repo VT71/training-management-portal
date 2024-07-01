@@ -15,6 +15,9 @@ import { UsersApiService } from '../../services/users-api.service';
 import { ArticleInterface } from '../../interfaces/article.interface';
 import { User } from '../../interfaces/user';
 import { Observable } from 'rxjs';
+import { ConfirmDialogComponent } from './confirm-add-dialog.component';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { TrainingsService } from '../../services/trainings.service';
 
 @Component({
   selector: 'app-navbar',
@@ -51,7 +54,8 @@ export class NavbarComponent implements OnInit {
     search: new FormControl(''),
   });
 
-  constructor(public dialog: MatDialog, private searchService: SearchService) {}
+  constructor(public dialog: MatDialog, private searchService: SearchService,  private _snackBar: MatSnackBar,
+    private trainingsService: TrainingsService,) {}
 
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
@@ -87,19 +91,33 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  openDialog() {
+  public openConfirmDialog(event: Event,): void {
+    event.stopPropagation();
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      height: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.openDialog();
+      }
+    });
+  }
+
+  public openDialog(): void {
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+      width: '650px',
+      height: '600px',
       data: { type: 'add' },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      // Aici poți gestiona acțiunile după închiderea dialogului de adăugare (dacă este necesar)
+    });
   }
-
-  // search(): void {
-  //   const query = this.control.value;
-  //   if (query) {
-  //     this.router.navigate(['/search'], { queryParams: { q: query } });
-  //     this.searchValue = this.searchService.getArticle(this.query);
-  //   }
-  // }
 }
+
+
+

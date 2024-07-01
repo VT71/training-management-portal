@@ -6,7 +6,6 @@ import {
   WritableSignal,
   computed,
   Input,
-
 } from '@angular/core';
 import { tap, catchError } from 'rxjs/operators';
 import { TrainingInterface } from '../../interfaces/training.interface';
@@ -102,7 +101,7 @@ export class CalendarComponent {
     private router: Router,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private trainingsService: TrainingsService,
+    private trainingsService: TrainingsService
   ) {}
 
   public goToPreviousMonth(): void {
@@ -140,51 +139,52 @@ export class CalendarComponent {
     return events;
   }
 
-
-  
   openDialog(event: Event): void {
+    const selectedDate = this.activeDay()?.toISODate();
+
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
       width: '650px',
       height: '600px',
-      data: { type: 'add' },
+      data: { type: 'add', selectedDate },
     });
     event.stopPropagation();
     dialogRef.afterClosed().subscribe((result) => {});
   }
-  
-  
+
   openDialogEdit(event: Event, trainingId: number): void {
     event.stopPropagation();
-    this.trainingsService.getTrainingById(trainingId).pipe(
-      tap((training) => {
-        const dialogRef = this.dialog.open(DialogContentExampleDialog, {
-          data: { type: 'edit', trainingId: training.trainingId },
-        });
-      
-        dialogRef.afterClosed().subscribe((result) => {
-          if (result === true) {
-            window.location.reload();
-          }
-        });
-      }),
-      catchError((error) => {
-        console.error('Error fetching training:', error);
-        throw error; 
-      })
-    ).subscribe(); 
+    this.trainingsService
+      .getTrainingById(trainingId)
+      .pipe(
+        tap((training) => {
+          const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+            data: { type: 'edit', trainingId: training.trainingId },
+          });
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result === true) {
+              window.location.reload();
+            }
+          });
+        }),
+        catchError((error) => {
+          console.error('Error fetching training:', error);
+          throw error;
+        })
+      )
+      .subscribe();
   }
-  
+
   ngOnInit() {
     console.log(this._trainings);
     return;
   }
-  
-  
+
   public openDeleteDialog(event: Event, trainingId: number): void {
     event.stopPropagation();
-    
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: { trainingId: trainingId },
     });
 
@@ -192,7 +192,10 @@ export class CalendarComponent {
       if (result === true) {
         this.trainingsService.deleteTraining(trainingId).subscribe({
           next: () => {
-            const snackBarRef: MatSnackBarRef<any> = this.openSnackBar('Training deleted successfully', 'Close');
+            const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
+              'Training deleted successfully',
+              'Close'
+            );
             setTimeout(() => {
               snackBarRef.dismiss();
               window.location.reload();
@@ -201,12 +204,12 @@ export class CalendarComponent {
           error: (error) => {
             console.error('Error deleting training:', error);
             this.openSnackBar('Error deleting training', 'Close');
-          }
+          },
         });
       }
     });
   }
-  
+
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
     return this._snackBar.open(message, action, {
       duration: 1500,
@@ -214,15 +217,6 @@ export class CalendarComponent {
       verticalPosition: 'top',
     });
   }
-  public deleteTraining = (trainingId: number): void => {
-    this.trainingsService.deleteTraining(trainingId).subscribe({
-      next: () => {
-        console.log('Training deleted successfully');
-       
-      },
-      error: (error) => {
-        console.error('Error deleting training:', error);
-      },
-    });
-  };
+  
+
 }

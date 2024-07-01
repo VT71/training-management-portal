@@ -24,7 +24,7 @@
               <mat-label>Type</mat-label>
               <mat-select
                 formControlName="individual"
-                (selectionChange)="onIndividualChange()"
+                (selectionChange)="onIndividualChange($event)"
               >
                 <mat-option [value]="1">Individual</mat-option>
                 <mat-option [value]="0">Workshop</mat-option>
@@ -158,28 +158,29 @@
           </div>
         </div>
 
-        <div class="input-container section1" *ngIf="showAdditionalFields">
+        @if(!isWorkshop) {
+        <div class="input-container section1">
           <h3>Section1</h3>
           <mat-form-field appearance="outline" class="additional-field">
             <mat-label>Ttitle</mat-label>
-            <input
-              matInput
-              formControlName="title1"
-              placeholder="Enter additional tilte"
-            />
+            <input matInput placeholder="Enter additional tilte" />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="additional-field">
             <mat-label>Description</mat-label>
-            <input
-              matInput
-              formControlName="description1"
-              placeholder="Enter additional description"
-            />
+            <input matInput placeholder="Enter additional description" />
           </mat-form-field>
         </div>
+        }
 
-        <button class="main" type="submit" mat-flat-button>Submit</button>
+        <button
+          class="main"
+          style="margin-top: 100px"
+          type="submit"
+          mat-flat-button
+        >
+          Submit
+        </button>
       </section>
     </form>
   </div>

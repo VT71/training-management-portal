@@ -13,6 +13,7 @@
   --main-10: rgba(238, 125, 16, 0.1);
   --main-20: rgba(238, 125, 16, 0.2);
   --main-80: rgba(238, 125, 16, 0.8);
+  --main-30: rgb(255, 159, 50);
   --light-orange: rgb(255, 230, 207);
   --secondary: rgb(0, 44, 104);
   --light-secondary: rgb(146, 195, 255);
@@ -390,9 +391,6 @@ h2.dialog-title {
     display: none !important;
 }
 
-.ngx-charts-outer {
-    /* height: auto !important; */
-}
 
 .ngx-charts {
     height: 300px !important;

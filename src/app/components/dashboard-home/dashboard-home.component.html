@@ -42,8 +42,7 @@
         <h2>Overall Completion Rates (except Workshops)</h2>
         <!-- <app-pie-grid></app-pie-grid> -->
         <div class="gauge-charts-container">
-          @if (completedTrainingsFromTotal$ | async; as
-          completedTrainingsFromTotal) {
+          @if (completedTrainingsFromTotal$ | async; as completedTrainingsFromTotal) {
           <app-gauge-chart
             [data]="[{ name: 'All', value: completedTrainingsFromTotal * 100 }]"
             [title]="'All trainings %'"

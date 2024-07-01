@@ -40,7 +40,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { Department } from '../../interfaces/department';
 import { Employee } from '../../interfaces/employee';
-import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-training-form',
@@ -69,6 +68,7 @@ import { user } from '@angular/fire/auth';
 export class TrainingFormComponent implements OnDestroy, OnInit {
   @Input() type!: string;
   @Input() trainingId!: number;
+  @Input() deadline!: string;
   public departmentsSelected = false;
   public employeesSelected = false;
 
@@ -91,7 +91,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
       Validators.maxLength(255),
     ]),
     description: new FormControl('', Validators.required),
-    individual: new FormControl(0, Validators.required),
+    individual: new FormControl(1, Validators.required),
     adress: new FormControl(''),
     deadline: new FormControl<string>('', Validators.required),
     time: new FormControl('', Validators.required),
@@ -143,13 +143,13 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           this.departmentsSelected = training.forDepartments === 1;
           this.employeesSelected = training.forEmployees === 1;
         });
+    } else {
+      this.trainingForm.controls.deadline.setValue(this.deadline);
     }
   }
 
-  onIndividualChange() {
-    this.showAdditionalFields =
-      this.trainingForm.controls.individual.value === 1;
-    this.isWorkshop = this.trainingForm.controls.individual.value === 0;
+  onIndividualChange(event: any) {
+    this.isWorkshop = event.value === 0;
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
@@ -176,7 +176,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
       this.employeesSelected = true;
     }
   }
-
 
   onSubmitTrainings() {
     const rawForm = this.trainingForm.getRawValue();
@@ -244,34 +243,33 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
                 this.openSnackBar('Error updating training', 'Close');
               },
             });
-          return;
-        }
-        this.trainingApiService
-          .createTraining(trainingData, departmentsData, employeesData)
-          .subscribe({
-            next: () => {
-              console.log('Training created successfully');
-              const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
-                'Training created successfully',
-                'Close'
-              );
-              this.dialogRef.close();
+        } else {
+          this.trainingApiService
+            .createTraining(trainingData, departmentsData, employeesData)
+            .subscribe({
+              next: () => {
+                console.log('Training created successfully');
+                const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
+                  'Training created successfully',
+                  'Close'
+                );
+                this.dialogRef.close();
 
-              snackBarRef.afterDismissed().subscribe(() => {
-                window.location.reload();
-              });
-            },
-            error: (error) => {
-              console.error('Error creating training:', error);
-              this.openSnackBar('Error creating training', 'Close');
-            },
-          });
-      } else {
-        // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
-        this.openSnackBar(
-          'Invalid form data. Please check the form again.',
-          'Close'
-        );
+                snackBarRef.afterDismissed().subscribe(() => {
+                  window.location.reload();
+                });
+              },
+              error: (error) => {
+                console.error('Error creating training:', error);
+                this.openSnackBar('Error creating training', 'Close');
+              },
+            });
+          // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
+          this.openSnackBar(
+            'Invalid form data. Please check the form again.',
+            'Close'
+          );
+        }
       }
     }
   }
