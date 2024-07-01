@@ -10,15 +10,16 @@ import {
   updatePassword,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-
+import { HttpClient } from '@angular/common/http';
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
-import { Observable, from, of } from 'rxjs';
+import { Observable, catchError, from, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
+  http = inject(HttpClient);
   user!: User | null;
 
   constructor(private router: Router) {
@@ -147,6 +148,22 @@ export class AuthService {
       })
       .catch((err) => alert('An error occured when creating a user account'));
     return from(promise);
+  }
+
+  isAdmin(): Observable<boolean> {
+    this.updateUser();
+    return this.http
+      .get<boolean>(
+        `http://localhost:5290/User/IsAdmin?userId=${
+          this.user?.uid ? this.user?.uid : ''
+        }`
+      )
+      .pipe(
+        catchError((error) => {
+          alert('Error when checking user for admin role');
+          return [];
+        })
+      );
   }
 
   isAuthenticated(): boolean {

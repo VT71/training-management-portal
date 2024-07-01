@@ -8,7 +8,7 @@ import { TrainingsCalendarComponent } from './components/trainings-calendar/trai
 import { MissedTrainingsComponent } from './components/missed-trainings/missed-trainings.component';
 import { UpcomingTrainingsComponent } from './components/upcoming-trainings/upcoming-trainings.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
-import { authGuard } from './auth.guard';
+import { authGuard } from './guards/auth.guard';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { TrainingFormComponent } from './components/training-form/training-form.component';
 import { AddTrainingComponent } from './components/add-training/add-training.component';
@@ -19,9 +19,7 @@ import { TrainingPageComponent } from './components/training-page/training-page.
 import { EmployeesComponent } from './components/employees/employees.component';
 import { DepartmentsComponent } from './components/departments/departments.component';
 import { EmployeePageComponent } from './components/employee-page/employee-page.component';
-
-
-
+import { adminGuard } from './guards/admin.guard';
 
 const appName = 'Training Management Portal';
 
@@ -64,6 +62,7 @@ export const routes: Routes = [
         path: '',
         component: DashboardHomeComponent,
         title: `Dashboard Home | ${appName}`,
+        canActivate: [adminGuard],
       },
       {
         path: 'trainings',
@@ -125,7 +124,6 @@ export const routes: Routes = [
         component: DepartmentsComponent,
         title: `Departments Page | ${appName}`,
       },
-      
     ],
   },
   { path: '**', redirectTo: '/dashboard' },
