@@ -276,10 +276,10 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
               },
             });
           // Adaugăm un mesaj de eroare pentru utilizator, dacă formularul este invalid
-          this.openSnackBar(
-            'Invalid form data. Please check the form again.',
-            'Close'
-          );
+          // this.openSnackBar(
+          //   'Invalid form data. Please check the form again.',
+          //   'Close'
+          // );
         }
       }
     }
