@@ -15,7 +15,9 @@ export class EmployeesComponent {
   constructor(public dialog: MatDialog) {}
 
   openDialog() {
-    const dialogRef = this.dialog.open(EmployeeFormDialogComponent);
+    const dialogRef = this.dialog.open(EmployeeFormDialogComponent, {
+      width: '400px',
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
