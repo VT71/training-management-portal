@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -14,9 +14,8 @@ import { SearchService } from '../../services/search-service.service';
 import { UsersApiService } from '../../services/users-api.service';
 import { ArticleInterface } from '../../interfaces/article.interface';
 import { User } from '../../interfaces/user';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './confirm-add-dialog.component';
-
 
 @Component({
   selector: 'app-navbar',
@@ -36,11 +35,13 @@ import { ConfirmDialogComponent } from './confirm-add-dialog.component';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isDropdownOpen = false;
   authService = inject(AuthService);
   usersApiService = inject(UsersApiService);
   router = inject(Router);
+  public adminVersion = false;
+  private subscriptions: Subscription[] = [];
 
   searchValue = '';
   searchResults: { title: string; route: string }[] = [];
@@ -53,12 +54,11 @@ export class NavbarComponent implements OnInit {
     { title: 'Departments', route: '/dashboard/departments' },
   ];
 
-  
   public searchForm = new FormGroup({
     search: new FormControl(''),
   });
 
-  constructor(public dialog: MatDialog, private searchService: SearchService,) {}
+  constructor(public dialog: MatDialog, private searchService: SearchService) {}
 
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
@@ -69,7 +69,6 @@ export class NavbarComponent implements OnInit {
       let uid = objSessionAuthUser?.uid;
       this.user$ = this.usersApiService.getUserById(uid);
     }
-
   }
 
   public applyFilterSearch(event: KeyboardEvent): void {
@@ -81,6 +80,15 @@ export class NavbarComponent implements OnInit {
     this.searchResults = this.articles.filter((article) =>
       article.title.toLowerCase().includes(searchValue.toLowerCase())
     );
+
+    const roleSubscription = this.authService.rolesource.subscribe((role) => {
+      if (role === 'admin') {
+        this.adminVersion = true;
+      } else {
+        this.adminVersion = false;
+      }
+    });
+    this.subscriptions?.push(roleSubscription);
   }
 
   toggleDropdown() {
@@ -98,7 +106,7 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public openConfirmDialog(event: Event,): void {
+  public openConfirmDialog(event: Event): void {
     event.stopPropagation();
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -124,7 +132,8 @@ export class NavbarComponent implements OnInit {
       // Aici poți gestiona acțiunile după închiderea dialogului de adăugare (dacă este necesar)
     });
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
 }
-
-
-
