@@ -79,7 +79,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   public employeesErrorMsg = '';
   public employees: number[] = [];
 
-  public sections: Sections[] = [{ sectionId: 0, title: '', description: '' }];
+  public sections: Sections[] = [];
 
   public trainerErrorMsg = '';
   public trainer: number[] = [];
@@ -153,6 +153,11 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
 
   onIndividualChange(event: any) {
     this.isWorkshop = event.value === 0;
+    if (event.value === 1) {
+      if (this.sections.length === 0) {
+        this.addSection();
+      }
+    }
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
@@ -181,8 +186,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   }
 
   onSubmitTrainings() {
-    const rawForm = this.trainingForm.getRawValue();
-    console.log('Raw form values:', rawForm);
     if (this.checkAutocompletes()) {
       if (this.trainingForm.valid) {
         console.log('Form is valid.');
@@ -377,7 +380,32 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
     return valid;
   }
 
+  public addSection() {
+    const sectionTitleControlName = `sectionTitle${this.sections.length}`;
+    const titleControl = new FormControl('', Validators.required);
+    (this.trainingForm as FormGroup).addControl(
+      sectionTitleControlName,
+      titleControl
+    );
+
+    const sectionDescrControlName = `sectionDescription${this.sections.length}`;
+    const descriptionControl = new FormControl('', Validators.required);
+    (this.trainingForm as FormGroup).addControl(
+      sectionDescrControlName,
+      descriptionControl
+    );
+
+    this.sections.push({
+      sectionId: 0,
+      title: '',
+      description: '',
+    });
+
+  }
+  
+
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
+
