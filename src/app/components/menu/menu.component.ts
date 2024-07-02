@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { HostListener, OnDestroy, OnInit, } from '@angular/core';
+import { HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   ActivatedRoute,
@@ -11,14 +11,21 @@ import {
 } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { Observable, Subscription, filter } from 'rxjs';
+import { Observable, Subscription, filter, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [MatIconModule, RouterLink, RouterLinkActive, NgIf, CommonModule, MatTooltipModule],
+  imports: [
+    MatIconModule,
+    RouterLink,
+    RouterLinkActive,
+    NgIf,
+    CommonModule,
+    MatTooltipModule,
+  ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })
@@ -28,10 +35,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscriptions?: Subscription[];
   private authService: AuthService = inject(AuthService);
   public menuCollapsed = false;
+  public adminVersion = false;
   // public departmentsTooltip = 'Departments';
   // public notificationsTooltip = 'Notifications';
   // public reportsTooltip = 'Reports';
-  
 
   public manuallyUpdateTrainingsDropDownOpen(): void {
     this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
@@ -42,8 +49,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.menuCollapsed = !this.menuCollapsed;
     this.trainingsDropDownOpen = false;
 
-      // this.updateTooltipVisibility();
-    
+    // this.updateTooltipVisibility();
   }
 
   // public updateTooltipVisibility() {
@@ -85,12 +91,22 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router) {}
-  
+
   // ngAfterViewInit(): void {
   //   throw new Error('Method not implemented.');
   // }
 
   ngOnInit(): void {
+    const roleSubscription = this.authService.rolesource.subscribe((role) => {
+      console.log('ROLE IN MENU: ' + role);
+      if (role === 'admin') {
+        this.adminVersion = true;
+      } else {
+        this.adminVersion = false;
+      }
+    });
+    this.subscriptions?.push(roleSubscription);
+
     this.updateTrainingsDropDown(this.router.url);
 
     const routerSubscription = this.router.events

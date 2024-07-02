@@ -2,6 +2,7 @@
   <div class="menu-wrapper">
     <ul class="menu-list">
       <div class="first-section">
+        @if (adminVersion) {
         <li class="menu-list-item">
           <div
             class="menu-button"
@@ -27,6 +28,8 @@
             </div>
           </div>
         </li>
+        }
+
         <li>
           <div
             [class.open]="trainingsDropDownOpen"
@@ -162,6 +165,7 @@
           </div>
         </li>
 
+        @if (adminVersion) {
         <li>
           <div
             class="menu-button"
@@ -214,6 +218,7 @@
             </div>
           </div>
         </li>
+        }
 
         <!-- <li>
           <div
@@ -314,9 +319,6 @@
                   ? "keyboard_double_arrow_right"
                   : "keyboard_double_arrow_left"
               }}</mat-icon>
-
-
-
             </div>
           </div>
         </li>
