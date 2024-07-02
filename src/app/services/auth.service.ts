@@ -12,7 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
-import { Observable, catchError, from, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, from, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +21,9 @@ export class AuthService {
   firebaseAuth = inject(Auth);
   http = inject(HttpClient);
   user!: User | null;
+
+  private role = new BehaviorSubject<string>('');
+  rolesource = this.role.asObservable();
 
   constructor(private router: Router) {
     this.updateUser();
@@ -151,7 +154,7 @@ export class AuthService {
   }
 
   isAdmin(): Observable<boolean> {
-    this.updateUser();
+    console.log('IS ADMIN START');
     return this.http
       .get<boolean>(
         `http://localhost:5290/User/IsAdmin?userId=${
@@ -159,6 +162,18 @@ export class AuthService {
         }`
       )
       .pipe(
+        map((isAdmin) => {
+          console.log('isADMIN : ' + isAdmin);
+          if (isAdmin === true) {
+            console.log('IS ADMIN TRUE');
+            this.role.next('admin');
+            return true;
+          } else {
+            console.log('IS ADMIN ELSE');
+            this.role.next('employee');
+            return false;
+          }
+        }),
         catchError((error) => {
           alert('Error when checking user for admin role');
           return [];
