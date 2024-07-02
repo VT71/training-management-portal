@@ -8,11 +8,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-settings-component',
@@ -70,7 +66,11 @@ export class SettingsComponentComponent implements OnInit, OnDestroy {
               .subscribe({
                 complete: () => {
                   if (this.personalForm.controls['email'].dirty) {
-                    alert('Please verify your new email');
+                    alert(
+                      'Personal Info Updated. Please verify your new email'
+                    );
+                  } else {
+                    alert('Personal Info Updated');
                   }
                 },
                 error: () => alert('Error occured when updating your email'),
