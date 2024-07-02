@@ -69,6 +69,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
       let uid = objSessionAuthUser?.uid;
       this.user$ = this.usersApiService.getUserById(uid);
     }
+
+    const roleSubscription = this.authService.rolesource.subscribe((role) => {
+      console.log('ROLE IN MENU: ' + role);
+      if (role === 'admin') {
+        this.adminVersion = true;
+      } else {
+        this.adminVersion = false;
+      }
+    });
+    this.subscriptions?.push(roleSubscription);
   }
 
   public applyFilterSearch(event: KeyboardEvent): void {
