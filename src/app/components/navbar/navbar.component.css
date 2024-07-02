@@ -109,21 +109,42 @@
   background-color: var(--secondary-10);
 }
 
-/* search bar  */
+/* search bar start */
 .search {
   display: flex;
   justify-content: center;
   background-color: none;
-  width: 100%;
+  width: 70%;
   border: none;
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
-.form {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
+.search-results {
+  position: absolute;
+  top: calc(100% + 1px); /* Poziționează sub input-ul de căutare, cu o mică separare */
+  left: -30;
+  width: 55%;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Asigură că apare peste celelalte elemente */
+
 }
+
+.search-result-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+/* search bar end*/
 
 .input-group {
   display: flex;
@@ -131,24 +152,7 @@
   position: relative;
   border-radius: 50px;
 }
-
-.form-control {
-  width: 100%;
-  /* border: 1px solid #ced4da; */
-  /* border-radius: 50px; */
-  outline: none;
-  overflow: hidden;
-}
-
-.form-control:hover {
-  cursor: pointer;
-  border-color: var(--secondary);
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--secondary);
-}
+/* 
 
 .btn1 {
   position: absolute;

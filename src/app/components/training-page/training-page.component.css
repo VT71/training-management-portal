@@ -1,18 +1,12 @@
-.page-container {
-  padding: 20px; 
-  background-color: #f2f2f2;
+.container-left,
+.container-right {
+  background: linear-gradient(to right, #ffffff, #ffffff);
+  border: none;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 100%;
-}
-
-.above-elements{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between; /* Aliniere sus pentru ambele containere */
   padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-/* general */
 
 .title {
   color: var(--secondary) !important;
@@ -21,7 +15,35 @@
 .mat-icon {
   color: var(--secondary) !important;
 }
-/* container-section-right*/
+
+.page-container {
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.above-elements-container-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  padding: 20px;
+  width: 100%;
+}
+
+.elements {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+/* general */
+
+/* container right section */
 
 .container-right {
   display: flex;
@@ -33,48 +55,58 @@
 }
 
 .description {
-  height: 100% !important;
   justify-content: start;
   display: flex;
   align-items: start;
 }
 
-.container-right img {
-  height: auto;
+img {
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   object-fit: cover;
-  width: 80%;
+ 
+  margin-bottom: 10px;
+  width: 100%;
   justify-content: space-between;
-  height: 90%
 }
 
 .right-content-wrapper {
   display: flex;
   flex-direction: column;
-  width: 38%;
+  width: 50%;
+}
+
+.description-text {
+  text-indent: 2em;
+  text-align: justify;
+  margin-top: 0;
+  text-justify: inter-word;
+  font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 /* container-section-right */
 
+
 /* container-section-left */
 .container-left {
-  background: linear-gradient(to right, #ffffff, #ffffff);
-  border: none;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  width: 58%;
-  height: 100%;
-  box-sizing: border-box;
+  width: 97%;
+  height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   gap: 0.4rem;
+  margin-bottom: 0 !important;
+  margin-right: 20px !important;
 }
 
-.info{
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 !important;
+}
+
+.info {
   width: 68%;
   height: 100%;
 }
@@ -98,7 +130,6 @@
   height: 48px;
 }
 
-
 /* list emplyees */
 .matTooltip {
   font-size: 16px;
@@ -106,30 +137,30 @@
   background-color: aqua !important;
 }
 
-/* ul {
-  list-style-type: none;
-  padding: 130px;
-  } */
-  
-  button {
-    border-radius: 10px !important;
-    font-size: small !important;
-    height: 70% !important;
-    width: 80%;
-  }
-  
-  button:hover,  button:active {    
-    background-color: var(--main-80)  !important;
-    color: white !important;
-  }
 
-  .departments-container p,
-  .employees-container p {
-    font-size: 16px;
-    margin-bottom: 0 !important;
-  }
+button {
+  border-radius: 10px !important;
+  font-size: small !important;
+  height: 75% !important;
+  width: 86%;
+}
 
-.employee-span , .department-span {
+button:hover , .selected  {
+  background-color: var(--main-80) !important;
+  color: white !important;
+}
+.selected:hover {
+  background-color: var(--main-80) !important;
+}
+
+.departments-container p,
+.employees-container p {
+  font-size: 16px;
+  margin-bottom: 0 !important;
+}
+
+.employee-span,
+.department-span {
   font-size: 16px;
   line-height: 1.5;
   align-items: center;
@@ -165,6 +196,12 @@
 }
 
 /* table */
+.mat-mdc-cell:hover {
+  background-color: rgb(233, 200, 34) !important;
+  color: white !important;
+  cursor: pointer;
+}
+
 table {
   width: 28%;
 }
@@ -176,21 +213,50 @@ table {
 
 td,
 th {
-  width: 28%; 
+  width: 28%;
 }
 
-.container-tables{
+.container-tables {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.table-container{
-  width: 27%;
-  margin-left: 24px;
-  padding: 13px; 
+.table-container {
+  width: 48%;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 100%;
+  margin-right: 20px; 
 }
+
+.top-table {
+  display: flex;
+  flex-direction: row;
+}
+
+.title-table {
+  flex: 1;
+  text-align: center;
+}
+
+.close {
+  color: var(--secondary);
+  margin-left: auto;
+  border-radius: 30px;
+  align-items: center;
+  height: 24px !important;
+  width: 24px   !important;
+}
+
+.close:hover {
+  cursor: pointer;
+  background-color: #f80000;
+  color: white
+}
+
 /* table */

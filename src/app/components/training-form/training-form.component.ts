@@ -40,6 +40,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { Department } from '../../interfaces/department';
 import { Employee } from '../../interfaces/employee';
+import { Sections } from '../../interfaces/sections';
 
 @Component({
   selector: 'app-training-form',
@@ -77,6 +78,8 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
 
   public employeesErrorMsg = '';
   public employees: number[] = [];
+
+  public sections: Sections[] = [{ sectionId: 0, title: '', description: '' }];
 
   public trainerErrorMsg = '';
   public trainer: number[] = [];
@@ -245,7 +248,12 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
             });
         } else {
           this.trainingApiService
-            .createTraining(trainingData, departmentsData, employeesData)
+            .createTraining(
+              trainingData,
+              departmentsData,
+              employeesData,
+              this.sections
+            )
             .subscribe({
               next: () => {
                 console.log('Training created successfully');

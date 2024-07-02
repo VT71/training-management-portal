@@ -159,6 +159,7 @@
         </div>
 
         @if(!isWorkshop) {
+          @for (section of sections; track section) { 
         <div class="input-container section1">
           <h3>Section1</h3>
           <mat-form-field appearance="outline" class="additional-field">
@@ -171,8 +172,16 @@
             <input matInput placeholder="Enter additional description" />
           </mat-form-field>
         </div>
+        <button
+        class="main"
+        style="margin-top: 100px"
+        type="submit"
+        mat-flat-button
+      >
+        Add section
+      </button>
         }
-
+      }
         <button
           class="main"
           style="margin-top: 100px"
