@@ -2,187 +2,209 @@
   <h1 class="component-main-title">Training Page</h1>
 
   <div class="page-container">
-    <div class="above-elements">
+    <div class="container">
       <ng-container *ngIf="training | async as training"></ng-container>
       <div class="training-list-item-container container-left">
-        <div class="info">
-          <h2 class="title">Training Info</h2>
-          <p>
-            <span class="material-symbols-outlined left"> titlecase </span>
-            Title: <span class="bold">{{ (training | async)?.title }}</span>
-          </p>
-          <p>
-            <span class="material-symbols-outlined left">
-              cast_for_education
-            </span>
-            Training Type:
-            <span class="bold">
-              {{ (training | async)?.individual ? "Online" : "Workshop" }}</span
-            >
-          </p>
-          <!-- <p>
+        <diV class="above-elements-container-left">
+          <div class="info">
+            <h2 class="title">Training Info</h2>
+            <p>
+              <span class="material-symbols-outlined left"> titlecase </span>
+              Title: <span class="bold">{{ (training | async)?.title }}</span>
+            </p>
+            <p>
+              <span class="material-symbols-outlined left">
+                cast_for_education
+              </span>
+              Training Type:
+              <span class="bold">
+                {{
+                  (training | async)?.individual ? "Online" : "Workshop"
+                }}</span
+              >
+            </p>
+            <!-- <p>
           Training Status:
           <span class="bold">
             {{ training.individual ? "Online" : "Workshop" }}</span
           >
         </p> -->
-          <p>
-            <span class="material-symbols-outlined left"> person </span>
-            Trainer:
-            <span class="bold">{{ (training | async)?.trainerName }}</span>
-          </p>
-          <p>
-            <span class="material-symbols-outlined left"> date_range </span>
-            Deadline:
-            <span class="bold">
-              {{ (training | async)?.deadline | date : "dd/MM/yyyy" }}
-            </span>
-          </p>
-          <p>
-            <span class="material-symbols-outlined left"> distance </span>
-            Address/Link:
-            <span class="bold">{{ (training | async)?.adress }}</span>
-          </p>
-        </div>
+            <p>
+              <span class="material-symbols-outlined left"> person </span>
+              Trainer:
+              <span class="bold">{{ (training | async)?.trainerName }}</span>
+            </p>
+            <p>
+              <span class="material-symbols-outlined left"> date_range </span>
+              Deadline:
+              <span class="bold">
+                {{ (training | async)?.deadline | date : "dd/MM/yyyy" }}
+              </span>
+            </p>
+            <p>
+              <span class="material-symbols-outlined left"> distance </span>
+              Address/Link:
+              <span class="bold">{{ (training | async)?.adress }}</span>
+            </p>
+          </div>
 
-        <div class="participants">
-          <h2 class="title" style="margin-left: 22px">Participants</h2>
+          <div class="participants">
+            <h2 class="title" style="margin-left: 22px">Participants</h2>
+            <div class="participants-details">
+              <div class="departments-container">
+                <button mat-flat-button (click)="toggleDepartmentsTable()"
+                [ngClass]="{ 'selected': showDepartmentsTable }">
+                  <p class="department-span">
+                    Departments:
+                    <span class="bold">{{
+                      convertNumberToYesNo(
+                        (training | async)?.forDepartments ?? 0
+                      )
+                    }}</span>
+                  </p>
+                </button>
+              </div>
 
-          <div class="participants-details">
-            <div class="departments-container">
-              <button mat-flat-button (click)="toggleDepartmentsTable()"
-              >
-                <p class="department-span">
-                  Departments:
-                  <span class="bold">{{
-                    (training | async)?.forDepartments
-                  }}</span>
-                </p>
-              </button>
-            </div>
-
-            <div class="employees-container">
-              <button mat-flat-button (click)="toggleEmployeeTable()">
-                <p class="employee-span" style="margin-left: -14px">
-                  Employees:
-                  <span class="bold">{{
-                    (training | async)?.forEmployees
-                  }}</span>
-                </p>
-              </button>
+              <div class="employees-container">
+                <button mat-flat-button (click)="toggleEmployeeTable()"
+                [ngClass]="{ 'selected': showEmployeeTable }">
+                  <p class="employee-span" style="margin-left: -14px">
+                    Employees:
+                    <span class="bold">{{
+                      convertNumberToYesNo(
+                        (training | async)?.forEmployees ?? 0
+                      )
+                    }}</span>
+                  </p>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </diV>
       </div>
+      <div class="container-tables">
+        <div class="table-container" *ngIf="showDepartmentsTable">
+          <div class="top-table">
+            <h2 class="title-table">Departments</h2>
+            <span class="material-symbols-outlined close" (click)="closeDepartmentsTable()">
+              close
+            </span>
+            </div>
+          <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input
+              matInput
+              (keyup)="applyFilter1($event)"
+              placeholder="Ex. Mia"
+              #input
+            />
+          </mat-form-field>
 
-      <div class="right-content-wrapper">
-        <div class="container-right img">
-          <img src="../../../assets/img-training.jpg" alt="" />
+          <table mat-table [dataSource]="dataSource1" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="departmentId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let row"></td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="departmentName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td
+                mat-cell
+                *matCellDef="let row"
+                (click)="goToDepartment()"
+                matTooltip="Clik for departments"
+                matTooltipPosition="below"
+              >
+                {{ row.departmentName }}
+              </td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+
+            <tr mat-header-row *matHeaderRowDef="['departmentName']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['departmentName']"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator
+            #paginator1
+            [pageSizeOptions]="[5, 10]"
+            aria-label="Select page of users"
+          ></mat-paginator>
         </div>
-        <div class="training-list-item-container description container-right">
-          <h2 class="title">Description:</h2>
-          <h2 class="content">{{ (training | async)?.description }}</h2>
+
+        <div class="table-container" *ngIf="showEmployeeTable">
+          <div class="top-table">
+          <h2 class="title-table">Employees</h2>
+          <span class="material-symbols-outlined close" (click)="closeEmployeeTable()">
+            close
+          </span>
+          </div>
+          <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input
+              matInput
+              (keyup)="applyFilter2($event)"
+              placeholder="Ex. Mia"
+              #input
+            />
+          </mat-form-field>
+          <table mat-table [dataSource]="dataSource2" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="employeeId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let row"></td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="fullName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td
+                mat-cell
+                *matCellDef="let row"
+                (click)="goToEmployee(row.employeeId)"
+                matTooltip="Clik for employee page"
+                matTooltipPosition="below"
+              >
+                {{ row.fullName }}
+              </td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+
+            <tr mat-header-row *matHeaderRowDef="['fullName']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['fullName']"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator
+            #paginator2
+            [pageSizeOptions]="[5, 10]"
+            aria-label="Select page of users"
+          ></mat-paginator>
         </div>
       </div>
     </div>
-    <div class="container-tables">
-      <div class="table-container" *ngIf="showDepartmentsTable">
-        <h2 style="text-align: center">Departments</h2>
 
-        <mat-form-field>
-          <mat-label>Filter</mat-label>
-          <input
-            matInput
-            (keyup)="applyFilter1($event)"
-            placeholder="Ex. Mia"
-            #input
-          />
-        </mat-form-field>
-
-        <table mat-table [dataSource]="dataSource1" matSort>
-          <!-- ID Column -->
-          <ng-container matColumnDef="departmentId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-            <td mat-cell *matCellDef="let row">{{ row.departmentId }}</td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="departmentName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">{{ row.departmentName }}</td>
-          </ng-container>
-
-          <!-- Fruit Column -->
-
-          <tr
-            mat-header-row
-            *matHeaderRowDef="['departmentId', 'departmentName']"
-          ></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: ['departmentId', 'departmentName']"
-          ></tr>
-
-          <!-- Row shown when there is no matching data. -->
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">
-              No data matching the filter "{{ input.value }}"
-            </td>
-          </tr>
-        </table>
-
-        <mat-paginator
-          #paginator1
-          [pageSizeOptions]="[5, 10]"
-          aria-label="Select page of users"
-        ></mat-paginator>
-      </div>
-
-      <div class="table-container" *ngIf="showEmployeeTable">
-        <h2 style="text-align: center">Employees</h2>
-        <mat-form-field>
-          <mat-label>Filter</mat-label>
-          <input
-            matInput
-            (keyup)="applyFilter2($event)"
-            placeholder="Ex. Mia"
-            #input
-          />
-        </mat-form-field>
-        <table mat-table [dataSource]="dataSource2" matSort>
-          <!-- ID Column -->
-          <ng-container matColumnDef="employeeId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-            <td mat-cell *matCellDef="let row">{{ row.employeeId }}</td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="fullName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">{{ row.fullName }}</td>
-          </ng-container>
-
-          <!-- Fruit Column -->
-
-          <tr mat-header-row *matHeaderRowDef="['employeeId', 'fullName']"></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: ['employeeId', 'fullName']"
-          ></tr>
-
-          <!-- Row shown when there is no matching data. -->
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">
-              No data matching the filter "{{ input.value }}"
-            </td>
-          </tr>
-        </table>
-
-        <mat-paginator
-          #paginator2
-          [pageSizeOptions]="[5, 10]"
-          aria-label="Select page of users"
-        ></mat-paginator>
+    <div class="right-content-wrapper">
+      <img src="../../../assets/img-training.jpg" alt="" />
+      <div class="description container-right">
+        <h2 class="title">Description:</h2>
+        <p class="description-text">{{ (training | async)?.description }}</p>
       </div>
     </div>
   </div>

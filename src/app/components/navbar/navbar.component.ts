@@ -16,8 +16,7 @@ import { ArticleInterface } from '../../interfaces/article.interface';
 import { User } from '../../interfaces/user';
 import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from './confirm-add-dialog.component';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-import { TrainingsService } from '../../services/trainings.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -43,19 +42,23 @@ export class NavbarComponent implements OnInit {
   usersApiService = inject(UsersApiService);
   router = inject(Router);
 
-  query: string = '';
-
+  searchValue = '';
   searchResults: { title: string; route: string }[] = [];
   user$!: Observable<User>;
-  searchValue = '';
-  articles: ArticleInterface[] = [];
+  articles: { title: string; route: string }[] = [
+    { title: 'Dashboard', route: '/dashboard' },
+    { title: 'Settings', route: '/dashboard/settings' },
+    { title: 'Trainings', route: '/dashboard/trainings' },
+    { title: 'Employees', route: '/dashboard/employees' },
+    { title: 'Departments', route: '/dashboard/departments' },
+  ];
 
+  
   public searchForm = new FormGroup({
     search: new FormControl(''),
   });
 
-  constructor(public dialog: MatDialog, private searchService: SearchService,  private _snackBar: MatSnackBar,
-    private trainingsService: TrainingsService,) {}
+  constructor(public dialog: MatDialog, private searchService: SearchService,) {}
 
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
@@ -67,13 +70,17 @@ export class NavbarComponent implements OnInit {
       this.user$ = this.usersApiService.getUserById(uid);
     }
 
-    this.fetchData();
   }
 
-  fetchData(): void {
-    this.searchService.getArticles(this.searchValue).subscribe((articles) => {
-      this.articles = articles;
-    });
+  public applyFilterSearch(event: KeyboardEvent): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filterResults(filterValue);
+  }
+
+  public filterResults(searchValue: string): void {
+    this.searchResults = this.articles.filter((article) =>
+      article.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
   }
 
   toggleDropdown() {

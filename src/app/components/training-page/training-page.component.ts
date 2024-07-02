@@ -5,7 +5,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { TrainingsService } from '../../services/trainings.service';
 import { CommonModule } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -23,7 +28,6 @@ import { MatInputModule } from '@angular/material/input';
 import { Department } from '../../interfaces/department';
 import { EmployeeComplete } from '../../interfaces/employee-complete';
 
-
 @Component({
   selector: 'app-training-page',
   standalone: true,
@@ -39,9 +43,6 @@ import { EmployeeComplete } from '../../interfaces/employee-complete';
     MatSortModule,
     MatPaginatorModule,
     MatInputModule,
-    RouterLinkActive,
-    RouterLink,
-    
   ],
   templateUrl: './training-page.component.html',
   styleUrl: './training-page.component.css',
@@ -56,19 +57,19 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   dataSource1: MatTableDataSource<Department>;
   dataSource2: MatTableDataSource<EmployeeComplete>;
 
-
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('paginator2') paginator2!: MatPaginator;
   @ViewChild('sort2') sort2!: MatSort;
 
-  showDepartmentsTable: boolean = false;
-  showEmployeeTable: boolean = false;
+  public showDepartmentsTable: boolean = false;
+  public showEmployeeTable: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private trainingService: TrainingsService,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    public router: Router
   ) {
     this.dataSource1 = new MatTableDataSource<Department>([]);
     this.dataSource2 = new MatTableDataSource<EmployeeComplete>([]);
@@ -157,5 +158,25 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
       this.dataSource2.paginator = this.paginator2;
       this.dataSource2.sort = this.sort2;
     }
+  }
+
+  goToDepartment() {
+    this.router.navigate(['dashboard/departments']);
+  }
+
+  goToEmployee(employeeId: string) {
+    this.router.navigate(['dashboard/employee', employeeId]);
+  }
+
+  public convertNumberToYesNo(value: number): string {
+    return value === 1 ? 'Yes' : 'No';
+  }
+
+  public closeEmployeeTable(): void {
+    this.showEmployeeTable = false;
+  }
+
+  public closeDepartmentsTable(): void {
+    this.showDepartmentsTable = false;
   }
 }

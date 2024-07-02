@@ -5,21 +5,18 @@
 
   <!-- search bar -->
   <div class="search">
-    <form class="form">
       <div class="input-group">
         <input
-          class="form-control"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          [formControl]="control"
-        />
-        <button class="btn1 btn-outline-success" type="submit">
-          <mat-icon>search</mat-icon>
-        </button>
+        matInput
+        class="form-control"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        [formControl]="control"
+        (keyup)="applyFilterSearch($event)"
+        #input
+      />
       </div>
-    </form>
-
     <div class="search-results" *ngIf="searchResults.length > 0">
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let result of searchResults">
@@ -30,6 +27,7 @@
       </ul>
     </div>
   </div>
+  
 
   <!-- search bar -->
 

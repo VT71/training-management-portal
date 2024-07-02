@@ -1,5 +1,7 @@
 import { Department } from "./department";
 import { EmployeeComplete } from "./employee-complete";
+import { Sections } from "./sections";
+
 
 export interface TrainingComplete {
     trainingId: number;
@@ -14,6 +16,6 @@ export interface TrainingComplete {
     forEmployees: number;
     departments: Department[];
     employees: EmployeeComplete[];
-
+    sections: Sections[];
   }
 

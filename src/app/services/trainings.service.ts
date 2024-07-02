@@ -5,6 +5,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { TrainingComplete } from '../interfaces/training-complete';
 import { Department } from '../interfaces/department';
 import { Employee } from '../interfaces/employee';
+import { Sections } from '../interfaces/sections';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,11 @@ export class TrainingsService {
   public createTraining(
     training: TrainingInterface,
     departmentsData: Department[],
-    employeesData: Employee[]
+    employeesData: Employee[],
+    sectionsData: Sections[]
   ): Observable<TrainingComplete> {
     return this.http
-      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {...training, departments: departmentsData, employees: employeesData})
+      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {...training, departments: departmentsData, employees: employeesData, sections: sectionsData})
       .pipe(
         catchError((error) => {
           return throwError(error);
