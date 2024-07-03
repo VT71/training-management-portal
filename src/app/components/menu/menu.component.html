@@ -138,6 +138,78 @@
                     </div>
                   </div> -->
                 </li>
+                @if (!adminVersion) {
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/completed"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="menu-button-icon"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >check_circle</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >Completed</span
+                      >
+                    </div>
+                  </div>
+                </li>
+
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/in-progress"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="menu-button-icon"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >pending</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >In Progress</span
+                      >
+                    </div>
+                  </div>
+                </li>
+                }
+                <li class="menu-list-item">
+                  <div
+                    class="menu-button"
+                    routerLink="/dashboard/trainings/upcoming"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <div class="left">
+                      <mat-icon
+                        class="menu-button-icon"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >info_outline</mat-icon
+                      >
+                      <span
+                        class="menu-button-label"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >Upcoming</span
+                      >
+                    </div>
+                  </div>
+                </li>
 
                 <li class="menu-list-item">
                   <div
@@ -158,30 +230,6 @@
                         routerLinkActive="active"
                         [routerLinkActiveOptions]="{ exact: true }"
                         >Missed</span
-                      >
-                    </div>
-                  </div>
-                </li>
-
-                <li class="menu-list-item">
-                  <div
-                    class="menu-button"
-                    routerLink="/dashboard/trainings/upcoming"
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                  >
-                    <div class="left">
-                      <mat-icon
-                        class="menu-button-icon"
-                        routerLinkActive="active"
-                        [routerLinkActiveOptions]="{ exact: true }"
-                        >info_outline</mat-icon
-                      >
-                      <span
-                        class="menu-button-label"
-                        routerLinkActive="active"
-                        [routerLinkActiveOptions]="{ exact: true }"
-                        >Upcoming</span
                       >
                     </div>
                   </div>
