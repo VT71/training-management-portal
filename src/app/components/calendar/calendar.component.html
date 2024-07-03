@@ -103,12 +103,11 @@
       <div class="schedule-headline-p">Please select a day</div>
       }
     </div>
-
+    
     <div>
       @if (activeDay() && activeDayTrainings().length === 0) {
       <div>No Planned Meetings today</div>
       }@if (activeDayTrainings().length > 0) {
-
       <div class="mettings-container">
         <div
           class="meeting-button"
@@ -121,12 +120,10 @@
         >
           {{ training.title }}
 
-
           <div class="icons-end">
             <span
               class="material-symbols-outlined edit training-edit-button"
               (click)="openDialogEdit($event, training.trainingId)"
-              
             >
               edit
             </span>
@@ -140,7 +137,7 @@
           </div>
         </div>
       </div>
-    }
+      } 
     </div>
   </div>
 </div>

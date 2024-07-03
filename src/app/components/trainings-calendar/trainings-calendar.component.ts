@@ -26,5 +26,8 @@ export class TrainingsCalendarComponent implements OnInit {
     });
   }
 
+  public onTrainingsChange(trainingId : number): void {
+      this.trainings = this.trainings.filter((training) => training.trainingId != trainingId)
+  }
   
 }
