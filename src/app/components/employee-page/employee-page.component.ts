@@ -47,8 +47,6 @@ export class EmployeePageComponent implements OnInit, OnDestroy {
       this.inProgressTrainings$ = this.trainingsApiService
         .getInProgressTrainingsByEmployee(this.id)
         .pipe(share());
-    } else {
-      this.employeeData$ = this.employeeApiService.getEmployeeComplete(this.id);
     }
 
     const roleSubscription = this.authService.rolesource.subscribe((role) => {
@@ -64,6 +62,19 @@ export class EmployeePageComponent implements OnInit, OnDestroy {
               0,
               objSessionAuthUser?.uid
             );
+
+            this.missedTrainings$ = this.trainingsApiService
+              .getMissedTrainingsByEmployee(0, objSessionAuthUser?.uid)
+              .pipe(share());
+            this.completedTrainings$ = this.trainingsApiService
+              .getCompletedTrainingsByEmployee(0, objSessionAuthUser?.uid)
+              .pipe(share());
+            this.upcomingTrainings$ = this.trainingsApiService
+              .getUpcomingTrainingsByEmployee(0, objSessionAuthUser?.uid)
+              .pipe(share());
+            // this.inProgressTrainings$ = this.trainingsApiService
+            //   .getInProgressTrainingsByEmployee(this.id)
+            //   .pipe(share());
           }
         }
       }
