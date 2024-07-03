@@ -22,7 +22,12 @@ export class TrainingsService {
     sectionsData: Sections[]
   ): Observable<TrainingComplete> {
     return this.http
-      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {...training, departments: departmentsData, employees: employeesData, sections: sectionsData})
+      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {
+        ...training,
+        departments: departmentsData,
+        employees: employeesData,
+        sections: sectionsData,
+      })
       .pipe(
         catchError((error) => {
           return throwError(error);
@@ -30,9 +35,13 @@ export class TrainingsService {
       );
   }
 
-  public getTrainings(): Observable<TrainingInterface[]> {
+  public getTrainings(userId?: string): Observable<TrainingInterface[]> {
     return this.http
-      .get<TrainingInterface[]>(`${this.baseUrl}/GetTrainings`)
+      .get<TrainingInterface[]>(
+        userId
+          ? `${this.baseUrl}/GetTrainings?${userId}`
+          : `${this.baseUrl}/GetTrainings`
+      )
       .pipe(
         catchError((error) => {
           return throwError(error);
@@ -56,7 +65,11 @@ export class TrainingsService {
     employeesData: Employee[]
   ): Observable<TrainingComplete> {
     return this.http
-      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining`, {...training,  departments: departmentsData, employees: employeesData})
+      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining`, {
+        ...training,
+        departments: departmentsData,
+        employees: employeesData,
+      })
       .pipe(
         catchError((error) => {
           return throwError(error);
