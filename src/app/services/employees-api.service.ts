@@ -37,10 +37,12 @@ export class EmployeesApiService {
       );
   }
 
-  public getEmployeeComplete(employeeId: number) {
+  public getEmployeeComplete(employeeId: number, userId?: string) {
     return this.http
       .get<EmployeeComplete>(
-        `${this.baseUrl}/GetEmployeeComplete/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetEmployeeComplete?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetEmployeeComplete?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {
