@@ -9,23 +9,12 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   return authService.rolesource.pipe(
-    switchMap((isAdmin) => {
-      if (isAdmin === '') {
-        return authService.isAdmin().pipe(
-          map((isAdmin) => {
-            if (isAdmin === true) {
-              return true;
-            } else {
-              router.navigateByUrl('/dashboard/trainings');
-              return false;
-            }
-          })
-        );
-      } else if (isAdmin === 'admin') {
-        return of(true);
+    map((isAdmin) => {
+      if (isAdmin === 'admin') {
+        return true;
       } else {
         router.navigateByUrl('/dashboard/trainings');
-        return of(false);
+        return false;
       }
     })
   );
