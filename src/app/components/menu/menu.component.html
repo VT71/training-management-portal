@@ -1,6 +1,6 @@
 <div [class.collapsed]="menuCollapsed" class="root-container">
   <div class="menu-wrapper">
-    <ul class="menu-list">
+    <ul class="menu-list" [class.employee-version]="!adminVersion">
       <div class="first-section">
         @if (adminVersion) {
         <li class="menu-list-item">
