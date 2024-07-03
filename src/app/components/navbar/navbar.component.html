@@ -5,8 +5,8 @@
 
   <!-- search bar -->
   <div class="search">
-      <div class="input-group">
-        <input
+    <div class="input-group">
+      <input
         matInput
         class="form-control"
         type="search"
@@ -16,7 +16,7 @@
         (keyup)="applyFilterSearch($event)"
         #input
       />
-      </div>
+    </div>
     <div class="search-results" *ngIf="searchResults.length > 0">
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let result of searchResults">
@@ -27,7 +27,6 @@
       </ul>
     </div>
   </div>
-  
 
   <!-- search bar -->
 
@@ -71,6 +70,7 @@
       matTooltipPosition="below"
         >notifications</mat-icon
       > -->
+      @if (adminVersion) {
       <mat-icon
         class="navbar-icon-button"
         (click)="openConfirmDialog($event)"
@@ -78,6 +78,7 @@
         matTooltipPosition="below"
         >note_add</mat-icon
       >
+      }
     </div>
   </div>
 </nav>

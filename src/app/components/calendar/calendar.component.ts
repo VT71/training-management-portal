@@ -8,6 +8,8 @@ import {
   Input,
   Output,
   EventEmitter,
+  OnDestroy,
+  inject,
 } from '@angular/core';
 import { tap, catchError } from 'rxjs/operators';
 import { TrainingInterface } from '../../interfaces/training.interface';
@@ -25,6 +27,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ConfirmDialogComponent } from './confirm-dialog.component';
 import { TrainingsService } from '../../services/trainings.service';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-calendar',
@@ -44,9 +48,11 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnDestroy {
   trainingsApiService: any;
   @Output() valuesEmitter = new EventEmitter<number>();
+  authService = inject(AuthService);
+
   @Input()
   get trainings(): TrainingInterface[] {
     return this._trainings();
@@ -66,6 +72,10 @@ export class CalendarComponent {
   public activeDay: WritableSignal<DateTime | null> = signal(null);
   public weekDays: Signal<string[]> = signal(Info.weekdays('short'));
   public isHoveringOnChild: boolean = false;
+
+  private subscriptions: Subscription[] = [];
+
+  public adminVersion = false;
 
   public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
@@ -159,7 +169,7 @@ export class CalendarComponent {
 
   openDialogEdit(event: Event, trainingId: number): void {
     event.stopPropagation();
-    this.trainingsService
+    const getTrainingSubscription = this.trainingsService
       .getTrainingById(trainingId)
       .pipe(
         tap((training) => {
@@ -179,10 +189,20 @@ export class CalendarComponent {
         })
       )
       .subscribe();
+
+    this.subscriptions.push(getTrainingSubscription);
   }
 
   ngOnInit() {
-    console.log(this._trainings);
+    const roleSubscription = this.authService.rolesource.subscribe((role) => {
+      console.log('ROLE IN MENU: ' + role);
+      if (role === 'admin') {
+        this.adminVersion = true;
+      } else {
+        this.adminVersion = false;
+      }
+    });
+    this.subscriptions?.push(roleSubscription);
     return;
   }
 
@@ -225,5 +245,9 @@ export class CalendarComponent {
       horizontalPosition: 'right',
       verticalPosition: 'top',
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions?.forEach((subscription) => subscription.unsubscribe());
   }
 }

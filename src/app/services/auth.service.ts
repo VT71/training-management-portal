@@ -82,6 +82,7 @@ export class AuthService {
   logout(): Observable<void> {
     this.user = null;
     sessionStorage.removeItem('authUser');
+    this.role.next('');
     const promise = signOut(this.firebaseAuth).then(() => {});
     return from(promise);
   }
