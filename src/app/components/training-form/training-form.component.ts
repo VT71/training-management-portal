@@ -209,6 +209,16 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           } as Employee;
         });
 
+        this.sections = this.sections.map((section, index) => {
+          const sectionTitleControlName = `sectionTitle${index}`;
+          const sectionDescrControlName = `sectionDescription${index}`;
+          return {
+            sectionId: 0,
+            title: (this.trainingForm.value as any)[sectionTitleControlName] ?? '',
+            description: (this.trainingForm.value as any)[sectionDescrControlName] ?? '',
+          };
+        })
+
         const trainingData: TrainingInterface = {
           trainingId: this.trainingForm.value.trainingId ?? 0,
           title: this.trainingForm.value.title ?? '',

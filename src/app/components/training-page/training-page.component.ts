@@ -128,7 +128,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     this.loadTraining();
 
     console.log('Employees:', this.employees);
-    console.log('Depertments:', this.dataSource1);
+    console.log('Depertments:', this.departments);
   }
 
   public convertDate(date: string): string {

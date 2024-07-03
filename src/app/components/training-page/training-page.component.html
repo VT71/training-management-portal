@@ -52,8 +52,11 @@
             <h2 class="title" style="margin-left: 22px">Participants</h2>
             <div class="participants-details">
               <div class="departments-container">
-                <button mat-flat-button (click)="toggleDepartmentsTable()"
-                [ngClass]="{ 'selected': showDepartmentsTable }">
+                <button
+                  mat-flat-button
+                  (click)="toggleDepartmentsTable()"
+                  [ngClass]="{ selected: showDepartmentsTable }"
+                >
                   <p class="department-span">
                     Departments:
                     <span class="bold">{{
@@ -66,8 +69,11 @@
               </div>
 
               <div class="employees-container">
-                <button mat-flat-button (click)="toggleEmployeeTable()"
-                [ngClass]="{ 'selected': showEmployeeTable }">
+                <button
+                  mat-flat-button
+                  (click)="toggleEmployeeTable()"
+                  [ngClass]="{ selected: showEmployeeTable }"
+                >
                   <p class="employee-span" style="margin-left: -14px">
                     Employees:
                     <span class="bold">{{
@@ -86,10 +92,13 @@
         <div class="table-container" *ngIf="showDepartmentsTable">
           <div class="top-table">
             <h2 class="title-table">Departments</h2>
-            <span class="material-symbols-outlined close" (click)="closeDepartmentsTable()">
+            <span
+              class="material-symbols-outlined close"
+              (click)="closeDepartmentsTable()"
+            >
               close
             </span>
-            </div>
+          </div>
           <mat-form-field>
             <mat-label>Filter</mat-label>
             <input
@@ -143,10 +152,13 @@
 
         <div class="table-container" *ngIf="showEmployeeTable">
           <div class="top-table">
-          <h2 class="title-table">Employees</h2>
-          <span class="material-symbols-outlined close" (click)="closeEmployeeTable()">
-            close
-          </span>
+            <h2 class="title-table">Employees</h2>
+            <span
+              class="material-symbols-outlined close"
+              (click)="closeEmployeeTable()"
+            >
+              close
+            </span>
           </div>
           <mat-form-field>
             <mat-label>Filter</mat-label>
@@ -205,6 +217,19 @@
       <div class="description container-right">
         <h2 class="title">Description:</h2>
         <p class="description-text">{{ (training | async)?.description }}</p>
+      </div>
+
+      <div class="input-container section1">
+        <h3>Section1</h3>
+        <mat-form-field appearance="outline" class="additional-field">
+          <mat-label>Ttitle</mat-label>
+          <input matInput placeholder="Enter additional tilte" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="additional-field">
+          <mat-label>Description</mat-label>
+          <input matInput placeholder="Enter additional description" />
+        </mat-form-field>
       </div>
     </div>
   </div>

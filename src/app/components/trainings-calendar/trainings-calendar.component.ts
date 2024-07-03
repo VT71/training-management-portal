@@ -46,4 +46,8 @@ export class TrainingsCalendarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions?.forEach((subscription) => subscription.unsubscribe());
   }
+  public onTrainingsChange(trainingId : number): void {
+      this.trainings = this.trainings.filter((training) => training.trainingId != trainingId)
+  }
+  
 }

@@ -6,6 +6,8 @@ import {
   WritableSignal,
   computed,
   Input,
+  Output,
+  EventEmitter,
   OnDestroy,
   inject,
 } from '@angular/core';
@@ -48,16 +50,18 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CalendarComponent implements OnDestroy {
   trainingsApiService: any;
+  @Output() valuesEmitter = new EventEmitter<number>();
   authService = inject(AuthService);
 
   @Input()
   get trainings(): TrainingInterface[] {
-    return this._trainings;
+    return this._trainings();
   }
+  
   set trainings(value: TrainingInterface[]) {
-    this._trainings = value;
+    this._trainings.set(value);
   }
-  public _trainings: TrainingInterface[] = [];
+  public _trainings: WritableSignal<TrainingInterface[]> = signal([]);
   public trainingId!: number;
 
   public today: Signal<DateTime> = signal(DateTime.local());
@@ -100,10 +104,14 @@ export class CalendarComponent implements OnDestroy {
       return [];
     }
 
-    return this.trainings.filter((training) => {
-      const trainingDeadline = training.deadline.substring(0, 10);
-      return trainingDeadline === activeDayISO;
-    });
+    if (this.trainings.length >= 0) {
+      return this.trainings.filter((training) => {
+        const trainingDeadline = training.deadline.substring(0, 10);
+        return trainingDeadline === activeDayISO;
+      });
+    } else {
+      return [];
+    }
   });
 
   constructor(
@@ -136,7 +144,7 @@ export class CalendarComponent implements OnDestroy {
   }
 
   public getEventsForDay(day: DateTime): string[] {
-    const events = this._trainings
+    const events = this._trainings()
       .filter((training) => {
         const deadlineDate = training.deadline.substring(0, 10);
         return deadlineDate === day.toISODate();
@@ -144,7 +152,6 @@ export class CalendarComponent implements OnDestroy {
       .map((training) => training.title);
 
     // Verifică dacă se găsesc evenimentele pentru ziua respectivă
-
     return events;
   }
 
@@ -215,10 +222,11 @@ export class CalendarComponent implements OnDestroy {
               'Training deleted successfully',
               'Close'
             );
+            this.valuesEmitter.emit(trainingId);
             setTimeout(() => {
               snackBarRef.dismiss();
-              window.location.reload();
-            }, 1500); // Așteaptă 2 secunde și apoi reîncarcă pagina
+            }, 1500);
+            // Așteaptă 2 secunde și apoi reîncarcă pagina
           },
           error: (error) => {
             console.error('Error deleting training:', error);
@@ -228,6 +236,8 @@ export class CalendarComponent implements OnDestroy {
       }
     });
   }
+
+  public resetDay = true;
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
     return this._snackBar.open(message, action, {
