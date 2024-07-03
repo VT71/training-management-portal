@@ -72,9 +72,9 @@ export class EmployeePageComponent implements OnInit, OnDestroy {
             this.upcomingTrainings$ = this.trainingsApiService
               .getUpcomingTrainingsByEmployee(0, objSessionAuthUser?.uid)
               .pipe(share());
-            // this.inProgressTrainings$ = this.trainingsApiService
-            //   .getInProgressTrainingsByEmployee(this.id)
-            //   .pipe(share());
+            this.inProgressTrainings$ = this.trainingsApiService
+              .getInProgressTrainingsByEmployee(0, objSessionAuthUser?.uid)
+              .pipe(share());
           }
         }
       }

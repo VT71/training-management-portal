@@ -12,7 +12,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
       if (isAdmin === 'admin') {
         return true;
       } else {
-        router.navigateByUrl('/dashboard/trainings');
+        router.navigateByUrl('/dashboard/employee-dashboard');
         return false;
       }
     })

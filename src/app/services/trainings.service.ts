@@ -139,11 +139,14 @@ export class TrainingsService {
   }
 
   public getInProgressTrainingsByEmployee(
-    employeeId: number
+    employeeId: number,
+    userId?: string
   ): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(
-        `${this.baseUrl}/GetInProgressTrainingsByEmployee/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetInProgressTrainingsByEmployee?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetInProgressTrainingsByEmployee?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {
