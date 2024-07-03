@@ -28,6 +28,32 @@
             </div>
           </div>
         </li>
+        } @else {
+        <li class="menu-list-item">
+          <div
+            class="menu-button"
+            routerLink="/dashboard/employee-dashboard"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="left">
+              <mat-icon
+                class="menu-button-icon"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                matTooltip="Home"
+                matTooltipPosition="below"
+                >home</mat-icon
+              >
+              <span
+                class="menu-button-label"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Dashboard</span
+              >
+            </div>
+          </div>
+        </li>
         }
 
         <li>

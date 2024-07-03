@@ -65,6 +65,11 @@ export const routes: Routes = [
         canActivate: [adminGuard],
       },
       {
+        path: 'employee-dashboard',
+        component: EmployeePageComponent,
+        title: `Dashboard Home | ${appName}`,
+      },
+      {
         path: 'trainings',
         redirectTo: 'trainings/calendar',
         pathMatch: 'full',
