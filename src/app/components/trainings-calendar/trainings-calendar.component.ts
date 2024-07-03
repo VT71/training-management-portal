@@ -25,34 +25,26 @@ export class TrainingsCalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const roleSubscription = this.authService.rolesource.subscribe((role) => {
+      let userId = undefined;
       if (role === 'admin') {
         this.adminVersion = true;
-
-        const getTrainingsSubscription = this.trainingsService
-          .getTrainings()
-          .subscribe((trainings: any) => {
-            this.trainings = trainings;
-            console.log(this.trainings);
-          });
-
-        this.subscriptions?.push(getTrainingsSubscription);
       } else {
         this.adminVersion = false;
         const sessionAuthUser = sessionStorage.getItem('authUser');
         if (sessionAuthUser) {
           const objSessionAuthUser = JSON.parse(sessionAuthUser);
-          if (objSessionAuthUser?.userId) {
-            const getTrainingsSubscription = this.trainingsService
-              .getTrainings(objSessionAuthUser?.userId)
-              .subscribe((trainings: any) => {
-                this.trainings = trainings;
-                console.log(this.trainings);
-              });
-
-            this.subscriptions?.push(getTrainingsSubscription);
-          }
+          userId = objSessionAuthUser?.uid ?? undefined;
         }
       }
+
+      const getTrainingsSubscription = this.trainingsService
+        .getTrainings(userId)
+        .subscribe((trainings: any) => {
+          this.trainings = trainings;
+          console.log(this.trainings);
+        });
+
+      this.subscriptions?.push(getTrainingsSubscription);
     });
     this.subscriptions?.push(roleSubscription);
   }

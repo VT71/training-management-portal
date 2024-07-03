@@ -39,7 +39,7 @@ export class TrainingsService {
     return this.http
       .get<TrainingInterface[]>(
         userId
-          ? `${this.baseUrl}/GetTrainings?${userId}`
+          ? `${this.baseUrl}/GetTrainings?userId=${userId}`
           : `${this.baseUrl}/GetTrainings`
       )
       .pipe(
@@ -88,11 +88,14 @@ export class TrainingsService {
   }
 
   public getMissedTrainingsByEmployee(
-    employeeId: number
+    employeeId: number,
+    userId?: string
   ): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(
-        `${this.baseUrl}/GetMissedTrainingsByEmployee/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetMissedTrainingsByEmployee?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetMissedTrainingsByEmployee?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {
