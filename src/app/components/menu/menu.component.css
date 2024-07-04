@@ -29,6 +29,10 @@
   justify-content: space-between;
 }
 
+.menu-list.employee-version {
+    justify-content: start;
+}
+
 .first-section {
   justify-content: flex-start;
 }

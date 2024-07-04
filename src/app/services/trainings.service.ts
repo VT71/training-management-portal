@@ -22,7 +22,12 @@ export class TrainingsService {
     sectionsData: Sections[]
   ): Observable<TrainingComplete> {
     return this.http
-      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {...training, departments: departmentsData, employees: employeesData, sections: sectionsData})
+      .post<TrainingComplete>(`${this.baseUrl}/CreateTraining`, {
+        ...training,
+        departments: departmentsData,
+        employees: employeesData,
+        sections: sectionsData,
+      })
       .pipe(
         catchError((error) => {
           return throwError(error);
@@ -30,9 +35,13 @@ export class TrainingsService {
       );
   }
 
-  public getTrainings(): Observable<TrainingInterface[]> {
+  public getTrainings(userId?: string): Observable<TrainingInterface[]> {
     return this.http
-      .get<TrainingInterface[]>(`${this.baseUrl}/GetTrainings`)
+      .get<TrainingInterface[]>(
+        userId
+          ? `${this.baseUrl}/GetTrainings?userId=${userId}`
+          : `${this.baseUrl}/GetTrainings`
+      )
       .pipe(
         catchError((error) => {
           return throwError(error);
@@ -56,7 +65,11 @@ export class TrainingsService {
     employeesData: Employee[]
   ): Observable<TrainingComplete> {
     return this.http
-      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining`, {...training,  departments: departmentsData, employees: employeesData})
+      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining`, {
+        ...training,
+        departments: departmentsData,
+        employees: employeesData,
+      })
       .pipe(
         catchError((error) => {
           return throwError(error);
@@ -75,11 +88,14 @@ export class TrainingsService {
   }
 
   public getMissedTrainingsByEmployee(
-    employeeId: number
+    employeeId: number,
+    userId?: string
   ): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(
-        `${this.baseUrl}/GetMissedTrainingsByEmployee/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetMissedTrainingsByEmployee?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetMissedTrainingsByEmployee?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {
@@ -89,11 +105,14 @@ export class TrainingsService {
   }
 
   public getCompletedTrainingsByEmployee(
-    employeeId: number
+    employeeId: number,
+    userId?: string
   ): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(
-        `${this.baseUrl}/GetCompletedTrainingsByEmployee/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetCompletedTrainingsByEmployee?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetCompletedTrainingsByEmployee?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {
@@ -103,11 +122,14 @@ export class TrainingsService {
   }
 
   public getUpcomingTrainingsByEmployee(
-    employeeId: number
+    employeeId: number,
+    userId?: string
   ): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(
-        `${this.baseUrl}/GetUpcomingTrainingsByEmployee/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetUpcomingTrainingsByEmployee?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetUpcomingTrainingsByEmployee?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {
@@ -117,11 +139,14 @@ export class TrainingsService {
   }
 
   public getInProgressTrainingsByEmployee(
-    employeeId: number
+    employeeId: number,
+    userId?: string
   ): Observable<TrainingInterface[]> {
     return this.http
       .get<TrainingInterface[]>(
-        `${this.baseUrl}/GetInProgressTrainingsByEmployee/${employeeId}`
+        userId
+          ? `${this.baseUrl}/GetInProgressTrainingsByEmployee?employeeId=${employeeId}&userId=${userId}`
+          : `${this.baseUrl}/GetInProgressTrainingsByEmployee?employeeId=${employeeId}`
       )
       .pipe(
         catchError((error) => {

@@ -23,7 +23,8 @@
   overflow: auto;
   max-width: 600px;
   background-color: white;
-  padding: 3rem 1rem;
+  padding: 1rem;
+  padding-bottom: 3rem;
   border-radius: 24px;
 }
 
@@ -57,4 +58,17 @@
 
 .optionButton.active:hover {
   background-color: var(--secondary-30);
+}
+
+.logo-wrapper {
+  background-image: url("../../../assets/logo\ Ortec.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-origin: content-box;
+  width: 200px;
+  height: 100px;
+  padding: 1.2rem;
+  margin: auto;
+  margin-bottom: 1rem;
 }

@@ -5,8 +5,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { TrainingsCalendarComponent } from './components/trainings-calendar/trainings-calendar.component';
-import { MissedTrainingsComponent } from './components/missed-trainings/missed-trainings.component';
-import { UpcomingTrainingsComponent } from './components/upcoming-trainings/upcoming-trainings.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { authGuard } from './guards/auth.guard';
 import { NotificationsComponent } from './components/notifications/notifications.component';
@@ -20,6 +18,7 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { DepartmentsComponent } from './components/departments/departments.component';
 import { EmployeePageComponent } from './components/employee-page/employee-page.component';
 import { adminGuard } from './guards/admin.guard';
+import { TrainingsListComponent } from './trainings-list/trainings-list.component';
 
 const appName = 'Training Management Portal';
 
@@ -65,6 +64,11 @@ export const routes: Routes = [
         canActivate: [adminGuard],
       },
       {
+        path: 'employee-dashboard',
+        component: EmployeePageComponent,
+        title: `Dashboard Home | ${appName}`,
+      },
+      {
         path: 'trainings',
         redirectTo: 'trainings/calendar',
         pathMatch: 'full',
@@ -75,14 +79,9 @@ export const routes: Routes = [
         title: `Trainings | ${appName}`,
       },
       {
-        path: 'trainings/missed',
-        component: MissedTrainingsComponent,
-        title: `Missed Trainings | ${appName}`,
-      },
-      {
-        path: 'trainings/upcoming',
-        component: UpcomingTrainingsComponent,
-        title: `Upcoming Trainings | ${appName}`,
+        path: 'trainings/:type',
+        component: TrainingsListComponent,
+        title: `Trainings | ${appName}`,
       },
       {
         path: 'notifications',

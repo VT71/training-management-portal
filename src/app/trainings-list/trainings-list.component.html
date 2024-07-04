@@ -1,9 +1,9 @@
 <div class="root-container">
-  <h1 class="component-main-title">Missed Trainings</h1>
+  <h1 class="component-main-title">{{ header }}</h1>
   <div class="training-list-container">
-    @if (missedTrainings$ | async; as missedTrainings) {
+    @if (trainings$ | async; as trainings) {
     <ul class="training-list">
-      @for (training of missedTrainings; track training) {
+      @for (training of trainings; track training) {
       <li>
         <div class="training-list-item-container">
           <div class="section-container">

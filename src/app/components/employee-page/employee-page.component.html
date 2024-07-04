@@ -1,5 +1,5 @@
 <div class="root-container">
-  <h1 class="component-main-title">Employee Page</h1>
+  <h1 class="component-main-title">{{adminVersion ? 'Employee Page' : 'Welcome'}}</h1>
   <div class="sections-container">
     <section class="main-info">
       @if (employeeData$ | async; as employee) {
