@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -97,7 +97,10 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     this.trainingId = id ? +id : 0;
     this.loading = false;
   }
-
+  
+  public ngOnInit(): void {
+    this.loadTraining();
+  }
 
   public ngAfterViewInit() {
     if (this.showDepartmentsTable) {
@@ -134,38 +137,31 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   }
 
   public loadTraining(): void {
-    this.training = this.trainingService.getTrainingById(this.trainingId);
+    this.training = this.trainingService.getTrainingById(this.trainingId); // Asigură-te că training$ este inițializat cu Observable
     this.training.subscribe({
       next: (training) => {
         this.dataSource1.data = training.departments;
         this.dataSource2.data = training.employees;
+
+        if (training.forDepartments) {
+          this.showDepartmentsTable = true;
+          this.dataSource1.paginator = this.paginator1;
+          this.dataSource1.sort = this.sort1;
+        }
+        if (training.forEmployees) {
+          this.showEmployeeTable = true;
+          this.dataSource2.paginator = this.paginator2;
+          this.dataSource2.sort = this.sort2;
+        }
+
+        this.changeDetectorRefs.detectChanges();
       },
       error: (error) => {
-        console.error(
-          'Eroare la încărcarea detaliilor despre training:',
-          error
-        );
+        console.error('Eroare la încărcarea detaliilor despre training:', error);
       },
     });
   }
 
-  public ngOnInit(): void {
-    this.loadTraining();
-
-    this.training.subscribe(training => {
-      if (training.forDepartments) {
-        this.showDepartmentsTable = true;
-        this.dataSource1.paginator = this.paginator1;
-        this.dataSource1.sort = this.sort1;
-      }
-      if (training.forEmployees) {
-        this.showEmployeeTable = true;
-        this.dataSource2.paginator = this.paginator2;
-        this.dataSource2.sort = this.sort2;
-      }
-      this.changeDetectorRefs.detectChanges();
-    });
-  }
 
   public convertDate(date: string): string {
     if (date) {
@@ -216,4 +212,13 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   public closeDepartmentsTable(): void {
     this.showDepartmentsTable = false;
   }
+
+  public shouldDisplaySections(): Observable<boolean> {
+    return this.training.pipe(
+      map((training) => {
+        return training && training.individual === 0;
+      })
+    );
+  }
 }
+

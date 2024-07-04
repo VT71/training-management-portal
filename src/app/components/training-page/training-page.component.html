@@ -263,7 +263,8 @@
         </div>
       </div>
     </div>
-    <div class="sections">
+
+    <div class="sections" *ngIf="shouldDisplaySections()">
       <div class="section-container">
         <div class="section-left"><h2 class="title">Sections</h2></div>
         <div class="section-right">
