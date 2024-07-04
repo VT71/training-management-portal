@@ -8,10 +8,7 @@ import {
   model,
   viewChild,
 } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingsService } from '../../services/trainings.service';
 import { CommonModule } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -21,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, finalize, map, of } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,11 +26,11 @@ import { MatInputModule } from '@angular/material/input';
 import { Department } from '../../interfaces/department';
 import { EmployeeComplete } from '../../interfaces/employee-complete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCardModule} from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -57,8 +54,7 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatRadioModule,
     MatCardModule,
-    FormsModule
-    
+    FormsModule,
   ],
   templateUrl: './training-page.component.html',
   styleUrl: './training-page.component.css',
@@ -84,6 +80,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
 
   public showDepartmentsTable: boolean = false;
   public showEmployeeTable: boolean = false;
+  public shouldDisplaySections!: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -97,7 +94,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     this.trainingId = id ? +id : 0;
     this.loading = false;
   }
-  
+
   public ngOnInit(): void {
     this.loadTraining();
   }
@@ -137,31 +134,50 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   }
 
   public loadTraining(): void {
-    this.training = this.trainingService.getTrainingById(this.trainingId); // Asigură-te că training$ este inițializat cu Observable
+    this.training = this.trainingService.getTrainingById(this.trainingId).pipe(
+      catchError((error) => {
+        console.error(
+          'Eroare la încărcarea detaliilor despre training:',
+          error
+        );
+        this.errorLoading = true;
+        return of({} as TrainingComplete);
+      }),
+      finalize(() => {
+        this.loading = false;
+        this.changeDetectorRefs.detectChanges();
+      })
+    );
+
+    this.shouldDisplaySections = this.training.pipe(
+      map((training) => {
+        return training && training.individual === 1;
+      }),
+      catchError(() => of(false))
+    );
+
     this.training.subscribe({
       next: (training) => {
-        this.dataSource1.data = training.departments;
-        this.dataSource2.data = training.employees;
+        if (training) {
+          this.dataSource1.data = training.departments;
+          this.dataSource2.data = training.employees;
 
-        if (training.forDepartments) {
-          this.showDepartmentsTable = true;
-          this.dataSource1.paginator = this.paginator1;
-          this.dataSource1.sort = this.sort1;
-        }
-        if (training.forEmployees) {
-          this.showEmployeeTable = true;
-          this.dataSource2.paginator = this.paginator2;
-          this.dataSource2.sort = this.sort2;
-        }
+          this.showDepartmentsTable = !!training.forDepartments;
+          this.showEmployeeTable = !!training.forEmployees;
 
-        this.changeDetectorRefs.detectChanges();
-      },
-      error: (error) => {
-        console.error('Eroare la încărcarea detaliilor despre training:', error);
+          if (this.showDepartmentsTable) {
+            this.dataSource1.paginator = this.paginator1;
+            this.dataSource1.sort = this.sort1;
+          }
+
+          if (this.showEmployeeTable) {
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+          }
+        }
       },
     });
   }
-
 
   public convertDate(date: string): string {
     if (date) {
@@ -212,13 +228,4 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   public closeDepartmentsTable(): void {
     this.showDepartmentsTable = false;
   }
-
-  public shouldDisplaySections(): Observable<boolean> {
-    return this.training.pipe(
-      map((training) => {
-        return training && training.individual === 0;
-      })
-    );
-  }
 }
-
