@@ -443,3 +443,10 @@ h2.dialog-title {
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
     color: red!important;
 } */
+
+.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+
+

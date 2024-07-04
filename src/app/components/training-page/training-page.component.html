@@ -2,234 +2,329 @@
   <h1 class="component-main-title">Training Page</h1>
 
   <div class="page-container">
-    <div class="container">
+    <div class="container-main">
       <ng-container *ngIf="training | async as training"></ng-container>
-      <div class="training-list-item-container container-left">
-        <diV class="above-elements-container-left">
-          <div class="info">
-            <h2 class="title">Training Info</h2>
-            <p>
-              <span class="material-symbols-outlined left"> titlecase </span>
-              Title: <span class="bold">{{ (training | async)?.title }}</span>
-            </p>
-            <p>
-              <span class="material-symbols-outlined left">
-                cast_for_education
-              </span>
-              Training Type:
-              <span class="bold">
-                {{
-                  (training | async)?.individual ? "Online" : "Workshop"
-                }}</span
-              >
-            </p>
-            <!-- <p>
-          Training Status:
-          <span class="bold">
-            {{ training.individual ? "Online" : "Workshop" }}</span
-          >
-        </p> -->
-            <p>
-              <span class="material-symbols-outlined left"> person </span>
-              Trainer:
-              <span class="bold">{{ (training | async)?.trainerName }}</span>
-            </p>
-            <p>
-              <span class="material-symbols-outlined left"> date_range </span>
-              Deadline:
-              <span class="bold">
-                {{ (training | async)?.deadline | date : "dd/MM/yyyy" }}
-              </span>
-            </p>
-            <p>
-              <span class="material-symbols-outlined left"> distance </span>
-              Address/Link:
-              <span class="bold">{{ (training | async)?.adress }}</span>
-            </p>
-          </div>
 
-          <div class="participants">
-            <h2 class="title" style="margin-left: 22px">Participants</h2>
-            <div class="participants-details">
-              <div class="departments-container">
-                <button
-                  mat-flat-button
-                  (click)="toggleDepartmentsTable()"
-                  [ngClass]="{ selected: showDepartmentsTable }"
-                >
-                  <p class="department-span">
-                    Departments:
+      <div class="container">
+        <div class="training-list-item-container container-left">
+          <div class="above-elements-container-left">
+            <div class="left-all">
+              <div class="left-above">
+                <div class="info">
+                  <h2 class="title">Training Info</h2>
+                  <p>
+                    <span class="material-symbols-outlined left">
+                      titlecase
+                    </span>
+                    Title:
+                    <span class="bold">{{ (training | async)?.title }}</span>
+                  </p>
+                  <p>
+                    <span class="material-symbols-outlined left">
+                      cast_for_education
+                    </span>
+                    Training Type:
+                    <span class="bold">
+                      {{
+                        (training | async)?.individual ? "Online" : "Workshop"
+                      }}</span
+                    >
+                  </p>
+                  <p>
+                    <span class="material-symbols-outlined left"> person </span>
+                    Trainer:
                     <span class="bold">{{
-                      convertNumberToYesNo(
-                        (training | async)?.forDepartments ?? 0
-                      )
+                      (training | async)?.trainerName
                     }}</span>
                   </p>
-                </button>
+
+                  <p>
+                    <span class="material-symbols-outlined left">
+                      date_range
+                    </span>
+                    Deadline:
+                    <span class="bold">
+                      {{ (training | async)?.deadline | date : "dd/MM/yyyy" }}
+                    </span>
+                  </p>
+                  <p>
+                    <span class="material-symbols-outlined left">
+                      distance
+                    </span>
+                    Address/Link:
+                    <span class="bold">{{ (training | async)?.adress }}</span>
+                  </p>
+                </div>
+
+                <div class="participants">
+                  <div class="participants-container">
+                    <h2 class="title" style="margin-left: 22px">
+                      Participants
+                    </h2>
+                    <div class="participants-details">
+                      <div class="departments-container">
+                        <button
+                          mat-flat-button
+                          (click)="toggleDepartmentsTable()"
+                          [ngClass]="{ selected: showDepartmentsTable }"
+                        >
+                          <p class="department-span">
+                            Departments:
+                            <span class="bold">{{
+                              convertNumberToYesNo(
+                                (training | async)?.forDepartments ?? 0
+                              )
+                            }}</span>
+                          </p>
+                        </button>
+                      </div>
+
+                      <div class="employees-container">
+                        <button
+                          mat-flat-button
+                          (click)="toggleEmployeeTable()"
+                          [ngClass]="{ selected: showEmployeeTable }"
+                        >
+                          <p class="employee-span" style="margin-left: -14px">
+                            Employees:
+                            <span class="bold">{{
+                              convertNumberToYesNo(
+                                (training | async)?.forEmployees ?? 0
+                              )
+                            }}</span>
+                          </p>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div class="employees-container">
-                <button
-                  mat-flat-button
-                  (click)="toggleEmployeeTable()"
-                  [ngClass]="{ selected: showEmployeeTable }"
-                >
-                  <p class="employee-span" style="margin-left: -14px">
-                    Employees:
-                    <span class="bold">{{
-                      convertNumberToYesNo(
-                        (training | async)?.forEmployees ?? 0
-                      )
-                    }}</span>
-                  </p>
-                </button>
+              <div
+                class="menu-button"
+              >
+                <div class="main-option">
+                  <div class="left">
+                    <h2 class="title">Description</h2>
+                  </div>
+
+                  <div class="right">
+                    <mat-icon class="menu-button-icon" routerLinkActive="active"
+                      >arrow_drop_down</mat-icon
+                    >
+                  </div>
+                </div>
+
+                <div class="sub-container">
+                  <div class="description">
+                    <p class="description-text">
+                      <span class="material-symbols-outlined left"> </span>
+                      <span class="text">{{
+                        (training | async)?.description
+                      }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container-tables">
+              <div class="table-container" *ngIf="showDepartmentsTable">
+                <div class="top-table">
+                  <h2 class="title-table">Departments</h2>
+                  <span
+                    class="material-symbols-outlined close"
+                    (click)="closeDepartmentsTable()"
+                  >
+                    close
+                  </span>
+                </div>
+                <mat-form-field>
+                  <mat-label>Filter</mat-label>
+                  <input
+                    matInput
+                    (keyup)="applyFilter1($event)"
+                    placeholder="Ex. Mia"
+                    #input
+                  />
+                </mat-form-field>
+
+                <table mat-table [dataSource]="dataSource1" matSort>
+                  <!-- ID Column -->
+                  <ng-container matColumnDef="departmentId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      ID
+                    </th>
+                    <td mat-cell *matCellDef="let row"></td>
+                  </ng-container>
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="departmentName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Name
+                    </th>
+                    <td
+                      mat-cell
+                      *matCellDef="let row"
+                      (click)="goToDepartment()"
+                   
+                    >
+                      {{ row.departmentName }}
+                    </td>
+                  </ng-container>
+
+                  <!-- Fruit Column -->
+
+                  <tr mat-header-row *matHeaderRowDef="['departmentName']"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: ['departmentName']"
+                  ></tr>
+
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the filter "{{ input.value }}"
+                    </td>
+                  </tr>
+                </table>
+
+                <mat-paginator
+                  #paginator1
+                  [pageSizeOptions]="[5, 10]"
+                  aria-label="Select page of users"
+                ></mat-paginator>
+              </div>
+
+              <div class="table-container" *ngIf="showEmployeeTable">
+                <div class="top-table">
+                  <h2 class="title-table">Employees</h2>
+                  <span
+                    class="material-symbols-outlined close"
+                    (click)="closeEmployeeTable()"
+                  >
+                    close
+                  </span>
+                </div>
+                <mat-form-field>
+                  <mat-label>Filter</mat-label>
+                  <input
+                    matInput
+                    (keyup)="applyFilter2($event)"
+                    placeholder="Ex. Mia"
+                    #input
+                  />
+                </mat-form-field>
+                <table mat-table [dataSource]="dataSource2" matSort>
+                  <!-- ID Column -->
+                  <ng-container matColumnDef="employeeId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      ID
+                    </th>
+                    <td mat-cell *matCellDef="let row"></td>
+                  </ng-container>
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="fullName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Name
+                    </th>
+                    <td
+                      mat-cell
+                      *matCellDef="let row"
+                      (click)="goToEmployee(row.employeeId)"
+                    
+                    >
+                      {{ row.fullName }}
+                    </td>
+                  </ng-container>
+
+                  <!-- Fruit Column -->
+
+                  <tr mat-header-row *matHeaderRowDef="['fullName']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['fullName']"></tr>
+
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the filter "{{ input.value }}"
+                    </td>
+                  </tr>
+                </table>
+
+                <mat-paginator
+                  #paginator2
+                  [pageSizeOptions]="[5, 10]"
+                  aria-label="Select page of users"
+                ></mat-paginator>
               </div>
             </div>
           </div>
-        </diV>
-      </div>
-      <div class="container-tables">
-        <div class="table-container" *ngIf="showDepartmentsTable">
-          <div class="top-table">
-            <h2 class="title-table">Departments</h2>
-            <span
-              class="material-symbols-outlined close"
-              (click)="closeDepartmentsTable()"
-            >
-              close
-            </span>
-          </div>
-          <mat-form-field>
-            <mat-label>Filter</mat-label>
-            <input
-              matInput
-              (keyup)="applyFilter1($event)"
-              placeholder="Ex. Mia"
-              #input
-            />
-          </mat-form-field>
-
-          <table mat-table [dataSource]="dataSource1" matSort>
-            <!-- ID Column -->
-            <ng-container matColumnDef="departmentId">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-              <td mat-cell *matCellDef="let row"></td>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="departmentName">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-              <td
-                mat-cell
-                *matCellDef="let row"
-                (click)="goToDepartment()"
-                matTooltip="Clik for departments"
-                matTooltipPosition="below"
-              >
-                {{ row.departmentName }}
-              </td>
-            </ng-container>
-
-            <!-- Fruit Column -->
-
-            <tr mat-header-row *matHeaderRowDef="['departmentName']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['departmentName']"></tr>
-
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">
-                No data matching the filter "{{ input.value }}"
-              </td>
-            </tr>
-          </table>
-
-          <mat-paginator
-            #paginator1
-            [pageSizeOptions]="[5, 10]"
-            aria-label="Select page of users"
-          ></mat-paginator>
-        </div>
-
-        <div class="table-container" *ngIf="showEmployeeTable">
-          <div class="top-table">
-            <h2 class="title-table">Employees</h2>
-            <span
-              class="material-symbols-outlined close"
-              (click)="closeEmployeeTable()"
-            >
-              close
-            </span>
-          </div>
-          <mat-form-field>
-            <mat-label>Filter</mat-label>
-            <input
-              matInput
-              (keyup)="applyFilter2($event)"
-              placeholder="Ex. Mia"
-              #input
-            />
-          </mat-form-field>
-          <table mat-table [dataSource]="dataSource2" matSort>
-            <!-- ID Column -->
-            <ng-container matColumnDef="employeeId">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-              <td mat-cell *matCellDef="let row"></td>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="fullName">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-              <td
-                mat-cell
-                *matCellDef="let row"
-                (click)="goToEmployee(row.employeeId)"
-                matTooltip="Clik for employee page"
-                matTooltipPosition="below"
-              >
-                {{ row.fullName }}
-              </td>
-            </ng-container>
-
-            <!-- Fruit Column -->
-
-            <tr mat-header-row *matHeaderRowDef="['fullName']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['fullName']"></tr>
-
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">
-                No data matching the filter "{{ input.value }}"
-              </td>
-            </tr>
-          </table>
-
-          <mat-paginator
-            #paginator2
-            [pageSizeOptions]="[5, 10]"
-            aria-label="Select page of users"
-          ></mat-paginator>
         </div>
       </div>
     </div>
+    <div class="sections">
+      <div class="section-container">
+        <div class="section-left"><h2 class="title">Sections</h2></div>
+        <div class="section-right">
+          <h3 class="title menu-section-title">Menu section</h3>
+          <div class="example-action-buttons">
+            <button mat-button (click)="accordion().openAll()">
+              Expand All
+            </button>
+            <button mat-button (click)="accordion().closeAll()">
+              Collapse All
+            </button>
+          </div>
 
-    <div class="right-content-wrapper">
-      <img src="../../../assets/img-training.jpg" alt="" />
-      <div class="description container-right">
-        <h2 class="title">Description:</h2>
-        <p class="description-text">{{ (training | async)?.description }}</p>
-      </div>
-
-      <div class="input-container section1">
-        <h3>Section1</h3>
-        <mat-form-field appearance="outline" class="additional-field">
-          <mat-label>Ttitle</mat-label>
-          <input matInput placeholder="Enter additional tilte" />
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="additional-field">
-          <mat-label>Description</mat-label>
-          <input matInput placeholder="Enter additional description" />
-        </mat-form-field>
+          <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Section 1 </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ul>
+                <li>
+                  <mat-label>Title1asdgadsga</mat-label> 
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+                <li>
+                  <mat-label>Title2adgasga</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+                <li>
+                  <mat-label>Title3sdagsaggd</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+                <li>
+                  <mat-label>Title4asdgagasdg</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Section 2 </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ul>
+                <li>
+                  <mat-label>Title1sadfasga</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                <li>
+                  <mat-label>Title2adgasdga</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+                <li>
+                  <mat-label>Title3asdgasdg</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+                <li>
+                  <mat-label>Title4asdgasga</mat-label>
+                  <mat-checkbox class="example-margin" [(ngModel)]="checked"></mat-checkbox>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
       </div>
     </div>
   </div>

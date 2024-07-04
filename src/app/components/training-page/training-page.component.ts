@@ -1,15 +1,16 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild,
+  model,
+  viewChild,
 } from '@angular/core';
 import {
   ActivatedRoute,
   Router,
-  RouterLink,
-  RouterLinkActive,
 } from '@angular/router';
 import { TrainingsService } from '../../services/trainings.service';
 import { CommonModule } from '@angular/common';
@@ -27,10 +28,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Department } from '../../interfaces/department';
 import { EmployeeComplete } from '../../interfaces/employee-complete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCardModule} from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-training-page',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -43,11 +52,20 @@ import { EmployeeComplete } from '../../interfaces/employee-complete';
     MatSortModule,
     MatPaginatorModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatCardModule,
+    FormsModule
+    
   ],
   templateUrl: './training-page.component.html',
   styleUrl: './training-page.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrainingPageComponent implements OnInit, AfterViewInit {
+  public trainingsDropDownOpen = false;
   public trainingId: number;
   public training!: Observable<TrainingComplete>;
   public loading: boolean = true; // Indicator pentru încărcarea datelor
@@ -56,6 +74,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   employees: EmployeeComplete[] = []; // Array pentru angajați complete
   dataSource1: MatTableDataSource<Department>;
   dataSource2: MatTableDataSource<EmployeeComplete>;
+  accordion = viewChild.required(MatAccordion);
+  readonly checked = model(false);
 
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
@@ -78,7 +98,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     this.loading = false;
   }
 
-  ngAfterViewInit() {
+
+  public ngAfterViewInit() {
     if (this.showDepartmentsTable) {
       this.dataSource1.paginator = this.paginator1;
       this.dataSource1.sort = this.sort1;
@@ -90,7 +111,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  applyFilter1(event: Event) {
+  public openDescription(): void {
+    this.trainingsDropDownOpen = !this.trainingsDropDownOpen;
+  }
+
+  public applyFilter1(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource1.filter = filterValue.trim().toLowerCase();
 
@@ -99,7 +124,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  applyFilter2(event: Event) {
+  public applyFilter2(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource2.filter = filterValue.trim().toLowerCase();
 
@@ -108,7 +133,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  loadTraining(): void {
+  public loadTraining(): void {
     this.training = this.trainingService.getTrainingById(this.trainingId);
     this.training.subscribe({
       next: (training) => {
@@ -124,11 +149,22 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadTraining();
 
-    console.log('Employees:', this.employees);
-    console.log('Depertments:', this.departments);
+    this.training.subscribe(training => {
+      if (training.forDepartments) {
+        this.showDepartmentsTable = true;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+      }
+      if (training.forEmployees) {
+        this.showEmployeeTable = true;
+        this.dataSource2.paginator = this.paginator2;
+        this.dataSource2.sort = this.sort2;
+      }
+      this.changeDetectorRefs.detectChanges();
+    });
   }
 
   public convertDate(date: string): string {
@@ -143,7 +179,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleDepartmentsTable(): void {
+  public toggleDepartmentsTable(): void {
     this.showDepartmentsTable = !this.showDepartmentsTable;
     if (this.showDepartmentsTable) {
       this.changeDetectorRefs.detectChanges();
@@ -152,7 +188,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleEmployeeTable(): void {
+  public toggleEmployeeTable(): void {
     this.showEmployeeTable = !this.showEmployeeTable;
     if (this.showEmployeeTable) {
       this.changeDetectorRefs.detectChanges();
@@ -161,11 +197,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  goToDepartment() {
+  public goToDepartment() {
     this.router.navigate(['dashboard/departments']);
   }
 
-  goToEmployee(employeeId: string) {
+  public goToEmployee(employeeId: string) {
     this.router.navigate(['dashboard/employee', employeeId]);
   }
 
