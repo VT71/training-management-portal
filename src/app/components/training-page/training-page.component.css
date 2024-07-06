@@ -295,11 +295,6 @@ th {
   padding: 10px;
 }
 
-.menu-section-title {
-  margin-top: 40px;
-  margin-left: 20px;
-}
-
 .section-container {
   display: flex;
   flex-direction: row;
@@ -318,7 +313,6 @@ th {
 .section-right {
   width: 28%;
   padding: 20px;
-  padding-top: 0;
   height: 100%;
   background-color: var(--secondary-10);
   border-top-right-radius: 12px;
