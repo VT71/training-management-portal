@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
   model,
@@ -18,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { Observable, catchError, finalize, map, of } from 'rxjs';
+import { Observable, Subscription, catchError, finalize, map, of } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -60,10 +61,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './training-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrainingPageComponent implements OnInit, AfterViewInit {
+export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingsDropDownOpen = false;
   public trainingId: number;
-  public training!: Observable<TrainingComplete>;
+  public training!: TrainingComplete;
+  private trainingSubscription$!: Subscription;
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
   departments: Department[] = []; // Array pentru departamente
@@ -80,7 +82,6 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
 
   public showDepartmentsTable: boolean = false;
   public showEmployeeTable: boolean = false;
-  public shouldDisplaySections!: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -134,49 +135,43 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   }
 
   public loadTraining(): void {
-    this.training = this.trainingService.getTrainingById(this.trainingId).pipe(
-      catchError((error) => {
-        console.error(
-          'Eroare la încărcarea detaliilor despre training:',
-          error
-        );
-        this.errorLoading = true;
-        return of({} as TrainingComplete);
-      }),
-      finalize(() => {
-        this.loading = false;
-        this.changeDetectorRefs.detectChanges();
-      })
-    );
+    // this.training = this.trainingService.getTrainingById(this.trainingId).pipe(
+    //   catchError((error) => {}),
+    //   finalize(() => {
+    //     this.loading = false;
+    //     this.changeDetectorRefs.detectChanges();
+    //   })
+    // );
 
-    this.shouldDisplaySections = this.training.pipe(
-      map((training) => {
-        return training && training.individual === 1;
-      }),
-      catchError(() => of(false))
-    );
+    this.trainingSubscription$ = this.trainingService
+      .getTrainingById(this.trainingId)
+      .subscribe({
+        next: (training) => {
+          if (training) {
+            this.training = training;
 
-    this.training.subscribe({
-      next: (training) => {
-        if (training) {
-          this.dataSource1.data = training.departments;
-          this.dataSource2.data = training.employees;
+            this.dataSource1.data = training.departments;
+            this.dataSource2.data = training.employees;
 
-          this.showDepartmentsTable = !!training.forDepartments;
-          this.showEmployeeTable = !!training.forEmployees;
+            this.showDepartmentsTable = !!training.forDepartments;
+            this.showEmployeeTable = !!training.forEmployees;
 
-          if (this.showDepartmentsTable) {
-            this.dataSource1.paginator = this.paginator1;
-            this.dataSource1.sort = this.sort1;
+            if (this.showDepartmentsTable) {
+              this.dataSource1.paginator = this.paginator1;
+              this.dataSource1.sort = this.sort1;
+            }
+
+            if (this.showEmployeeTable) {
+              this.dataSource2.paginator = this.paginator2;
+              this.dataSource2.sort = this.sort2;
+            }
           }
-
-          if (this.showEmployeeTable) {
-            this.dataSource2.paginator = this.paginator2;
-            this.dataSource2.sort = this.sort2;
-          }
-        }
-      },
-    });
+        },
+        complete: () => {
+          this.loading = false;
+          this.changeDetectorRefs.detectChanges();
+        },
+      });
   }
 
   public convertDate(date: string): string {
@@ -217,15 +212,16 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     this.router.navigate(['dashboard/employee', employeeId]);
   }
 
-  public convertNumberToYesNo(value: number): string {
-    return value === 1 ? 'Yes' : 'No';
-  }
-
   public closeEmployeeTable(): void {
     this.showEmployeeTable = false;
   }
 
   public closeDepartmentsTable(): void {
     this.showDepartmentsTable = false;
+  }
+  ngOnDestroy(): void {
+    if (this.trainingSubscription$) {
+      this.trainingSubscription$.unsubscribe();
+    }
   }
 }

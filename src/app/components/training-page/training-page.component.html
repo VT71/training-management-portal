@@ -3,8 +3,7 @@
 
   <div class="page-container">
     <div class="container-main">
-      <ng-container *ngIf="training | async as training"></ng-container>
-
+      @if (training) {
       <div class="container">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
@@ -17,7 +16,7 @@
                       titlecase
                     </span>
                     Title:
-                    <span class="bold">{{ (training | async)?.title }}</span>
+                    <span class="bold">{{ training.title }}</span>
                   </p>
                   <p>
                     <span class="material-symbols-outlined left">
@@ -25,17 +24,13 @@
                     </span>
                     Training Type:
                     <span class="bold">
-                      {{
-                        (training | async)?.individual ? "Online" : "Workshop"
-                      }}</span
+                      {{ training.individual ? "Online" : "Workshop" }}</span
                     >
                   </p>
                   <p>
                     <span class="material-symbols-outlined left"> person </span>
                     Trainer:
-                    <span class="bold">{{
-                      (training | async)?.trainerName
-                    }}</span>
+                    <span class="bold">{{ training.trainerName }}</span>
                   </p>
 
                   <p>
@@ -44,7 +39,7 @@
                     </span>
                     Deadline:
                     <span class="bold">
-                      {{ (training | async)?.deadline | date : "dd/MM/yyyy" }}
+                      {{ convertDate(training.deadline) }}
                     </span>
                   </p>
                   <p>
@@ -52,7 +47,7 @@
                       distance
                     </span>
                     Address/Link:
-                    <span class="bold">{{ (training | async)?.adress }}</span>
+                    <span class="bold">{{ training.adress }}</span>
                   </p>
                 </div>
 
@@ -71,9 +66,7 @@
                           <p class="department-span">
                             Departments:
                             <span class="bold">{{
-                              convertNumberToYesNo(
-                                (training | async)?.forDepartments ?? 0
-                              )
+                              training.forDepartments ? "Yes" : "No"
                             }}</span>
                           </p>
                         </button>
@@ -88,9 +81,7 @@
                           <p class="employee-span" style="margin-left: -14px">
                             Employees:
                             <span class="bold">{{
-                              convertNumberToYesNo(
-                                (training | async)?.forEmployees ?? 0
-                              )
+                              training.forEmployees ? "Yes" : "No"
                             }}</span>
                           </p>
                         </button>
@@ -117,9 +108,7 @@
                   <div class="description">
                     <p class="description-text">
                       <span class="material-symbols-outlined left"> </span>
-                      <span class="text">{{
-                        (training | async)?.description
-                      }}</span>
+                      <span class="text">{{ training.description }}</span>
                     </p>
                   </div>
                 </div>
@@ -258,9 +247,10 @@
           </div>
         </div>
       </div>
+      }
     </div>
-
-    <div class="sections" *ngIf="shouldDisplaySections | async">
+    @if (training.individual && training.sections.length > 0) {
+    <div class="sections">
       <div class="section-container">
         <div class="section-left"><h2 class="title">Sections</h2></div>
         <div class="section-right">
@@ -350,5 +340,6 @@
         </div>
       </div>
     </div>
+    }
   </div>
 </div>
