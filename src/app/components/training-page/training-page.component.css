@@ -141,7 +141,7 @@ button {
   width: 80%;
 }
 
-.menu-button {
+.section-menu-button {
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -316,11 +316,11 @@ th {
   background-color: var(--secondary-10);
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
-  transition: height 0.3s ease; 
+  transition: height 0.3s ease;
 }
 
 .expanded {
-  height: auto !important; 
+  height: auto !important;
 }
 
 .section-left {
@@ -358,14 +358,14 @@ li {
   margin-bottom: 10px; /* Spațiere între elemente */
   width: 100%;
   align-items: center;
-  text-align:left;
-  padding: 5px; 
+  text-align: left;
+  padding: 5px;
 }
 
 li:hover {
   cursor: pointer;
   background-color: var(--secondary-10);
-  font-family: 'Roboto', sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
   color: var(--secondary) !important;
   color: rgb(0, 0, 0) !important;
 }
@@ -374,3 +374,36 @@ mat-label {
   margin-left: 60px !important;
 }
 
+.section-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.section-menu-button:hover {
+  background-color: var(--secondary-10);
+}
+
+.section-menu-button.active {
+  background-color: var(--secondary);
+}
+
+.section-menu-button-label {
+  font-weight: bold;
+}
+
+.section-menu-button-icon,
+.section-menu-button-label {
+  /* color: var(--secondary-40); */
+  color: rgb(60, 60, 60) !important;
+}
+
+.section-menu-button > .left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

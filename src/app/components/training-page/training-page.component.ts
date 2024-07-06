@@ -33,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
+import {MatListModule} from '@angular/material/list';
 
 @Component({
   selector: 'app-training-page',
@@ -56,6 +57,8 @@ import { FormsModule } from '@angular/forms';
     MatRadioModule,
     MatCardModule,
     FormsModule,
+    MatListModule,
+    MatMenuModule
   ],
   templateUrl: './training-page.component.html',
   styleUrl: './training-page.component.css',
@@ -219,6 +222,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public closeDepartmentsTable(): void {
     this.showDepartmentsTable = false;
   }
+
+  onSectionClick(sectionId: number) {
+    console.log("CLICKED")
+  }
+
   ngOnDestroy(): void {
     if (this.trainingSubscription$) {
       this.trainingSubscription$.unsubscribe();

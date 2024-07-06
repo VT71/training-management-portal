@@ -1,9 +1,8 @@
 <div class="training-page-container">
   <h1 class="component-main-title">Training Page</h1>
-
+  @if (training) {
   <div class="page-container">
     <div class="container-main">
-      @if (training) {
       <div class="container">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
@@ -247,99 +246,30 @@
           </div>
         </div>
       </div>
-      }
     </div>
     @if (training.individual && training.sections.length > 0) {
     <div class="sections">
       <div class="section-container">
-        <div class="section-left"><h2 class="title">Sections</h2></div>
+        <div class="section-left"><h2 class="title">Section 1</h2></div>
         <div class="section-right">
-          <h3 class="title menu-section-title">Menu section</h3>
-          <div class="example-action-buttons">
-            <button mat-button (click)="accordion().openAll()">
-              Expand All
-            </button>
-            <button mat-button (click)="accordion().closeAll()">
-              Collapse All
-            </button>
+          <h2 class="title menu-section-title">Menu section</h2>
+          @for (section of training.sections; track section) {
+          <div class="section-menu-button">
+            <div class="left">
+              <mat-icon
+                class="section-menu-button-icon"
+                matTooltip="Home"
+                matTooltipPosition="below"
+                >check_circle</mat-icon
+              >
+              <span class="section-menu-button-label">{{ section.title }}</span>
+            </div>
           </div>
-
-          <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title> Section 1 </mat-panel-title>
-              </mat-expansion-panel-header>
-              <ul>
-                <li>
-                  <mat-label>Title1asdgadsga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title2adgasga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title3sdagsaggd</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title4asdgagasdg</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-              </ul>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title> Section 2 </mat-panel-title>
-              </mat-expansion-panel-header>
-              <ul>
-                <li>
-                  <mat-label>Title1sadfasga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-
-                <li>
-                  <mat-label>Title2adgasdga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title3asdgasdg</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title4asdgasga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-              </ul>
-            </mat-expansion-panel>
-          </mat-accordion>
+          }
         </div>
       </div>
     </div>
     }
   </div>
+  }
 </div>
