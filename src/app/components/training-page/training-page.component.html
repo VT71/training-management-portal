@@ -91,19 +91,12 @@
                   <div class="left">
                     <h2 class="title">Description</h2>
                   </div>
-
-                  <div class="right">
-                    <mat-icon class="menu-button-icon" routerLinkActive="active"
-                      >arrow_drop_down</mat-icon
-                    >
-                  </div>
                 </div>
 
                 <div class="sub-container">
                   <div class="description">
                     <p class="description-text">
-                      <span class="material-symbols-outlined left"> </span>
-                      <span class="text">{{ training.description }}</span>
+                      {{ training.description }}
                     </p>
                   </div>
                 </div>
@@ -243,14 +236,33 @@
         </div>
       </div>
     </div>
-    @if (training.individual && training.sections.length > 0) {
+    @if (training.individual && training.sections.length > 0) { @if
+    (sectionsProgress$| async; as sectionsProgress) {
+    @if(sectionsProgress.length > 0) {
     <div class="sections">
       <div class="section-container">
-        <div class="section-left"><h2 class="title">Section 1</h2></div>
+        <div class="section-left">
+          <h2 class="title">
+            {{
+              selectedSection?.title
+                ? selectedSection?.title
+                : "No Section Selected"
+            }}
+          </h2>
+          <div class="section-description-container">
+            <p style="white-space: pre-line">
+              {{
+                selectedSection?.description
+                  ? selectedSection.description.replaceAll("\\n", "\n")
+                  : ""
+              }}
+            </p>
+          </div>
+        </div>
         <div class="section-right">
           <h2 class="title menu-section-title">Menu section</h2>
           @for (section of training.sections; track section) {
-          <div class="section-menu-button">
+          <div class="section-menu-button" (click)="onSectionClick(section)">
             <div class="left">
               <mat-icon
                 class="section-menu-button-icon"
@@ -265,7 +277,7 @@
         </div>
       </div>
     </div>
-    }
+    } } }
   </div>
   }
 </div>

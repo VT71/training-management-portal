@@ -33,7 +33,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { Sections } from '../../interfaces/sections';
+import { SectionProgress } from '../../interfaces/section-progress';
+import { ProgressApiService } from '../../services/progress-api.service';
 
 @Component({
   selector: 'app-training-page',
@@ -58,7 +61,7 @@ import {MatListModule} from '@angular/material/list';
     MatCardModule,
     FormsModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   templateUrl: './training-page.component.html',
   styleUrl: './training-page.component.css',
@@ -69,6 +72,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingId: number;
   public training!: TrainingComplete;
   private trainingSubscription$!: Subscription;
+  public sectionsProgress$!: Observable<SectionProgress[]>;
+  public selectedSection!: Sections;
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
   departments: Department[] = []; // Array pentru departamente
@@ -89,6 +94,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private trainingService: TrainingsService,
+    private progressApiService: ProgressApiService,
     private changeDetectorRefs: ChangeDetectorRef,
     public router: Router
   ) {
@@ -167,6 +173,18 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.changeDetectorRefs.detectChanges();
         },
       });
+
+    const sessionAuthUser = sessionStorage.getItem('authUser');
+    if (sessionAuthUser) {
+      const objSessionAuthUser = JSON.parse(sessionAuthUser);
+      if (objSessionAuthUser?.uid) {
+        this.sectionsProgress$ =
+          this.progressApiService.getAllProgressByUserTraining(
+            objSessionAuthUser?.uid,
+            this.trainingId
+          );
+      }
+    }
   }
 
   public convertDate(date: string): string {
@@ -215,8 +233,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showDepartmentsTable = false;
   }
 
-  onSectionClick(sectionId: number) {
-    console.log("CLICKED")
+  onSectionClick(section: Sections) {
+    this.selectedSection = section;
   }
 
   ngOnDestroy(): void {
