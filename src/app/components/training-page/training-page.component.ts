@@ -138,14 +138,6 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadTraining(): void {
-    // this.training = this.trainingService.getTrainingById(this.trainingId).pipe(
-    //   catchError((error) => {}),
-    //   finalize(() => {
-    //     this.loading = false;
-    //     this.changeDetectorRefs.detectChanges();
-    //   })
-    // );
-
     this.trainingSubscription$ = this.trainingService
       .getTrainingById(this.trainingId)
       .subscribe({
