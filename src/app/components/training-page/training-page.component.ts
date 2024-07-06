@@ -156,8 +156,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.dataSource1.data = training.departments;
             this.dataSource2.data = training.employees;
 
-            this.showDepartmentsTable = !!training.forDepartments;
-            this.showEmployeeTable = !!training.forEmployees;
+            this.showDepartmentsTable = training.departments.length > 0;
+            this.showEmployeeTable = training.employees.length > 0;
 
             if (this.showDepartmentsTable) {
               this.dataSource1.paginator = this.paginator1;
