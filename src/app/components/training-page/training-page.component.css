@@ -124,7 +124,14 @@
   align-items: center;
   text-align: center;
   position: relative;
-  height: 48px;
+  height: auto;
+  width: 100%;
+}
+
+.participants-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 /* list emplyees */
@@ -177,8 +184,8 @@ button:hover,
 .department-span {
   font-size: 16px;
   line-height: 1.5;
-  align-items: center;
-  align-content: center;
+  display: flex;
+  align-items: start;
 }
 
 .training-list-item-container p {

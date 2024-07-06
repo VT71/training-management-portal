@@ -23,14 +23,18 @@
                     </span>
                     Training Type:
                     <span class="bold">
-                      {{ training.individual ? "Online" : "Workshop" }}</span
+                      {{
+                        training.individual ? "Individual" : "Workshop"
+                      }}</span
                     >
                   </p>
+                  @if(!training.individual) {
                   <p>
                     <span class="material-symbols-outlined left"> person </span>
                     Trainer:
                     <span class="bold">{{ training.trainerName }}</span>
                   </p>
+                  }
 
                   <p>
                     <span class="material-symbols-outlined left">
@@ -41,6 +45,7 @@
                       {{ convertDate(training.deadline) }}
                     </span>
                   </p>
+                  @if(!training.individual) {
                   <p>
                     <span class="material-symbols-outlined left">
                       distance
@@ -48,43 +53,34 @@
                     Address/Link:
                     <span class="bold">{{ training.adress }}</span>
                   </p>
+                  }
                 </div>
 
                 <div class="participants">
                   <div class="participants-container">
-                    <h2 class="title" style="margin-left: 22px">
-                      Participants
-                    </h2>
+                    <h2 class="title">Participants</h2>
                     <div class="participants-details">
+                      @if(training.departments.length > 0) {
                       <div class="departments-container">
                         <button
                           mat-flat-button
                           (click)="toggleDepartmentsTable()"
                           [ngClass]="{ selected: showDepartmentsTable }"
                         >
-                          <p class="department-span">
-                            Departments:
-                            <span class="bold">{{
-                              training.forDepartments ? "Yes" : "No"
-                            }}</span>
-                          </p>
+                          <p class="department-span">Departments</p>
                         </button>
                       </div>
-
+                      } @if(training.employees.length > 0) {
                       <div class="employees-container">
                         <button
                           mat-flat-button
                           (click)="toggleEmployeeTable()"
                           [ngClass]="{ selected: showEmployeeTable }"
                         >
-                          <p class="employee-span" style="margin-left: -14px">
-                            Employees:
-                            <span class="bold">{{
-                              training.forEmployees ? "Yes" : "No"
-                            }}</span>
-                          </p>
+                          <p class="employee-span">Employees</p>
                         </button>
                       </div>
+                      }
                     </div>
                   </div>
                 </div>
