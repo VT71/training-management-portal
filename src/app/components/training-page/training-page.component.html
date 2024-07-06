@@ -237,8 +237,7 @@
       </div>
     </div>
     @if (training.individual && training.sections.length > 0) { @if
-    (sectionsProgress$| async; as sectionsProgress) {
-    @if(sectionsProgress.length > 0) {
+    (sectionsProgress && sectionsProgress) {
     <div class="sections">
       <div class="section-container">
         <div class="section-left">
@@ -264,12 +263,22 @@
           @for (section of training.sections; track section) {
           <div class="section-menu-button" (click)="onSectionClick(section)">
             <div class="left">
+              @if(getProgressBySectionId(section.sectionId) == 1) {
               <mat-icon
                 class="section-menu-button-icon"
                 matTooltip="Home"
                 matTooltipPosition="below"
                 >check_circle</mat-icon
               >
+              } @else {
+              <mat-icon
+                class="section-menu-button-icon"
+                matTooltip="Home"
+                matTooltipPosition="below"
+                >radio_button_unchecked</mat-icon
+              >
+              }
+
               <span class="section-menu-button-label">{{ section.title }}</span>
             </div>
           </div>
@@ -277,7 +286,7 @@
         </div>
       </div>
     </div>
-    } } }
+    } }
   </div>
   }
 </div>

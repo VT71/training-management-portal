@@ -72,7 +72,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingId: number;
   public training!: TrainingComplete;
   private trainingSubscription$!: Subscription;
-  public sectionsProgress$!: Observable<SectionProgress[]>;
+  public sectionsProgress: SectionProgress[] = [];
+  public sectionsProgressSubscription$!: Subscription;
   public selectedSection!: Sections;
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
@@ -166,6 +167,10 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
               this.dataSource2.paginator = this.paginator2;
               this.dataSource2.sort = this.sort2;
             }
+
+            if (training.sections.length > 0) {
+              this.selectedSection = training.sections[0];
+            }
           }
         },
         complete: () => {
@@ -178,11 +183,21 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (sessionAuthUser) {
       const objSessionAuthUser = JSON.parse(sessionAuthUser);
       if (objSessionAuthUser?.uid) {
-        this.sectionsProgress$ =
-          this.progressApiService.getAllProgressByUserTraining(
+        this.sectionsProgressSubscription$ = this.progressApiService
+          .getAllProgressByUserTraining(
             objSessionAuthUser?.uid,
             this.trainingId
-          );
+          )
+          .subscribe({
+            next: (sectionsProgress) => {
+              if (sectionsProgress) {
+                this.sectionsProgress = sectionsProgress;
+              }
+            },
+            error: (error) => {
+              alert('Error loading sections progress');
+            },
+          });
       }
     }
   }
@@ -237,9 +252,22 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedSection = section;
   }
 
+  getProgressBySectionId(sectionId: number): number {
+    const sectionProgress = this.sectionsProgress.find(
+      (sp) => sp.sectionId === sectionId
+    );
+    if (sectionProgress) {
+      return sectionProgress.progress;
+    }
+    return 0;
+  }
+
   ngOnDestroy(): void {
     if (this.trainingSubscription$) {
       this.trainingSubscription$.unsubscribe();
+    }
+    if (this.sectionsProgressSubscription$) {
+      this.sectionsProgressSubscription$.unsubscribe();
     }
   }
 }
