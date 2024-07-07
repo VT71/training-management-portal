@@ -19,7 +19,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { Observable, Subscription, catchError, finalize, map, of } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  catchError,
+  concatMap,
+  finalize,
+  map,
+  of,
+} from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -70,10 +78,11 @@ import { ProgressApiService } from '../../services/progress-api.service';
 export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingsDropDownOpen = false;
   public trainingId: number;
-  public training!: TrainingComplete;
-  private trainingSubscription$!: Subscription;
+  //   public training!: TrainingComplete;
+  public training$!: Observable<TrainingComplete>;
   public sectionsProgress: SectionProgress[] = [];
-  public sectionsProgressSubscription$!: Subscription;
+  public sectionProgress$!: Observable<SectionProgress[]>;
+  private updateProgressSub!: Subscription;
   public selectedSection!: Sections;
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
@@ -107,7 +116,17 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.loadTraining();
+    const sessionAuthUser = sessionStorage.getItem('authUser');
+    if (sessionAuthUser) {
+      const objSessionAuthUser = JSON.parse(sessionAuthUser);
+      if (objSessionAuthUser?.uid) {
+        this.loadTraining(objSessionAuthUser?.uid);
+      } else {
+        alert('User not found');
+      }
+    } else {
+      alert('User not found');
+    }
   }
 
   public ngAfterViewInit() {
@@ -144,62 +163,59 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public loadTraining(): void {
-    this.trainingSubscription$ = this.trainingService
-      .getTrainingById(this.trainingId)
-      .subscribe({
-        next: (training) => {
-          if (training) {
-            this.training = training;
+  public loadTraining(userId: string): void {
+    this.training$ = this.trainingService.getTrainingById(this.trainingId).pipe(
+      concatMap((training) => {
+        if (training) {
+          this.dataSource1.data = training.departments;
+          this.dataSource2.data = training.employees;
 
-            this.dataSource1.data = training.departments;
-            this.dataSource2.data = training.employees;
+          this.showDepartmentsTable = training.departments.length > 0;
+          this.showEmployeeTable = training.employees.length > 0;
 
-            this.showDepartmentsTable = training.departments.length > 0;
-            this.showEmployeeTable = training.employees.length > 0;
-
-            if (this.showDepartmentsTable) {
-              this.dataSource1.paginator = this.paginator1;
-              this.dataSource1.sort = this.sort1;
-            }
-
-            if (this.showEmployeeTable) {
-              this.dataSource2.paginator = this.paginator2;
-              this.dataSource2.sort = this.sort2;
-            }
-
-            if (training.sections.length > 0) {
-              this.selectedSection = training.sections[0];
-            }
+          if (this.showDepartmentsTable) {
+            this.dataSource1.paginator = this.paginator1;
+            this.dataSource1.sort = this.sort1;
           }
-        },
-        complete: () => {
-          this.loading = false;
-          this.changeDetectorRefs.detectChanges();
-        },
-      });
 
-    const sessionAuthUser = sessionStorage.getItem('authUser');
-    if (sessionAuthUser) {
-      const objSessionAuthUser = JSON.parse(sessionAuthUser);
-      if (objSessionAuthUser?.uid) {
-        this.sectionsProgressSubscription$ = this.progressApiService
-          .getAllProgressByUserTraining(
-            objSessionAuthUser?.uid,
-            this.trainingId
-          )
-          .subscribe({
-            next: (sectionsProgress) => {
+          if (this.showEmployeeTable) {
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+          }
+
+          if (training.sections.length > 0) {
+            this.selectedSection = training.sections[0];
+          }
+        }
+        return this.progressApiService
+          .getAllProgressByUserTraining(userId, this.trainingId)
+          .pipe(
+            map((sectionsProgress) => {
               if (sectionsProgress) {
                 this.sectionsProgress = sectionsProgress;
+                if (training.sections[0]) {
+                  console.log('will update progress');
+                  return {
+                    training,
+                    progress: this.getProgressBySectionId(
+                      training.sections[0].sectionId
+                    ),
+                  };
+                }
               }
-            },
-            error: (error) => {
-              alert('Error loading sections progress');
-            },
-          });
-      }
-    }
+              return { training, progress: 0 };
+            })
+          );
+      }),
+      concatMap(({ training, progress }) => {
+        if (progress === -1 && training.sections[0]) {
+          return this.progressApiService
+            .updateProgress(training.sections[0].sectionId, userId, 0)
+            .pipe(map(() => training));
+        }
+        return of(training);
+      })
+    );
   }
 
   public convertDate(date: string): string {
@@ -259,15 +275,12 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (sectionProgress) {
       return sectionProgress.progress;
     }
-    return 0;
+    return -1;
   }
 
   ngOnDestroy(): void {
-    if (this.trainingSubscription$) {
-      this.trainingSubscription$.unsubscribe();
-    }
-    if (this.sectionsProgressSubscription$) {
-      this.sectionsProgressSubscription$.unsubscribe();
+    if (this.updateProgressSub) {
+      this.updateProgressSub.unsubscribe();
     }
   }
 }

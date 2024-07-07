@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SectionProgress } from '../interfaces/section-progress';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,17 @@ export class ProgressApiService {
   ): Observable<SectionProgress[]> {
     return this.http.get<SectionProgress[]>(
       `${this.baseUrl}/GetAllProgressByUserTraining?userId=${userId}&trainingId=${trainingId}`
+    );
+  }
+
+  public updateProgress(
+    sectionId: number,
+    userId: string,
+    progress: number
+  ): Observable<Object> {
+    return this.http.post<Object>(
+      `${this.baseUrl}/UpdateSectionProgress?sectionId=${sectionId}&userId=${userId}&progress=${progress}`,
+      {}
     );
   }
 }

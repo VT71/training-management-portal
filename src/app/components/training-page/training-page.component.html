@@ -1,6 +1,7 @@
 <div class="training-page-container">
   <h1 class="component-main-title">Training Page</h1>
-  @if (training) {
+  <!-- @if (training) { -->
+  @if (training$ | async; as training) {
   <div class="page-container">
     <div class="container-main">
       <div class="container">
@@ -236,8 +237,8 @@
         </div>
       </div>
     </div>
-    @if (training.individual && training.sections.length > 0) { @if
-    (sectionsProgress && sectionsProgress) {
+    @if (training.individual && training.sections.length > 0) {
+    <!-- @if (sectionsProgress && sectionsProgress) { -->
     <div class="sections">
       <div class="section-container">
         <div class="section-left">
@@ -286,7 +287,7 @@
         </div>
       </div>
     </div>
-    } }
+    }
   </div>
   }
 </div>
