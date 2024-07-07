@@ -45,6 +45,8 @@ import { MatListModule } from '@angular/material/list';
 import { Sections } from '../../interfaces/sections';
 import { SectionProgress } from '../../interfaces/section-progress';
 import { ProgressApiService } from '../../services/progress-api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-training-page',
@@ -77,15 +79,21 @@ import { ProgressApiService } from '../../services/progress-api.service';
 })
 export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingsDropDownOpen = false;
+
+  private userId!: string;
+
   public trainingId: number;
-  //   public training!: TrainingComplete;
+  private training!: TrainingComplete;
   public training$!: Observable<TrainingComplete>;
+
   public sectionsProgress: SectionProgress[] = [];
   public sectionProgress$!: Observable<SectionProgress[]>;
-  private updateProgressSub!: Subscription;
-  public selectedSection!: Sections;
+  public sectionIndex: number = -1;
+  private updateProgressSubscription!: Subscription;
+
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
+
   departments: Department[] = []; // Array pentru departamente
   employees: EmployeeComplete[] = []; // Array pentru angajați complete
   dataSource1: MatTableDataSource<Department>;
@@ -101,12 +109,15 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public showDepartmentsTable: boolean = false;
   public showEmployeeTable: boolean = false;
 
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private trainingService: TrainingsService,
     private progressApiService: ProgressApiService,
     private changeDetectorRefs: ChangeDetectorRef,
-    public router: Router
+    public router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this.dataSource1 = new MatTableDataSource<Department>([]);
     this.dataSource2 = new MatTableDataSource<EmployeeComplete>([]);
@@ -120,6 +131,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (sessionAuthUser) {
       const objSessionAuthUser = JSON.parse(sessionAuthUser);
       if (objSessionAuthUser?.uid) {
+        this.userId = objSessionAuthUser?.uid;
         this.loadTraining(objSessionAuthUser?.uid);
       } else {
         alert('User not found');
@@ -167,6 +179,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.training$ = this.trainingService.getTrainingById(this.trainingId).pipe(
       concatMap((training) => {
         if (training) {
+          this.training = training;
+
           this.dataSource1.data = training.departments;
           this.dataSource2.data = training.employees;
 
@@ -184,15 +198,15 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           }
 
           if (training.sections.length > 0) {
-            this.selectedSection = training.sections[0];
+            this.sectionIndex = 0;
           }
         }
         return this.progressApiService
           .getAllProgressByUserTraining(userId, this.trainingId)
           .pipe(
-            map((sectionsProgress) => {
-              if (sectionsProgress) {
-                this.sectionsProgress = sectionsProgress;
+            map((sectionsProgres) => {
+              if (sectionsProgres) {
+                this.sectionsProgress = sectionsProgres;
                 if (training.sections[0]) {
                   console.log('will update progress');
                   return {
@@ -264,8 +278,55 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showDepartmentsTable = false;
   }
 
-  onSectionClick(section: Sections) {
-    this.selectedSection = section;
+  onSectionClick(section: Sections, index: number) {
+    this.sectionIndex = index;
+    if (this.getProgressBySectionId(section.sectionId) === -1) {
+      this.updateSectionProgress(section, 0, 'initial');
+    }
+  }
+
+  updateSectionProgress(section: Sections, progress: number, type: string) {
+    if (this.userId) {
+      if (this.getProgressBySectionId(section.sectionId) !== progress) {
+        this.updateProgressSubscription = this.progressApiService
+          .updateProgress(section.sectionId, this.userId, progress)
+          .subscribe({
+            next: () => {
+              const sectionProgressIndex = this.sectionsProgress.findIndex(
+                (sp) => sp.sectionId === section.sectionId
+              );
+              if (sectionProgressIndex !== -1) {
+                this.sectionsProgress[sectionProgressIndex].progress = progress;
+              } else {
+                this.sectionsProgress.push({
+                  sectionId: section.sectionId,
+                  progress,
+                  progressId: 0,
+                  employeeId: 0,
+                });
+              }
+              console.log('Progress: ' + JSON.stringify(this.sectionsProgress));
+              if (type === 'complete') {
+                if (this.sectionIndex < this.training.sections.length - 1) {
+                  this.sectionIndex++;
+                } else {
+                  this.checkAllSectionsComplete();
+                }
+              }
+            },
+            error: (error) => {
+              this.openSnackBar('Error updating progress', 'Close');
+            },
+          });
+        this.subscriptions.push(this.updateProgressSubscription);
+      } else {
+        this.sectionIndex++;
+      }
+    }
+  }
+
+  onCompleteNext(section: Sections) {
+    this.updateSectionProgress(section, 1, 'complete');
   }
 
   getProgressBySectionId(sectionId: number): number {
@@ -278,9 +339,30 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return -1;
   }
 
-  ngOnDestroy(): void {
-    if (this.updateProgressSub) {
-      this.updateProgressSub.unsubscribe();
+  checkAllSectionsComplete() {
+    if (this.training.sections.length === this.sectionsProgress.length) {
+      const allSectionsComplete = this.sectionsProgress.every(
+        (sp) => sp.progress === 1
+      );
+      if (allSectionsComplete) {
+        this.openSnackBar('All sections completed', 'Close');
+      } else {
+        this.openSnackBar('Not all sections are completed', 'Close');
+      }
+    } else {
+      this.openSnackBar('Not all sections are completed', 'Close');
     }
+  }
+
+  openSnackBar(message: string, action: string): MatSnackBarRef<any> {
+    return this._snackBar.open(message, action, {
+      duration: 1500,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

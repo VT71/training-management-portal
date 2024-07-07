@@ -64,7 +64,8 @@
                       @if(training.departments.length > 0) {
                       <div class="departments-container">
                         <button
-                          mat-flat-button
+                          class="participants-button secondary"
+                          mat-stroked-button
                           (click)="toggleDepartmentsTable()"
                           [ngClass]="{ selected: showDepartmentsTable }"
                         >
@@ -74,7 +75,8 @@
                       } @if(training.employees.length > 0) {
                       <div class="employees-container">
                         <button
-                          mat-flat-button
+                          class="participants-button secondary"
+                          mat-stroked-button
                           (click)="toggleEmployeeTable()"
                           [ngClass]="{ selected: showEmployeeTable }"
                         >
@@ -238,31 +240,70 @@
       </div>
     </div>
     @if (training.individual && training.sections.length > 0) {
-    <!-- @if (sectionsProgress && sectionsProgress) { -->
     <div class="sections">
       <div class="section-container">
         <div class="section-left">
           <h2 class="title">
             {{
-              selectedSection?.title
-                ? selectedSection?.title
+              training.sections[sectionIndex]?.title
+                ? training.sections[sectionIndex]?.title
                 : "No Section Selected"
             }}
           </h2>
           <div class="section-description-container">
             <p style="white-space: pre-line">
               {{
-                selectedSection?.description
-                  ? selectedSection.description.replaceAll("\\n", "\n")
+                training.sections[sectionIndex]?.description
+                  ? training.sections[sectionIndex].description.replaceAll(
+                      "\\n",
+                      "\n"
+                    )
                   : ""
               }}
             </p>
           </div>
+          <div class="controls-container">
+            @if(sectionIndex > 0) {
+            <button
+              mat-button
+              (click)="
+                onSectionClick(
+                  training.sections[sectionIndex - 1],
+                  sectionIndex - 1
+                )
+              "
+            >
+              Back
+            </button>
+            } @if (sectionIndex !== training.sections.length - 1) {
+            <button
+              mat-flat-button
+              class="main"
+              style="margin-left: auto"
+              (click)="onCompleteNext(training.sections[sectionIndex])"
+            >
+              Complete & Next
+            </button>
+            } @else {
+            <button
+              mat-flat-button
+              class="main"
+              style="margin-left: auto"
+              (click)="onCompleteNext(training.sections[sectionIndex])"
+            >
+              Complete & Finish
+            </button>
+            }
+          </div>
         </div>
         <div class="section-right">
           <h2 class="title menu-section-title">Menu section</h2>
-          @for (section of training.sections; track section) {
-          <div class="section-menu-button" (click)="onSectionClick(section)">
+          @for (section of training.sections; track section; let index = $index)
+          {
+          <div
+            class="section-menu-button"
+            (click)="onSectionClick(section, index)"
+          >
             <div class="left">
               @if(getProgressBySectionId(section.sectionId) == 1) {
               <mat-icon
