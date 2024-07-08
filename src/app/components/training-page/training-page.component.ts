@@ -5,8 +5,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Signal,
   ViewChild,
+  WritableSignal,
   model,
+  signal,
   viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -88,7 +91,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public sectionsProgress: SectionProgress[] = [];
   public sectionProgress$!: Observable<SectionProgress[]>;
-  public sectionIndex: number = -1;
+  public sectionIndex: WritableSignal<number> = signal(-1);
   private updateProgressSubscription!: Subscription;
 
   public loading: boolean = true; // Indicator pentru încărcarea datelor
@@ -198,7 +201,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           }
 
           if (training.sections.length > 0) {
-            this.sectionIndex = 0;
+            this.sectionIndex.update(() => 0);
           }
         }
         return this.progressApiService
@@ -208,7 +211,6 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
               if (sectionsProgres) {
                 this.sectionsProgress = sectionsProgres;
                 if (training.sections[0]) {
-                  console.log('will update progress');
                   return {
                     training,
                     progress: this.getProgressBySectionId(
@@ -225,7 +227,17 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (progress === -1 && training.sections[0]) {
           return this.progressApiService
             .updateProgress(training.sections[0].sectionId, userId, 0)
-            .pipe(map(() => training));
+            .pipe(
+              map(() => {
+                this.sectionsProgress.push({
+                  sectionId: training.sections[0].sectionId,
+                  progress: 0,
+                  progressId: 0,
+                  employeeId: 0,
+                });
+                return training;
+              })
+            );
         }
         return of(training);
       })
@@ -279,7 +291,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSectionClick(section: Sections, index: number) {
-    this.sectionIndex = index;
+    this.sectionIndex.update(() => index);
     if (this.getProgressBySectionId(section.sectionId) === -1) {
       this.updateSectionProgress(section, 0, 'initial');
     }
@@ -305,11 +317,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
                   employeeId: 0,
                 });
               }
-              console.log('Progress: ' + JSON.stringify(this.sectionsProgress));
               if (type === 'complete') {
-                if (this.sectionIndex < this.training.sections.length - 1) {
-                  this.sectionIndex++;
+                if (this.sectionIndex() < this.training.sections.length - 1) {
+                  this.sectionIndex.update((prev) => prev + 1);
                 } else {
+                  this.sectionIndex.update(() => -1);
                   this.checkAllSectionsComplete();
                 }
               }
@@ -319,8 +331,10 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             },
           });
         this.subscriptions.push(this.updateProgressSubscription);
-      } else {
-        this.sectionIndex++;
+      } else if (this.sectionIndex() < this.training.sections.length - 1) {
+        this.sectionIndex.update((prev) => prev + 1);
+      } else if (this.sectionIndex() === this.training.sections.length - 1) {
+        this.checkAllSectionsComplete();
       }
     }
   }
