@@ -334,6 +334,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (this.sectionIndex() < this.training.sections.length - 1) {
         this.sectionIndex.update((prev) => prev + 1);
       } else if (this.sectionIndex() === this.training.sections.length - 1) {
+        this.sectionIndex.update(() => -1);
         this.checkAllSectionsComplete();
       }
     }

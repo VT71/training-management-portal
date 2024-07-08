@@ -4,8 +4,6 @@
   @if (training$ | async; as training) {
   <div class="page-container">
     <div class="container-main">
-      <ng-container *ngIf="training | async as training"></ng-container>
-
       <div class="container-staic">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
@@ -70,15 +68,7 @@
                           mat-stroked-button
                           (click)="toggleDepartmentsTable()"
                           [ngClass]="{
-                            selected: showDepartmentsTable,
-                            yes:
-                              convertNumberToYesNo(
-                                (training | async)?.forDepartments ?? 0
-                              ) === 'Yes',
-                            no:
-                              convertNumberToYesNo(
-                                (training | async)?.forDepartments ?? 0
-                              ) === 'No'
+                            selected: showDepartmentsTable
                           }"
                         >
                           <p class="department-span">Departments</p>
@@ -91,15 +81,7 @@
                           mat-stroked-button
                           (click)="toggleEmployeeTable()"
                           [ngClass]="{
-                            selected: showEmployeeTable,
-                            yes:
-                              convertNumberToYesNo(
-                                (training | async)?.forEmployees ?? 0
-                              ) === 'Yes',
-                            no:
-                              convertNumberToYesNo(
-                                (training | async)?.forEmployees ?? 0
-                              ) === 'No'
+                            selected: showEmployeeTable
                           }"
                         >
                           <p class="employee-span">Employees</p>
