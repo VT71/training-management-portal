@@ -35,11 +35,13 @@
   justify-content: space-evenly;
 }
 
-.container {
+.container-staic {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
+  width: 100%;
+  padding: 10px;
 }
 
 .above-elements-container-left {
@@ -161,11 +163,17 @@ button {
   color: white !important;
 }
 
-button:hover,
-.selected {
-  background-color: var(--main-80) !important;
-  color: white !important;
+.yes {
+  background-color:  rgb(0, 173, 0) !important;
+  color: white  !important;
 }
+
+.no {
+  background-color: rgb(255, 31, 31) !important;
+  color: white  !important;
+}
+
+
 
 .departments-container p,
 .employees-container p {

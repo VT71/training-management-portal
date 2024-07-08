@@ -5,7 +5,7 @@
     <div class="container-main">
       <ng-container *ngIf="training | async as training"></ng-container>
 
-      <div class="container">
+      <div class="container-staic">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
             <div class="left-all">
@@ -66,7 +66,17 @@
                         <button
                           mat-flat-button
                           (click)="toggleDepartmentsTable()"
-                          [ngClass]="{ selected: showDepartmentsTable }"
+                          [ngClass]="{
+                            selected: showDepartmentsTable,
+                            yes:
+                              convertNumberToYesNo(
+                                (training | async)?.forDepartments ?? 0
+                              ) === 'Yes',
+                            no:
+                              convertNumberToYesNo(
+                                (training | async)?.forDepartments ?? 0
+                              ) === 'No'
+                          }"
                         >
                           <p class="department-span">
                             Departments:
@@ -83,7 +93,17 @@
                         <button
                           mat-flat-button
                           (click)="toggleEmployeeTable()"
-                          [ngClass]="{ selected: showEmployeeTable }"
+                          [ngClass]="{
+                            selected: showEmployeeTable,
+                            yes:
+                              convertNumberToYesNo(
+                                (training | async)?.forEmployees ?? 0
+                              ) === 'Yes',
+                            no:
+                              convertNumberToYesNo(
+                                (training | async)?.forEmployees ?? 0
+                              ) === 'No'
+                          }"
                         >
                           <p class="employee-span" style="margin-left: -14px">
                             Employees:
@@ -103,7 +123,7 @@
               <div class="menu-button">
                 <div class="main-option">
                   <div class="left">
-                    <h2 class="title">Description</h2>
+                    <h2 class="title">Details about training</h2>
                   </div>
 
                   <div class="right">
