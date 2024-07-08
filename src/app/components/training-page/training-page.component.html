@@ -258,7 +258,7 @@
             <p style="white-space: pre-line">
               {{
                 training.sections[sectionIndex()]?.description
-                  ? training.sections[sectionIndex()]?.description?.replaceAll(
+                  ? training.sections[sectionIndex()].description?.replaceAll(
                       "\\n",
                       "\n"
                     )
@@ -279,7 +279,8 @@
             >
               Back
             </button>
-            } @if (sectionIndex() !== training.sections.length - 1) {
+            } @if (sectionIndex() > -1) { @if (sectionIndex() !==
+            training.sections.length - 1) {
             <button
               mat-flat-button
               class="main"
@@ -297,7 +298,7 @@
             >
               Complete & Finish
             </button>
-            }
+            } }
           </div>
         </div>
         <div class="section-right">

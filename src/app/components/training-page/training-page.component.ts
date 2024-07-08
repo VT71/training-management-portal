@@ -386,7 +386,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
-    return this._snackBar.open(message, action, {
+    return this._snackBar.open(message, "", {
       duration: 1500,
       horizontalPosition: 'right',
       verticalPosition: 'top',
