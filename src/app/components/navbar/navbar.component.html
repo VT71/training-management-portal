@@ -4,7 +4,7 @@
   </div>
 
   <!-- search bar -->
-  <div class="search">
+  <div class="search" (click)="$event.stopPropagation()">
     <div class="input-group">
       <input
         matInput
@@ -13,13 +13,21 @@
         placeholder="Search"
         aria-label="Search"
         [formControl]="control"
-        (keyup)="applyFilterSearch($event)"
-        #input
+        [(ngModel)]="searchValue"
+        (input)="filterResults()"
+        (keydown.ArrowUp)="handleArrowUp()"
+        (keydown.ArrowDown)="handleArrowDown()"
+        (keydown.Enter)="navigateToSelectedResult()"
       />
     </div>
-    <div class="search-results" *ngIf="searchResults.length > 0">
+    <div class="search-results"  *ngIf="showResults && searchValue.length > 0"  >
       <ul class="list-group">
-        <li class="list-group-item" *ngFor="let result of searchResults">
+        <li
+          class="list-group-item"
+          *ngFor="let result of filteredResults; let index = index"
+          [class.active]="index === selectedResultIndex"
+          (click)="selectResult(result)"
+        >
           <a [routerLink]="result.route" class="search-result-link">{{
             result.title
           }}</a>

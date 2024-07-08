@@ -4,7 +4,9 @@
   @if (training$ | async; as training) {
   <div class="page-container">
     <div class="container-main">
-      <div class="container">
+      <ng-container *ngIf="training | async as training"></ng-container>
+
+      <div class="container-staic">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
             <div class="left-all">
@@ -67,7 +69,17 @@
                           class="participants-button secondary"
                           mat-stroked-button
                           (click)="toggleDepartmentsTable()"
-                          [ngClass]="{ selected: showDepartmentsTable }"
+                          [ngClass]="{
+                            selected: showDepartmentsTable,
+                            yes:
+                              convertNumberToYesNo(
+                                (training | async)?.forDepartments ?? 0
+                              ) === 'Yes',
+                            no:
+                              convertNumberToYesNo(
+                                (training | async)?.forDepartments ?? 0
+                              ) === 'No'
+                          }"
                         >
                           <p class="department-span">Departments</p>
                         </button>
@@ -78,7 +90,17 @@
                           class="participants-button secondary"
                           mat-stroked-button
                           (click)="toggleEmployeeTable()"
-                          [ngClass]="{ selected: showEmployeeTable }"
+                          [ngClass]="{
+                            selected: showEmployeeTable,
+                            yes:
+                              convertNumberToYesNo(
+                                (training | async)?.forEmployees ?? 0
+                              ) === 'Yes',
+                            no:
+                              convertNumberToYesNo(
+                                (training | async)?.forEmployees ?? 0
+                              ) === 'No'
+                          }"
                         >
                           <p class="employee-span">Employees</p>
                         </button>
@@ -92,7 +114,7 @@
               <div class="menu-button">
                 <div class="main-option">
                   <div class="left">
-                    <h2 class="title">Description</h2>
+                    <h2 class="title">Details about training</h2>
                   </div>
                 </div>
 

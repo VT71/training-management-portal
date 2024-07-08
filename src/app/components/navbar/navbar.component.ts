@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -44,7 +50,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   searchValue = '';
-  searchResults: { title: string; route: string }[] = [];
+  filteredResults: { title: string; route: string }[] = [];
+  showResults = false;
+  selectedResultIndex: number = -1;
   user$!: Observable<User>;
   articles: { title: string; route: string }[] = [
     { title: 'Dashboard', route: '/dashboard' },
@@ -59,7 +67,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   });
 
   constructor(public dialog: MatDialog, private searchService: SearchService) {}
-
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
   ngOnInit(): void {
@@ -81,31 +88,116 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subscriptions?.push(roleSubscription);
   }
 
-  public applyFilterSearch(event: KeyboardEvent): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filterResults(filterValue);
-  }
+  filterResults(): void {
+    if (this.searchValue.trim() === '') {
+      this.filteredResults = [];
+      this.showResults = false;
+      return;
+    }
 
-  public filterResults(searchValue: string): void {
-    this.searchResults = this.articles.filter((article) =>
-      article.title.toLowerCase().includes(searchValue.toLowerCase())
+    const filtered = this.articles.filter((article) =>
+      article.title.toLowerCase().includes(this.searchValue.toLowerCase())
     );
 
-    const roleSubscription = this.authService.rolesource.subscribe((role) => {
-      if (role === 'admin') {
-        this.adminVersion = true;
-      } else {
-        this.adminVersion = false;
-      }
-    });
-    this.subscriptions?.push(roleSubscription);
+    this.filteredResults = filtered;
+    this.showResults = true;
+    this.selectedResultIndex = -1; // Reset selection when filtering
   }
 
-  toggleDropdown() {
+  selectResult(result: { title: string; route: string }): void {
+    this.router.navigateByUrl(result.route);
+    this.searchValue = ''; // Clear search value after selecting
+    this.showResults = false;
+  }
+
+  handleArrowUp(): void {
+    if (this.selectedResultIndex > 0) {
+      this.selectedResultIndex--;
+    } else {
+      this.selectedResultIndex = this.filteredResults.length - 1;
+    }
+  }
+
+  handleArrowDown(): void {
+    if (this.selectedResultIndex < this.filteredResults.length - 1) {
+      this.selectedResultIndex++;
+    } else {
+      this.selectedResultIndex = 0;
+    }
+  }
+
+  navigateToSelectedResult(): void {
+    if (this.selectedResultIndex !== -1) {
+      const selectedRoute =
+        this.filteredResults[this.selectedResultIndex].route;
+      this.router.navigateByUrl(selectedRoute);
+      this.searchValue = ''; // Clear search value after navigating
+      this.showResults = false;
+    }
+  }
+
+  // public   filterResults(): void {
+  //   this.filteredResults = this.articles.filter((article) =>
+  //     article.title.toLowerCase().includes(this.searchValue.toLowerCase())
+  //   );
+  //   this.showResults = true;
+  //   this.selectedResultIndex = -1; // Resetăm selecția la fiecare filtrare
+  // }
+
+  // public handleKeyEvents(event: KeyboardEvent): void {
+  //   if (event.key === 'ArrowDown') {
+  //     event.preventDefault();
+  //     if (this.filteredResults.length > 0) {
+  //       if (this.selectedResultIndex === -1) {
+  //         this.selectedResultIndex = 0; // Dacă nu este selectat niciun element, selectăm primul
+  //       } else {
+  //         this.selectedResultIndex =
+  //           (this.selectedResultIndex + 1) % this.filteredResults.length;
+  //       }
+  //     }
+  //   } else if (event.key === 'ArrowUp') {
+  //     event.preventDefault();
+  //     if (this.filteredResults.length > 0) {
+  //       if (this.selectedResultIndex === -1) {
+  //         this.selectedResultIndex = this.filteredResults.length - 1; // Dacă nu este selectat niciun element, selectăm ultimul
+  //       } else {
+  //         this.selectedResultIndex =
+  //           (this.selectedResultIndex - 1 + this.filteredResults.length) %
+  //           this.filteredResults.length;
+  //       }
+  //     }
+  //   } else if (event.key === 'Enter' && this.selectedResultIndex !== -1) {
+  //     this.navigateToResult(this.filteredResults[this.selectedResultIndex]);
+  //   }
+  // }
+
+  // public navigateToResult(result: { title: string; route: string }): void {
+  //   if (result) {
+  //     this.router.navigateByUrl(result.route);
+  //     this.clearSearch();
+  //   }
+  // }
+
+  // public selectResult(result: { title: string; route: string }): void {
+  //   this.router.navigateByUrl(result.route);
+  //   this.filteredResults = [];
+  // }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    const isClickedInside = targetElement.closest('.search');
+
+    if (!isClickedInside) {
+      this.filteredResults = [];
+    }
+  }
+
+  public toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  logOut(): void {
+  public logOut(): void {
     this.authService.logout().subscribe({
       error: (err) => {
         alert('Sign out Error');
@@ -143,7 +235,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  clearSearch(): void {
+    this.searchValue = '';
+    this.filteredResults = [];
+    this.showResults = false;
+    this.selectedResultIndex = -1;
   }
 }
