@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
   model,
@@ -18,7 +19,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { Observable, catchError, finalize, map, of } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  catchError,
+  concatMap,
+  finalize,
+  map,
+  of,
+} from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingComplete } from '../../interfaces/training-complete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -32,6 +41,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
+import { Sections } from '../../interfaces/sections';
+import { SectionProgress } from '../../interfaces/section-progress';
+import { ProgressApiService } from '../../services/progress-api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-training-page',
@@ -55,17 +70,30 @@ import { FormsModule } from '@angular/forms';
     MatRadioModule,
     MatCardModule,
     FormsModule,
+    MatListModule,
+    MatMenuModule,
   ],
   templateUrl: './training-page.component.html',
   styleUrl: './training-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrainingPageComponent implements OnInit, AfterViewInit {
+export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingsDropDownOpen = false;
+
+  private userId!: string;
+
   public trainingId: number;
-  public training!: Observable<TrainingComplete>;
+  private training!: TrainingComplete;
+  public training$!: Observable<TrainingComplete>;
+
+  public sectionsProgress: SectionProgress[] = [];
+  public sectionProgress$!: Observable<SectionProgress[]>;
+  public sectionIndex: number = -1;
+  private updateProgressSubscription!: Subscription;
+
   public loading: boolean = true; // Indicator pentru încărcarea datelor
   public errorLoading: boolean = false; // Indicator pentru eroare la încărcare
+
   departments: Department[] = []; // Array pentru departamente
   employees: EmployeeComplete[] = []; // Array pentru angajați complete
   dataSource1: MatTableDataSource<Department>;
@@ -80,13 +108,16 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
 
   public showDepartmentsTable: boolean = false;
   public showEmployeeTable: boolean = false;
-  public shouldDisplaySections!: Observable<boolean>;
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private trainingService: TrainingsService,
+    private progressApiService: ProgressApiService,
     private changeDetectorRefs: ChangeDetectorRef,
-    public router: Router
+    public router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this.dataSource1 = new MatTableDataSource<Department>([]);
     this.dataSource2 = new MatTableDataSource<EmployeeComplete>([]);
@@ -96,7 +127,18 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.loadTraining();
+    const sessionAuthUser = sessionStorage.getItem('authUser');
+    if (sessionAuthUser) {
+      const objSessionAuthUser = JSON.parse(sessionAuthUser);
+      if (objSessionAuthUser?.uid) {
+        this.userId = objSessionAuthUser?.uid;
+        this.loadTraining(objSessionAuthUser?.uid);
+      } else {
+        alert('User not found');
+      }
+    } else {
+      alert('User not found');
+    }
   }
 
   public ngAfterViewInit() {
@@ -133,37 +175,17 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public loadTraining(): void {
-    this.training = this.trainingService.getTrainingById(this.trainingId).pipe(
-      catchError((error) => {
-        console.error(
-          'Eroare la încărcarea detaliilor despre training:',
-          error
-        );
-        this.errorLoading = true;
-        return of({} as TrainingComplete);
-      }),
-      finalize(() => {
-        this.loading = false;
-        this.changeDetectorRefs.detectChanges();
-      })
-    );
-
-    this.shouldDisplaySections = this.training.pipe(
-      map((training) => {
-        return training && training.individual === 1;
-      }),
-      catchError(() => of(false))
-    );
-
-    this.training.subscribe({
-      next: (training) => {
+  public loadTraining(userId: string): void {
+    this.training$ = this.trainingService.getTrainingById(this.trainingId).pipe(
+      concatMap((training) => {
         if (training) {
+          this.training = training;
+
           this.dataSource1.data = training.departments;
           this.dataSource2.data = training.employees;
 
-          this.showDepartmentsTable = !!training.forDepartments;
-          this.showEmployeeTable = !!training.forEmployees;
+          this.showDepartmentsTable = training.departments.length > 0;
+          this.showEmployeeTable = training.employees.length > 0;
 
           if (this.showDepartmentsTable) {
             this.dataSource1.paginator = this.paginator1;
@@ -174,9 +196,40 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
           }
+
+          if (training.sections.length > 0) {
+            this.sectionIndex = 0;
+          }
         }
-      },
-    });
+        return this.progressApiService
+          .getAllProgressByUserTraining(userId, this.trainingId)
+          .pipe(
+            map((sectionsProgres) => {
+              if (sectionsProgres) {
+                this.sectionsProgress = sectionsProgres;
+                if (training.sections[0]) {
+                  console.log('will update progress');
+                  return {
+                    training,
+                    progress: this.getProgressBySectionId(
+                      training.sections[0].sectionId
+                    ),
+                  };
+                }
+              }
+              return { training, progress: 0 };
+            })
+          );
+      }),
+      concatMap(({ training, progress }) => {
+        if (progress === -1 && training.sections[0]) {
+          return this.progressApiService
+            .updateProgress(training.sections[0].sectionId, userId, 0)
+            .pipe(map(() => training));
+        }
+        return of(training);
+      })
+    );
   }
 
   public convertDate(date: string): string {
@@ -217,15 +270,99 @@ export class TrainingPageComponent implements OnInit, AfterViewInit {
     this.router.navigate(['dashboard/employee', employeeId]);
   }
 
-  public convertNumberToYesNo(value: number): string {
-    return value === 1 ? 'Yes' : 'No';
-  }
-
   public closeEmployeeTable(): void {
     this.showEmployeeTable = false;
   }
 
   public closeDepartmentsTable(): void {
     this.showDepartmentsTable = false;
+  }
+
+  onSectionClick(section: Sections, index: number) {
+    this.sectionIndex = index;
+    if (this.getProgressBySectionId(section.sectionId) === -1) {
+      this.updateSectionProgress(section, 0, 'initial');
+    }
+  }
+
+  updateSectionProgress(section: Sections, progress: number, type: string) {
+    if (this.userId) {
+      if (this.getProgressBySectionId(section.sectionId) !== progress) {
+        this.updateProgressSubscription = this.progressApiService
+          .updateProgress(section.sectionId, this.userId, progress)
+          .subscribe({
+            next: () => {
+              const sectionProgressIndex = this.sectionsProgress.findIndex(
+                (sp) => sp.sectionId === section.sectionId
+              );
+              if (sectionProgressIndex !== -1) {
+                this.sectionsProgress[sectionProgressIndex].progress = progress;
+              } else {
+                this.sectionsProgress.push({
+                  sectionId: section.sectionId,
+                  progress,
+                  progressId: 0,
+                  employeeId: 0,
+                });
+              }
+              console.log('Progress: ' + JSON.stringify(this.sectionsProgress));
+              if (type === 'complete') {
+                if (this.sectionIndex < this.training.sections.length - 1) {
+                  this.sectionIndex++;
+                } else {
+                  this.checkAllSectionsComplete();
+                }
+              }
+            },
+            error: (error) => {
+              this.openSnackBar('Error updating progress', 'Close');
+            },
+          });
+        this.subscriptions.push(this.updateProgressSubscription);
+      } else {
+        this.sectionIndex++;
+      }
+    }
+  }
+
+  onCompleteNext(section: Sections) {
+    this.updateSectionProgress(section, 1, 'complete');
+  }
+
+  getProgressBySectionId(sectionId: number): number {
+    const sectionProgress = this.sectionsProgress.find(
+      (sp) => sp.sectionId === sectionId
+    );
+    if (sectionProgress) {
+      return sectionProgress.progress;
+    }
+    return -1;
+  }
+
+  checkAllSectionsComplete() {
+    if (this.training.sections.length === this.sectionsProgress.length) {
+      const allSectionsComplete = this.sectionsProgress.every(
+        (sp) => sp.progress === 1
+      );
+      if (allSectionsComplete) {
+        this.openSnackBar('All sections completed', 'Close');
+      } else {
+        this.openSnackBar('Not all sections are completed', 'Close');
+      }
+    } else {
+      this.openSnackBar('Not all sections are completed', 'Close');
+    }
+  }
+
+  openSnackBar(message: string, action: string): MatSnackBarRef<any> {
+    return this._snackBar.open(message, action, {
+      duration: 1500,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

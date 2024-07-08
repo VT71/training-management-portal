@@ -1,6 +1,7 @@
 <div class="training-page-container">
   <h1 class="component-main-title">Training Page</h1>
-
+  <!-- @if (training) { -->
+  @if (training$ | async; as training) {
   <div class="page-container">
     <div class="container-main">
       <ng-container *ngIf="training | async as training"></ng-container>
@@ -17,7 +18,7 @@
                       titlecase
                     </span>
                     Title:
-                    <span class="bold">{{ (training | async)?.title }}</span>
+                    <span class="bold">{{ training.title }}</span>
                   </p>
                   <p>
                     <span class="material-symbols-outlined left">
@@ -26,17 +27,17 @@
                     Training Type:
                     <span class="bold">
                       {{
-                        (training | async)?.individual ? "Online" : "Workshop"
+                        training.individual ? "Individual" : "Workshop"
                       }}</span
                     >
                   </p>
+                  @if(!training.individual) {
                   <p>
                     <span class="material-symbols-outlined left"> person </span>
                     Trainer:
-                    <span class="bold">{{
-                      (training | async)?.trainerName
-                    }}</span>
+                    <span class="bold">{{ training.trainerName }}</span>
                   </p>
+                  }
 
                   <p>
                     <span class="material-symbols-outlined left">
@@ -44,27 +45,29 @@
                     </span>
                     Deadline:
                     <span class="bold">
-                      {{ (training | async)?.deadline | date : "dd/MM/yyyy" }}
+                      {{ convertDate(training.deadline) }}
                     </span>
                   </p>
+                  @if(!training.individual) {
                   <p>
                     <span class="material-symbols-outlined left">
                       distance
                     </span>
                     Address/Link:
-                    <span class="bold">{{ (training | async)?.adress }}</span>
+                    <span class="bold">{{ training.adress }}</span>
                   </p>
+                  }
                 </div>
 
                 <div class="participants">
                   <div class="participants-container">
-                    <h2 class="title" style="margin-left: 22px">
-                      Participants
-                    </h2>
+                    <h2 class="title">Participants</h2>
                     <div class="participants-details">
+                      @if(training.departments.length > 0) {
                       <div class="departments-container">
                         <button
-                          mat-flat-button
+                          class="participants-button secondary"
+                          mat-stroked-button
                           (click)="toggleDepartmentsTable()"
                           [ngClass]="{
                             selected: showDepartmentsTable,
@@ -78,20 +81,14 @@
                               ) === 'No'
                           }"
                         >
-                          <p class="department-span">
-                            Departments:
-                            <span class="bold">{{
-                              convertNumberToYesNo(
-                                (training | async)?.forDepartments ?? 0
-                              )
-                            }}</span>
-                          </p>
+                          <p class="department-span">Departments</p>
                         </button>
                       </div>
-
+                      } @if(training.employees.length > 0) {
                       <div class="employees-container">
                         <button
-                          mat-flat-button
+                          class="participants-button secondary"
+                          mat-stroked-button
                           (click)="toggleEmployeeTable()"
                           [ngClass]="{
                             selected: showEmployeeTable,
@@ -105,16 +102,10 @@
                               ) === 'No'
                           }"
                         >
-                          <p class="employee-span" style="margin-left: -14px">
-                            Employees:
-                            <span class="bold">{{
-                              convertNumberToYesNo(
-                                (training | async)?.forEmployees ?? 0
-                              )
-                            }}</span>
-                          </p>
+                          <p class="employee-span">Employees</p>
                         </button>
                       </div>
+                      }
                     </div>
                   </div>
                 </div>
@@ -125,21 +116,12 @@
                   <div class="left">
                     <h2 class="title">Details about training</h2>
                   </div>
-
-                  <div class="right">
-                    <mat-icon class="menu-button-icon" routerLinkActive="active"
-                      >arrow_drop_down</mat-icon
-                    >
-                  </div>
                 </div>
 
                 <div class="sub-container">
                   <div class="description">
                     <p class="description-text">
-                      <span class="material-symbols-outlined left"> </span>
-                      <span class="text">{{
-                        (training | async)?.description
-                      }}</span>
+                      {{ training.description }}
                     </p>
                   </div>
                 </div>
@@ -279,96 +261,96 @@
         </div>
       </div>
     </div>
-
-    <div class="sections" *ngIf="shouldDisplaySections | async">
+    @if (training.individual && training.sections.length > 0) {
+    <div class="sections">
       <div class="section-container">
-        <div class="section-left"><h2 class="title">Sections</h2></div>
-        <div class="section-right">
-          <h3 class="title menu-section-title">Menu section</h3>
-          <div class="example-action-buttons">
-            <button mat-button (click)="accordion().openAll()">
-              Expand All
-            </button>
-            <button mat-button (click)="accordion().closeAll()">
-              Collapse All
-            </button>
+        <div class="section-left">
+          <h2 class="title">
+            {{
+              training.sections[sectionIndex]?.title
+                ? training.sections[sectionIndex]?.title
+                : "No Section Selected"
+            }}
+          </h2>
+          <div class="section-description-container">
+            <p style="white-space: pre-line">
+              {{
+                training.sections[sectionIndex]?.description
+                  ? training.sections[sectionIndex].description.replaceAll(
+                      "\\n",
+                      "\n"
+                    )
+                  : ""
+              }}
+            </p>
           </div>
+          <div class="controls-container">
+            @if(sectionIndex > 0) {
+            <button
+              mat-button
+              (click)="
+                onSectionClick(
+                  training.sections[sectionIndex - 1],
+                  sectionIndex - 1
+                )
+              "
+            >
+              Back
+            </button>
+            } @if (sectionIndex !== training.sections.length - 1) {
+            <button
+              mat-flat-button
+              class="main"
+              style="margin-left: auto"
+              (click)="onCompleteNext(training.sections[sectionIndex])"
+            >
+              Complete & Next
+            </button>
+            } @else {
+            <button
+              mat-flat-button
+              class="main"
+              style="margin-left: auto"
+              (click)="onCompleteNext(training.sections[sectionIndex])"
+            >
+              Complete & Finish
+            </button>
+            }
+          </div>
+        </div>
+        <div class="section-right">
+          <h2 class="title menu-section-title">Menu section</h2>
+          @for (section of training.sections; track section; let index = $index)
+          {
+          <div
+            class="section-menu-button"
+            (click)="onSectionClick(section, index)"
+          >
+            <div class="left">
+              @if(getProgressBySectionId(section.sectionId) == 1) {
+              <mat-icon
+                class="section-menu-button-icon"
+                matTooltip="Home"
+                matTooltipPosition="below"
+                >check_circle</mat-icon
+              >
+              } @else {
+              <mat-icon
+                class="section-menu-button-icon"
+                matTooltip="Home"
+                matTooltipPosition="below"
+                >radio_button_unchecked</mat-icon
+              >
+              }
 
-          <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title> Section 1 </mat-panel-title>
-              </mat-expansion-panel-header>
-              <ul>
-                <li>
-                  <mat-label>Title1asdgadsga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title2adgasga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title3sdagsaggd</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title4asdgagasdg</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-              </ul>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title> Section 2 </mat-panel-title>
-              </mat-expansion-panel-header>
-              <ul>
-                <li>
-                  <mat-label>Title1sadfasga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-
-                <li>
-                  <mat-label>Title2adgasdga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title3asdgasdg</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-                <li>
-                  <mat-label>Title4asdgasga</mat-label>
-                  <mat-checkbox
-                    class="example-margin"
-                    [(ngModel)]="checked"
-                  ></mat-checkbox>
-                </li>
-              </ul>
-            </mat-expansion-panel>
-          </mat-accordion>
+              <span class="section-menu-button-label">{{ section.title }}</span>
+            </div>
+          </div>
+          }
         </div>
       </div>
     </div>
+    }
   </div>
+  }
 </div>

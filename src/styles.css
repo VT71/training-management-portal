@@ -260,6 +260,18 @@ app-trainings-calendar {
   background-color: var(--main-80) !important;
 }
 
+.mdc-button--outlined {
+  border-color: var(--main) !important;
+  background-color: var(--tertiary) !important;
+  color: var(--main) !important;
+}
+
+.mdc-button--outlined.secondary {
+  border-color: var(--secondary) !important;
+  background-color: var(--tertiary) !important;
+  color: var(--secondary) !important;
+}
+
 .mat-mdc-dialog-content {
   max-height: 100vh !important;
 }
@@ -384,16 +396,15 @@ h2.dialog-title {
 }
 
 .gauge.chart > text {
-    font-size: 0.4rem !important;
+  font-size: 0.4rem !important;
 }
 
 .gauge.chart > text > tspan:first-child {
-    display: none !important;
+  display: none !important;
 }
 
-
 .ngx-charts {
-    height: 300px !important;
+  height: 300px !important;
 }
 
 /* // mat-icon-stepper selected color change 
@@ -447,6 +458,3 @@ h2.dialog-title {
 .mat-expansion-panel-body {
   padding: 0 !important;
 }
-
-
-
