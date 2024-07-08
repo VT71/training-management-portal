@@ -30,6 +30,7 @@ import {
   finalize,
   map,
   of,
+  tap,
 } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TrainingComplete } from '../../interfaces/training-complete';
@@ -50,6 +51,8 @@ import { SectionProgress } from '../../interfaces/section-progress';
 import { ProgressApiService } from '../../services/progress-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -124,7 +127,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private changeDetectorRefs: ChangeDetectorRef,
     public router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) {
     this.dataSource1 = new MatTableDataSource<Department>([]);
     this.dataSource2 = new MatTableDataSource<EmployeeComplete>([]);
@@ -396,4 +400,31 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
+
+  openDialogEdit(event: Event, trainingId: number): void {
+    event.stopPropagation();
+    const getTrainingSubscription = this.trainingService
+      .getTrainingById(trainingId)
+      .pipe(
+        tap((training) => {
+          const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+            data: { type: 'edit', trainingId: training.trainingId },
+          });
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result === true) {
+              window.location.reload();
+            }
+          });
+        }),
+        catchError((error) => {
+          console.error('Error fetching training:', error);
+          throw error;
+        })
+      )
+      .subscribe();
+
+    this.subscriptions.push(getTrainingSubscription);
+  }
+
 }
