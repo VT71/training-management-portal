@@ -60,13 +60,15 @@ export class TrainingsService {
       );
   }
 
+
   public updateTrainingById(
+    trainingId: number,
     training: TrainingInterface,
     departmentsData: Department[],
     employeesData: Employee[]
   ): Observable<TrainingComplete> {
     return this.http
-      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining`, {
+      .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining/${trainingId}`, {
         ...training,
         departments: departmentsData,
         employees: employeesData,
@@ -77,6 +79,7 @@ export class TrainingsService {
         })
       );
   }
+ 
 
   public getTrainingById(trainingId: number): Observable<TrainingComplete> {
     return this.http
