@@ -6,12 +6,13 @@ import { TrainingComplete } from '../interfaces/training-complete';
 import { Department } from '../interfaces/department';
 import { Employee } from '../interfaces/employee';
 import { Sections } from '../interfaces/sections';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingsService {
-  private baseUrl: string = 'http://localhost:5290/Trainings';
+  private baseUrl: string = `${environment.apiUrl}/Trainings`;
 
   constructor(private http: HttpClient) {}
 

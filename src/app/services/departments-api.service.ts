@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Department } from '../interfaces/department';
 import { catchError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DepartmentsApiService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5290/Department';
+  private baseUrl = `${environment.apiUrl}/Department`;
 
   constructor() {}
 

@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SectionProgress } from '../interfaces/section-progress';
 import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProgressApiService {
-  private baseUrl: string = 'http://localhost:5290/Progress';
+  private baseUrl: string = `${environment.apiUrl}/Progress`;
 
   constructor(private http: HttpClient) {}
 
