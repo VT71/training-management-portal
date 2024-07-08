@@ -71,6 +71,8 @@
             dayOfMonth.month !== firstDayOfActiveMonth().month
         }"
         (click)="activeDay.set(dayOfMonth)"
+        matTooltip="{{ getTooltipMessage(dayOfMonth) }}"
+        *ngIf="dayOfMonth.month === firstDayOfActiveMonth().month"
       >
         {{ dayOfMonth.day }}
 
@@ -91,6 +93,14 @@
             class="event-bullet"
             *ngFor="let event of getEventsForDay(dayOfMonth)"
           ></div>
+          <div
+            *ngIf="getEventsForDay(dayOfMonth).length > 5"
+            class="additional-events"
+          >
+            {{ getEventsForDay(dayOfMonth).length - 5 }} more events
+          </div>
+
+         
         </div>
       </div>
       }
@@ -105,7 +115,7 @@
       <div class="schedule-headline-p">Please select a day</div>
       }
     </div>
-    
+
     <div>
       @if (activeDay() && activeDayTrainings().length === 0) {
       <div>No Planned Meetings today</div>

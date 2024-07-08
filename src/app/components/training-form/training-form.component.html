@@ -158,30 +158,39 @@
           </div>
         </div>
 
-        @if(!isWorkshop) { 
-          @for (section of sections; track section; let i = $index) { 
+        @if(!isWorkshop) { @for (section of sections; track section; let i =
+        $index) {
         <div class="input-container section1">
           <h3>Section1</h3>
           <mat-form-field appearance="outline" class="additional-field">
             <mat-label>Ttitle</mat-label>
-            <input matInput placeholder="Enter additional tilte" formControlName="{{'sectionTitle' + i}}"/>
+            <input
+              matInput
+              placeholder="Enter additional tilte"
+              formControlName="{{ 'sectionTitle' + i }}"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="additional-field">
             <mat-label>Description</mat-label>
-            <input matInput placeholder="Enter additional description"  formControlName="{{'sectionDescription' + i}}"/>
+            <input
+              matInput
+              placeholder="Enter additional description"
+              formControlName="{{ 'sectionDescription' + i }}"
+            />
           </mat-form-field>
         </div>
+        } }
+        @if(!isWorkshop) {
         <button
-        class="main"
-        style="margin-top: 100px"
-        type="submit"
-        mat-flat-button
-        (click)="addSection()"
-      >
-        Add section
-      </button>
-        }
+          class="main"
+          style="margin-top: 20px"
+          type="submit"
+          mat-flat-button
+          (click)="addSection()"
+        >
+          Add section
+        </button>
       }
         <button
           class="main"

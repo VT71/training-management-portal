@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   OnDestroy,
   OnInit,
+  Output,
   Signal,
   ViewChild,
   WritableSignal,
@@ -54,6 +56,7 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
+import { ConfirmDialogComponent } from '../navbar/confirm-add-dialog.component';
 
 @Component({
   selector: 'app-training-page',
@@ -86,13 +89,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public trainingsDropDownOpen = false;
-
   private userId!: string;
-
   public trainingId: number;
   private training!: TrainingComplete;
   public training$!: Observable<TrainingComplete>;
-
   public sectionsProgress: SectionProgress[] = [];
   public sectionProgress$!: Observable<SectionProgress[]>;
   public sectionIndex: WritableSignal<number> = signal(-1);
@@ -107,9 +107,9 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource2: MatTableDataSource<EmployeeComplete>;
   accordion = viewChild.required(MatAccordion);
   readonly checked = model(false);
-
   public adminVersion = false;
 
+  @Output() valuesEmitter = new EventEmitter<number>();
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -128,7 +128,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private changeDetectorRefs: ChangeDetectorRef,
     public router: Router,
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.dataSource1 = new MatTableDataSource<Department>([]);
     this.dataSource2 = new MatTableDataSource<EmployeeComplete>([]);
@@ -390,7 +390,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<any> {
-    return this._snackBar.open(message, "", {
+    return this._snackBar.open(message, '', {
       duration: 1500,
       horizontalPosition: 'right',
       verticalPosition: 'top',
@@ -401,16 +401,17 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
-  openDialogEdit(event: Event, trainingId: number): void {
+  public openDialogEdit(event: Event, trainingId: number): void {
     event.stopPropagation();
     const getTrainingSubscription = this.trainingService
       .getTrainingById(trainingId)
       .pipe(
         tap((training) => {
           const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+            width: '650px',
+            height: '600px',
             data: { type: 'edit', trainingId: training.trainingId },
           });
-
           dialogRef.afterClosed().subscribe((result) => {
             if (result === true) {
               window.location.reload();
@@ -427,4 +428,34 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.push(getTrainingSubscription);
   }
 
+  public openDeleteDialog(event: Event, trainingId: number): void {
+    event.stopPropagation();
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: { trainingId: trainingId },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.trainingService.deleteTraining(trainingId).subscribe({
+          next: () => {
+            const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
+              'Training deleted successfully',
+              'Close'
+            );
+            this.valuesEmitter.emit(trainingId);
+            setTimeout(() => {
+              snackBarRef.dismiss();
+            }, 1500);
+            this.router.navigate(['/dashboard/trainings/calendar']);
+          },
+          error: (error) => {
+            console.error('Error deleting training:', error);
+            this.openSnackBar('Error deleting training', 'Close');
+          },
+        });
+      }
+    });
+  }
 }

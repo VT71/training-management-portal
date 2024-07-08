@@ -28,7 +28,7 @@
   background-size: cover;
   background-position: center;
   background-origin: content-box;
-  width: 100%;
+  width: 80%;
   height: 100%;
   padding: 1.2rem;
 }
@@ -116,7 +116,7 @@
   display: flex;
   justify-content: center;
   background-color: none;
-  width: 70%;
+  width: 40%;
   border: none;
   margin-left: 100px;
   margin-right: 100px;
@@ -126,7 +126,7 @@
   position: absolute;
   top: calc(100% + 1px); /* Poziționează sub input-ul de căutare, cu o mică separare */
   left: -30;
-  width: 55%;
+  width: 40%;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

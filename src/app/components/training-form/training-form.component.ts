@@ -25,7 +25,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { TrainingInterface } from '../../interfaces/training.interface';
 import { EmployeeDepartmentAutoselectorComponent } from '../employee-department-autoselector/employee-department-autoselector.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -85,7 +85,10 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   public trainer: number[] = [];
 
   public showAdditionalFields = false;
-  public isWorkshop = false;
+  public isWorkshop = true;
+
+  public trainingUpdatedSubject = new Subject<void>();
+  trainingUpdated$ = this.trainingUpdatedSubject.asObservable();
 
   public trainingForm = new FormGroup({
     trainingId: new FormControl(null as number | null),
@@ -94,7 +97,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
       Validators.maxLength(255),
     ]),
     description: new FormControl('', Validators.required),
-    individual: new FormControl(1, Validators.required),
+    individual: new FormControl(-1, Validators.required),
     adress: new FormControl(''),
     deadline: new FormControl<string>('', Validators.required),
     time: new FormControl('', Validators.required),
@@ -121,7 +124,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           let year = date.getFullYear();
           let month = String(date.getMonth() + 1).padStart(2, '0');
           let day = String(date.getDate()).padStart(2, '0');
-          const datePart =`${year}-${month}-${day}`; // Obține partea de dată
+          const datePart = `${year}-${month}-${day}`; // Obține partea de dată
           console.log('Date part', datePart);
           const timePart = date.toTimeString().split(' ')[0].slice(0, 5);
           this.trainingForm.setValue({
@@ -206,6 +209,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
         const departmentsData = this.departments.map((department) => {
           return { departmentId: department } as Department;
         });
+
         const employeesData = this.employees.map((employee) => {
           return {
             employeeId: employee,
@@ -239,20 +243,20 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
         };
-        console.log(
-          'Training data:',
-          trainingData,
-          departmentsData,
-          employeesData
-        );
-
+        // console.log(
+        //   'Training data:',
+        //   trainingData,
+        //   departmentsData,
+        //   employeesData
+        // );
         if (this.type === 'edit') {
           this.trainingApiService
             .updateTrainingById(
               this.trainingId,
               trainingData,
               departmentsData,
-              employeesData
+              employeesData,
+              this.sections
             )
             .subscribe({
               next: () => {
@@ -262,8 +266,11 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
                   'Close'
                 );
                 this.dialogRef.close();
-
-                snackBarRef.afterDismissed().subscribe(() => {});
+                snackBarRef.afterDismissed().subscribe(() => {
+                  this.trainingUpdatedSubject.next();
+                  window.location.reload();
+                });
+                
               },
               error: (error) => {
                 console.error('Error updating training:', error);
@@ -285,10 +292,11 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
                   'Training created successfully',
                   'Close'
                 );
-                this.dialogRef.close();
 
+                this.dialogRef.close();
                 snackBarRef.afterDismissed().subscribe(() => {
-                  // window.location.reload();
+                  this.trainingUpdatedSubject.complete();
+                  window.location.reload();
                 });
               },
               error: (error) => {
@@ -451,5 +459,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.trainingUpdatedSubject.complete();
   }
 }

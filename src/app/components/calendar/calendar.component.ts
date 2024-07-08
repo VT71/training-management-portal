@@ -57,7 +57,7 @@ export class CalendarComponent implements OnDestroy {
   get trainings(): TrainingInterface[] {
     return this._trainings();
   }
-  
+
   set trainings(value: TrainingInterface[]) {
     this._trainings.set(value);
   }
@@ -76,6 +76,19 @@ export class CalendarComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   public adminVersion = false;
+
+  public hoveredEventsCount: number = 0;
+
+  public getTooltipMessage(day: DateTime): string {
+    const eventsCount = this.getEventsForDay(day).length;
+    if (eventsCount === 0) {
+      return 'No events in this day';
+    } else if (eventsCount === 1) {
+      return '1 event in this day';
+    } else {
+      return `${eventsCount} events in this day`;
+    }
+  }
 
   public daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
@@ -149,7 +162,8 @@ export class CalendarComponent implements OnDestroy {
         const deadlineDate = training.deadline.substring(0, 10);
         return deadlineDate === day.toISODate();
       })
-      .map((training) => training.title);
+      .map((training) => training.title)
+      .slice(0, 5);
 
     // Verifică dacă se găsesc evenimentele pentru ziua respectivă
     return events;
@@ -174,6 +188,8 @@ export class CalendarComponent implements OnDestroy {
       .pipe(
         tap((training) => {
           const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+            width: '650px',
+            height: '600px',
             data: { type: 'edit', trainingId: training.trainingId },
           });
 
