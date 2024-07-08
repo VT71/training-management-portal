@@ -158,19 +158,35 @@
   margin-right: 20px;
 }
 
+.title-button {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.main {
+  flex: end;
+  margin-right: 20px;
+}
+
+.menu-button{
+  margin-left: 15px;
+}
+
 .main-option {
   cursor: pointer;
   border-radius: 10px !important;
   font-size: 16px !important;
   display: flex;
   justify-content: row;
-  max-width: 150px;
+  max-width: 250px;
   align-items: center;
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
   height: 50px;
   color: white !important;
+  
 }
 
 .departments-container p,

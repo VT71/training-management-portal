@@ -155,7 +155,7 @@ export class CalendarComponent implements OnDestroy {
     return events;
   }
 
-  openDialog(event: Event): void {
+  public openDialog(event: Event): void {
     const selectedDate = this.activeDay()?.toISODate();
 
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
@@ -167,7 +167,7 @@ export class CalendarComponent implements OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openDialogEdit(event: Event, trainingId: number): void {
+  public openDialogEdit(event: Event, trainingId: number): void {
     event.stopPropagation();
     const getTrainingSubscription = this.trainingsService
       .getTrainingById(trainingId)

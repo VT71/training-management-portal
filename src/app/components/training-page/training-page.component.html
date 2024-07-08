@@ -1,11 +1,16 @@
 <div class="training-page-container">
-  <h1 class="component-main-title">Training Page</h1>
-  <!-- @if (training) { -->
   @if (training$ | async; as training) {
+  <div class="title-button">
+    <h1 class="component-main-title">Training Page</h1>
+    
+    <button class="main" mat-flat-button (click)="openDialogEdit($event, training.trainingId)">
+      Edit Training
+    </button>
+    
+  </div>
+  <!-- @if (training) { -->
   <div class="page-container">
     <div class="container-main">
-      <ng-container *ngIf="training | async as training"></ng-container>
-
       <div class="container-staic">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
@@ -70,15 +75,7 @@
                           mat-stroked-button
                           (click)="toggleDepartmentsTable()"
                           [ngClass]="{
-                            selected: showDepartmentsTable,
-                            yes:
-                              convertNumberToYesNo(
-                                (training | async)?.forDepartments ?? 0
-                              ) === 'Yes',
-                            no:
-                              convertNumberToYesNo(
-                                (training | async)?.forDepartments ?? 0
-                              ) === 'No'
+                            selected: showDepartmentsTable,                         
                           }"
                         >
                           <p class="department-span">Departments</p>
@@ -92,14 +89,6 @@
                           (click)="toggleEmployeeTable()"
                           [ngClass]="{
                             selected: showEmployeeTable,
-                            yes:
-                              convertNumberToYesNo(
-                                (training | async)?.forEmployees ?? 0
-                              ) === 'Yes',
-                            no:
-                              convertNumberToYesNo(
-                                (training | async)?.forEmployees ?? 0
-                              ) === 'No'
                           }"
                         >
                           <p class="employee-span">Employees</p>
@@ -267,15 +256,15 @@
         <div class="section-left">
           <h2 class="title">
             {{
-              training.sections[sectionIndex]?.title
-                ? training.sections[sectionIndex]?.title
+              training.sections[sectionIndex].title
+                ? training.sections[sectionIndex].title
                 : "No Section Selected"
             }}
           </h2>
           <div class="section-description-container">
             <p style="white-space: pre-line">
               {{
-                training.sections[sectionIndex]?.description
+                training.sections[sectionIndex].description
                   ? training.sections[sectionIndex].description.replaceAll(
                       "\\n",
                       "\n"
