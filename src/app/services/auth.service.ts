@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { BehaviorSubject, Observable, catchError, from, map, of } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -155,10 +156,9 @@ export class AuthService {
   }
 
   isAdmin(): Observable<boolean> {
-    console.log('IS ADMIN START');
     return this.http
       .get<boolean>(
-        `http://localhost:5290/User/IsAdmin?userId=${
+        `${environment.apiUrl}/User/IsAdmin?userId=${
           this.user?.uid ? this.user?.uid : ''
         }`
       )

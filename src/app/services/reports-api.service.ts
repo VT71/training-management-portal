@@ -6,12 +6,13 @@ import { Router } from '@angular/router';
 import { TrainingComplete } from '../interfaces/training-complete';
 import { DepartmentProgress } from '../interfaces/department-progress';
 import { TrainingTypeStat } from '../interfaces/training-type-stat';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportsApiService {
-  private baseUrl: string = 'http://localhost:5290/Reports';
+  private baseUrl: string = `${environment.apiUrl}/Reports`;
 
   constructor(private http: HttpClient) {}
 

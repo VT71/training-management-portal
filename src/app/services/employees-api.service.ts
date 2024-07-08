@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { User } from '../interfaces/user';
 import { UsersApiService } from './users-api.service';
 import { Employee } from '../interfaces/employee';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class EmployeesApiService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private usersApiService = inject(UsersApiService);
-  private baseUrl = 'http://localhost:5290/Employee';
+  private baseUrl = `${environment.apiUrl}/Employee`;
 
   constructor() {}
 
