@@ -1,6 +1,6 @@
 export const environment = {
   apiUrl:
-    'training-management-api-gdcaaehjeaeqd0e6.polandcentral-01.azurewebsites.net',
+    'https://training-management-api-gdcaaehjeaeqd0e6.polandcentral-01.azurewebsites.net',
   firebaseConfig: {
     apiKey: 'AIzaSyBZgTPsFGAsmxMqDKDD0H3GElCCAssIdT8',
     authDomain: 'app1-85a12.firebaseapp.com',
