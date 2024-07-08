@@ -118,7 +118,11 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
         .getTrainingById(this.trainingId)
         .subscribe((training) => {
           const date = new Date(training.deadline);
-          const datePart = date.toISOString().split('T')[0]; // Obține partea de dată
+          let year = date.getFullYear();
+          let month = String(date.getMonth() + 1).padStart(2, '0');
+          let day = String(date.getDate()).padStart(2, '0');
+          const datePart =`${year}-${month}-${day}`; // Obține partea de dată
+          console.log('Date part', datePart);
           const timePart = date.toTimeString().split(' ')[0].slice(0, 5);
           this.trainingForm.setValue({
             trainingId: training.trainingId,
@@ -145,6 +149,8 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           );
           this.departmentsSelected = training.forDepartments === 1;
           this.employeesSelected = training.forEmployees === 1;
+
+          this.addExistingSections(training);
         });
     } else {
       this.trainingForm.controls.deadline.setValue(this.deadline);
@@ -213,11 +219,13 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           const sectionTitleControlName = `sectionTitle${index}`;
           const sectionDescrControlName = `sectionDescription${index}`;
           return {
-            sectionId: 0,
-            title: (this.trainingForm.value as any)[sectionTitleControlName] ?? '',
-            description: (this.trainingForm.value as any)[sectionDescrControlName] ?? '',
+            sectionId: section.sectionId ?? 0,
+            title:
+              (this.trainingForm.value as any)[sectionTitleControlName] ?? '',
+            description:
+              (this.trainingForm.value as any)[sectionDescrControlName] ?? '',
           };
-        })
+        });
 
         const trainingData: TrainingInterface = {
           trainingId: this.trainingForm.value.trainingId ?? 0,
@@ -240,7 +248,12 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
 
         if (this.type === 'edit') {
           this.trainingApiService
-            .updateTrainingById(trainingData, departmentsData, employeesData)
+            .updateTrainingById(
+              this.trainingId,
+              trainingData,
+              departmentsData,
+              employeesData
+            )
             .subscribe({
               next: () => {
                 console.log('Training updated successfully');
@@ -250,9 +263,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
                 );
                 this.dialogRef.close();
 
-                snackBarRef.afterDismissed().subscribe(() => {
-                  window.location.reload();
-                });
+                snackBarRef.afterDismissed().subscribe(() => {});
               },
               error: (error) => {
                 console.error('Error updating training:', error);
@@ -277,7 +288,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
                 this.dialogRef.close();
 
                 snackBarRef.afterDismissed().subscribe(() => {
-                  window.location.reload();
+                  // window.location.reload();
                 });
               },
               error: (error) => {
@@ -390,7 +401,9 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
     return valid;
   }
 
-  public addSection() {
+  public addSection(
+    section: any = { sectionId: 0, title: '', description: '' }
+  ) {
     const sectionTitleControlName = `sectionTitle${this.sections.length}`;
     const titleControl = new FormControl('', Validators.required);
     (this.trainingForm as FormGroup).addControl(
@@ -406,16 +419,37 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
     );
 
     this.sections.push({
-      sectionId: 0,
-      title: '',
-      description: '',
+      sectionId: section.sectionId,
+      title: section.title,
+      description: section.description,
     });
-
   }
-  
+
+  public addExistingSections(training: TrainingComplete) {
+    for (let i = 0; i < training.sections.length; i++) {
+      const sectionTitleControlName = `sectionTitle${i}`;
+      const titleControl = new FormControl('', Validators.required);
+      (this.trainingForm as FormGroup).addControl(
+        sectionTitleControlName,
+        titleControl
+      );
+      // set value of this control
+      titleControl.setValue(training.sections[i].title);
+
+      const sectionDescrControlName = `sectionDescription${i}`;
+      const descriptionControl = new FormControl('', Validators.required);
+      (this.trainingForm as FormGroup).addControl(
+        sectionDescrControlName,
+        descriptionControl
+      );
+      // set value of this control
+      descriptionControl.setValue(training.sections[i].description);
+
+      this.sections.push(training.sections[i]);
+    }
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
-

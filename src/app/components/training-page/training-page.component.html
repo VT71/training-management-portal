@@ -2,7 +2,7 @@
   @if (training$ | async; as training) {
   <div class="title-button">
     <h1 class="component-main-title">Training Page</h1>
-    @if ( adminVersion) {
+    @if (adminVersion) {
     <button class="main" mat-flat-button (click)="openDialogEdit($event, training.trainingId)">
       Edit Training
     </button>
