@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TrainingInterface } from '../interfaces/training.interface';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -12,8 +12,14 @@ import { Sections } from '../interfaces/sections';
 })
 export class TrainingsService {
   private baseUrl: string = 'http://localhost:5290/Trainings';
-
+  private trainingDataSignal: WritableSignal<TrainingInterface[]> = signal([]);
+  
   constructor(private http: HttpClient) {}
+
+  getTrainingDataSignal(): WritableSignal<TrainingInterface[]> {
+    return this.trainingDataSignal;
+  }
+
 
   public createTraining(
     training: TrainingInterface,
@@ -64,13 +70,15 @@ export class TrainingsService {
     trainingId: number,
     training: TrainingInterface,
     departmentsData: Department[],
-    employeesData: Employee[]
+    employeesData: Employee[],
+    sectionsData: Sections[]
   ): Observable<TrainingComplete> {
     return this.http
       .put<TrainingComplete>(`${this.baseUrl}/UpdateTraining/${trainingId}`, {
         ...training,
         departments: departmentsData,
         employees: employeesData,
+        sections: sectionsData,
       })
       .pipe(
         catchError((error) => {

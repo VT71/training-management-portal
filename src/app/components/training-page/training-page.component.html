@@ -3,10 +3,16 @@
   <div class="title-button">
     <h1 class="component-main-title">Training Page</h1>
     @if (adminVersion) {
+    <div class="end-buttons">
     <button class="main" mat-flat-button (click)="openDialogEdit($event, training.trainingId)">
       Edit Training
     </button>
+    <button class="delete" mat-flat-button (click)="openDeleteDialog($event, training.trainingId)">
+      Delete Training
+    </button>
+    </div>
   }
+
   </div>
   <!-- @if (training) { -->
   <div class="page-container">

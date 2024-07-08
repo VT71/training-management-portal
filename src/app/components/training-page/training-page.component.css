@@ -166,7 +166,13 @@
 
 .main {
   flex: end;
-  margin-right: 20px;
+  margin-right: 10px;
+}
+
+.delete {
+  background-color: var(--secondary) !important;
+  color: white !important;
+  margin-right: 40px;
 }
 
 .menu-button{
