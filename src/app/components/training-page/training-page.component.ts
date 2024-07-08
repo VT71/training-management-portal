@@ -5,8 +5,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Signal,
   ViewChild,
+  WritableSignal,
   model,
+  signal,
   viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -50,6 +53,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-training-page',
@@ -91,7 +95,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public sectionsProgress: SectionProgress[] = [];
   public sectionProgress$!: Observable<SectionProgress[]>;
-  public sectionIndex: number = -1;
+  public sectionIndex: WritableSignal<number> = signal(-1);
   private updateProgressSubscription!: Subscription;
 
   public loading: boolean = true; // Indicator pentru încărcarea datelor
@@ -103,6 +107,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource2: MatTableDataSource<EmployeeComplete>;
   accordion = viewChild.required(MatAccordion);
   readonly checked = model(false);
+
+  public adminVersion = false;
 
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
@@ -118,6 +124,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private trainingService: TrainingsService,
     private progressApiService: ProgressApiService,
+    private authService: AuthService,
     private changeDetectorRefs: ChangeDetectorRef,
     public router: Router,
     private _snackBar: MatSnackBar,
@@ -202,7 +209,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           }
 
           if (training.sections.length > 0) {
-            this.sectionIndex = 0;
+            this.sectionIndex.update(() => 0);
           }
         }
         return this.progressApiService
@@ -212,7 +219,6 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
               if (sectionsProgres) {
                 this.sectionsProgress = sectionsProgres;
                 if (training.sections[0]) {
-                  console.log('will update progress');
                   return {
                     training,
                     progress: this.getProgressBySectionId(
@@ -229,9 +235,31 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (progress === -1 && training.sections[0]) {
           return this.progressApiService
             .updateProgress(training.sections[0].sectionId, userId, 0)
-            .pipe(map(() => training));
+            .pipe(
+              map(() => {
+                this.sectionsProgress.push({
+                  sectionId: training.sections[0].sectionId,
+                  progress: 0,
+                  progressId: 0,
+                  employeeId: 0,
+                });
+                return training;
+              })
+            );
         }
         return of(training);
+      }),
+      concatMap((training) => {
+        return this.authService.rolesource.pipe(
+          map((role) => {
+            if (role === 'admin') {
+              this.adminVersion = true;
+            } else {
+              this.adminVersion = false;
+            }
+            return training;
+          })
+        );
       })
     );
   }
@@ -283,10 +311,10 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSectionClick(section: Sections, index: number) {
-    this.sectionIndex = index;
-    if (this.getProgressBySectionId(section.sectionId) === -1) {
-      this.updateSectionProgress(section, 0, 'initial');
-    }
+    this.sectionIndex.update(() => index);
+    // if (this.getProgressBySectionId(section.sectionId) === -1) {
+    //   this.updateSectionProgress(section, 0, 'initial');
+    // }
   }
 
   updateSectionProgress(section: Sections, progress: number, type: string) {
@@ -309,11 +337,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
                   employeeId: 0,
                 });
               }
-              console.log('Progress: ' + JSON.stringify(this.sectionsProgress));
               if (type === 'complete') {
-                if (this.sectionIndex < this.training.sections.length - 1) {
-                  this.sectionIndex++;
+                if (this.sectionIndex() < this.training.sections.length - 1) {
+                  this.sectionIndex.update((prev) => prev + 1);
                 } else {
+                  this.sectionIndex.update(() => -1);
                   this.checkAllSectionsComplete();
                 }
               }
@@ -323,8 +351,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             },
           });
         this.subscriptions.push(this.updateProgressSubscription);
-      } else {
-        this.sectionIndex++;
+      } else if (this.sectionIndex() < this.training.sections.length - 1) {
+        this.sectionIndex.update((prev) => prev + 1);
+      } else if (this.sectionIndex() === this.training.sections.length - 1) {
+        this.sectionIndex.update(() => -1);
+        this.checkAllSectionsComplete();
       }
     }
   }
