@@ -50,6 +50,7 @@ import { SectionProgress } from '../../interfaces/section-progress';
 import { ProgressApiService } from '../../services/progress-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-training-page',
@@ -104,6 +105,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   accordion = viewChild.required(MatAccordion);
   readonly checked = model(false);
 
+  public adminVersion = false;
+
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -118,6 +121,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private trainingService: TrainingsService,
     private progressApiService: ProgressApiService,
+    private authService: AuthService,
     private changeDetectorRefs: ChangeDetectorRef,
     public router: Router,
     private _snackBar: MatSnackBar
@@ -240,6 +244,18 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             );
         }
         return of(training);
+      }),
+      concatMap((training) => {
+        return this.authService.rolesource.pipe(
+          map((role) => {
+            if (role === 'admin') {
+              this.adminVersion = true;
+            } else {
+              this.adminVersion = false;
+            }
+            return training;
+          })
+        );
       })
     );
   }
@@ -292,9 +308,9 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSectionClick(section: Sections, index: number) {
     this.sectionIndex.update(() => index);
-    if (this.getProgressBySectionId(section.sectionId) === -1) {
-      this.updateSectionProgress(section, 0, 'initial');
-    }
+    // if (this.getProgressBySectionId(section.sectionId) === -1) {
+    //   this.updateSectionProgress(section, 0, 'initial');
+    // }
   }
 
   updateSectionProgress(section: Sections, progress: number, type: string) {
