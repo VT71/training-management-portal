@@ -256,6 +256,8 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
               this.adminVersion = true;
             } else {
               this.adminVersion = false;
+              this.showDepartmentsTable = false;
+                this.showEmployeeTable = false;
             }
             return training;
           })
