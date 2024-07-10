@@ -72,6 +72,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   @Input() deadline!: string;
   public departmentsSelected = false;
   public employeesSelected = false;
+  public trainerSelected = false;
   public showFormTable: boolean = false;
   public departmentsErrorMsg = '';
   public departments: number[] = [];
@@ -150,6 +151,8 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           this.employees = training.employees.map(
             (employee) => employee.employeeId
           );
+          this.trainer = [training.trainer] ? [training.trainer] : [];
+          this.trainerSelected = this.trainer.length > 0;
           this.departmentsSelected = training.forDepartments === 1;
           this.employeesSelected = training.forEmployees === 1;
 
@@ -195,6 +198,8 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   }
 
   onSubmitTrainings() {
+    const rawForm = this.trainingForm.getRawValue();
+    console.log('Raw form values:', rawForm);
     if (this.checkAutocompletes()) {
       if (this.trainingForm.valid) {
         console.log('Form is valid.');
@@ -270,7 +275,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
                   this.trainingUpdatedSubject.next();
                   window.location.reload();
                 });
-                
               },
               error: (error) => {
                 console.error('Error updating training:', error);
@@ -456,7 +460,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
       this.sections.push(training.sections[i]);
     }
   }
-
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

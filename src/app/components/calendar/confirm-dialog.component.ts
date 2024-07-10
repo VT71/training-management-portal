@@ -50,8 +50,8 @@ import { MatDialogRef } from '@angular/material/dialog';
     </style>
   `,
 })
-export class ConfirmDialogComponent {
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) {}
+export class ConfirmDeleteDialogComponent {
+  constructor(public dialogRef: MatDialogRef<ConfirmDeleteDialogComponent>) {}
 
   onConfirm(): void {
     this.dialogRef.close(true);

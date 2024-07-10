@@ -111,11 +111,11 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
         this.getApiEmployees();
       }
     } else if (this.type === 'Trainer') {
-      // if (this.operationType === 'edit' && this.apiSelectedValues) {
-      //   this.getApiEmployees(this.apiSelectedValues);
-      // } else {
-      this.getApiTrainers();
-      // }
+      if (this.operationType === 'edit' && this.apiSelectedValues) {
+        this.getApiTrainers(this.apiSelectedValues);
+      } else {
+        this.getApiTrainers();
+      }
     }
   }
 
@@ -183,6 +183,7 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
   }
 
   private getApiTrainers(apiValues?: number[]) {
+    console.log('GETTING TRAINERS: ' + apiValues);
     const getTrainersSubscription = this.employeesApiService
       .getTrainersComplete()
       .subscribe((res: EmployeeComplete[]) => {
@@ -205,10 +206,12 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
               tempArray.push(valueToFind?.fullName);
             }
           }
+          console.log('TEMP ARRAY: ' + tempArray);
           this.selectedValues = tempArray;
         }
 
         this.setFormControlValueChange();
+        this.emitSelectedValues()
       });
     this.subscriptions.push(getTrainersSubscription);
   }

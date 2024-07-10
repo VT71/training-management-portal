@@ -56,7 +56,8 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { DialogContentExampleDialog } from '../calendar/dialog-component/dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
-import { ConfirmDialogComponent } from '../navbar/confirm-add-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../calendar/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-training-page',
@@ -433,7 +434,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   public openDeleteDialog(event: Event, trainingId: number): void {
     event.stopPropagation();
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
       width: '350px',
       data: { trainingId: trainingId },
     });
@@ -450,7 +451,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             setTimeout(() => {
               snackBarRef.dismiss();
             }, 1500);
-            this.router.navigate(['/dashboard/trainings/calendar']);
+            // Așteaptă 2 secunde și apoi reîncarcă pagina
           },
           error: (error) => {
             console.error('Error deleting training:', error);
@@ -460,4 +461,5 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
+
 }

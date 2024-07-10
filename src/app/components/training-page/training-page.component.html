@@ -57,7 +57,7 @@
                   </p>
                   }
 
-                  <p>
+                  <p class="deadline">
                     <span class="material-symbols-outlined left">
                       date_range
                     </span>
@@ -66,7 +66,7 @@
                       {{ convertDate(training.deadline) }}
                     </span>
                   </p>
-                  @if(!training.individual) {
+                  <!-- @if(!training.individual) {
                   <p>
                     <span class="material-symbols-outlined left">
                       distance
@@ -74,7 +74,7 @@
                     Address/Link:
                     <span class="bold">{{ training.adress }}</span>
                   </p>
-                  }
+                  } -->
                 </div>
                 @if (adminVersion) {
                 <div class="participants">
@@ -114,6 +114,15 @@
                 }
               </div>
 
+              @if(!training.individual) {
+              <div class="paragraf">
+                <p>
+                  <span class="material-symbols-outlined left"> distance </span>
+                  Address/Link:
+                  <a [href]="training?.adress" class="bold adress-text">{{ training.adress }}</a>
+                </p>
+              </div>
+              }
               <div class="menu-button" [class.employee-version]="!adminVersion">
                 <div class="main-option">
                   <div class="left">

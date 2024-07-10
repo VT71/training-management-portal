@@ -5,20 +5,3 @@
 .mat-mdc-dialog-panel {
   max-width: 80% !important;
 }
-
-
-.close {
-  color: var(--secondary);
-  margin-left: auto;
-  border-radius: 30px;
-  align-items: left;
-  height: 24px !important;
-  width: 24px !important;
-  justify-content: flex-end !important;
-}
-
-.close:hover {
-  cursor: pointer !important;
-  background-color: #f80000 !important;
-  color: white !important;
-}

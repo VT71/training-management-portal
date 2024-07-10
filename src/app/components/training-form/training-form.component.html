@@ -96,7 +96,7 @@
               <ngx-material-timepicker #toggleIcon></ngx-material-timepicker>
             </div>
           </div>
-          @if (this.isWorkshop) { @if (type === "edit") {
+          @if (this.isWorkshop) { @if (trainerSelected && type === "edit") {
           <app-employee-department-autoselector
             [type]="'Trainer'"
             [operationType]="'edit'"
@@ -184,7 +184,7 @@
         </div>
         } } @if(!isWorkshop) {
         <button
-          class="main"
+          class="main add-section"
           style="margin-top: 20px"
           type="submit"
           mat-flat-button

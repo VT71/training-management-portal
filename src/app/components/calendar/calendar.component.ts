@@ -24,7 +24,7 @@ import { DialogContentExampleDialog } from './dialog-component/dialog-component.
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { ConfirmDialogComponent } from './confirm-dialog.component';
+import { ConfirmDeleteDialogComponent } from './confirm-dialog.component';
 import { TrainingsService } from '../../services/trainings.service';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -174,7 +174,7 @@ export class CalendarComponent implements OnDestroy {
 
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
       width: '650px',
-      height: '640px',
+      height: '680px',
       data: { type: 'add', selectedDate },
     });
     event.stopPropagation();
@@ -190,7 +190,7 @@ export class CalendarComponent implements OnDestroy {
         tap((training) => {
           const dialogRef = this.dialog.open(DialogContentExampleDialog, {
             width: '650px',
-            height: '634px',
+            height: '660px',
             data: { type: 'edit', trainingId: training.trainingId },
           });
 
@@ -226,7 +226,7 @@ export class CalendarComponent implements OnDestroy {
   public openDeleteDialog(event: Event, trainingId: number): void {
     event.stopPropagation();
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
       width: '350px',
       data: { trainingId: trainingId },
     });

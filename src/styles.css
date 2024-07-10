@@ -459,22 +459,6 @@ h2.dialog-title {
   padding: 0 !important;
 }
 
-.material-symbols-outlined  {
-  color: var(--secondary);
-  margin-left: auto;
-  border-radius: 30px;
-  align-items: left;
-  height: 24px !important;
-  width: 24px !important;
-  justify-content: flex-end !important;
-}
-
-.material-symbols-outlined:hover {
-  cursor: pointer !important;
-  background-color: #f80000 !important;
-  color: white !important;
-}
-
 .x-span {
   display: flex;
   justify-content: flex-end

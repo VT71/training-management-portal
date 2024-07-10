@@ -22,7 +22,7 @@ import { UsersApiService } from '../../services/users-api.service';
 import { ArticleInterface } from '../../interfaces/article.interface';
 import { User } from '../../interfaces/user';
 import { Observable, Subscription } from 'rxjs';
-import { ConfirmDialogComponent } from './confirm-add-dialog.component';
+import { ConfirmAddDialogComponent } from './confirm-add-dialog.component';
 
 @Component({
   selector: 'app-navbar',
@@ -179,7 +179,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public openConfirmDialog(event: Event): void {
     event.stopPropagation();
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmAddDialogComponent, {
       width: '400px',
       height: '300px',
     });
