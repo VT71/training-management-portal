@@ -72,7 +72,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   @Input() deadline!: string;
   public departmentsSelected = false;
   public employeesSelected = false;
-
+  public showFormTable: boolean = false;
   public departmentsErrorMsg = '';
   public departments: number[] = [];
 
@@ -456,6 +456,7 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
       this.sections.push(training.sections[i]);
     }
   }
+
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

@@ -310,14 +310,14 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showDepartmentsTable = false;
   }
 
-  onSectionClick(section: Sections, index: number) {
+  public onSectionClick(section: Sections, index: number) {
     this.sectionIndex.update(() => index);
     // if (this.getProgressBySectionId(section.sectionId) === -1) {
     //   this.updateSectionProgress(section, 0, 'initial');
     // }
   }
 
-  updateSectionProgress(section: Sections, progress: number, type: string) {
+  public updateSectionProgress(section: Sections, progress: number, type: string) {
     if (this.userId) {
       if (this.getProgressBySectionId(section.sectionId) !== progress) {
         this.updateProgressSubscription = this.progressApiService
@@ -360,11 +360,11 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onCompleteNext(section: Sections) {
+  public onCompleteNext(section: Sections) {
     this.updateSectionProgress(section, 1, 'complete');
   }
 
-  getProgressBySectionId(sectionId: number): number {
+  public getProgressBySectionId(sectionId: number): number {
     const sectionProgress = this.sectionsProgress.find(
       (sp) => sp.sectionId === sectionId
     );
@@ -374,7 +374,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return -1;
   }
 
-  checkAllSectionsComplete() {
+  public checkAllSectionsComplete() {
     if (this.training.sections.length === this.sectionsProgress.length) {
       const allSectionsComplete = this.sectionsProgress.every(
         (sp) => sp.progress === 1
@@ -389,7 +389,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  openSnackBar(message: string, action: string): MatSnackBarRef<any> {
+  public openSnackBar(message: string, action: string): MatSnackBarRef<any> {
     return this._snackBar.open(message, '', {
       duration: 1500,
       horizontalPosition: 'right',
@@ -409,7 +409,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         tap((training) => {
           const dialogRef = this.dialog.open(DialogContentExampleDialog, {
             width: '650px',
-            height: '600px',
+            height: '640px',
             data: { type: 'edit', trainingId: training.trainingId },
           });
           dialogRef.afterClosed().subscribe((result) => {

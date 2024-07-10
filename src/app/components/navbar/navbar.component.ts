@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   HostListener,
   OnDestroy,
   OnInit,
@@ -48,6 +49,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   router = inject(Router);
   public adminVersion = false;
   private subscriptions: Subscription[] = [];
+  private clickListener: any;
 
   searchValue = '';
   filteredResults: { title: string; route: string }[] = [];
@@ -66,7 +68,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     search: new FormControl(''),
   });
 
-  constructor(public dialog: MatDialog, private searchService: SearchService) {}
+  constructor(public dialog: MatDialog, private searchService: SearchService, private elementRef: ElementRef) {}
   public readonly control = new FormControl<string>('', { nonNullable: true });
 
   ngOnInit(): void {
@@ -86,9 +88,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions?.push(roleSubscription);
+
+    this.clickListener = this.onDocumentClick.bind(this);
+    document.addEventListener('click', this.clickListener);
   }
 
-  filterResults(): void {
+  public onDocumentClick(event: Event): void {
+    const targetElement = event.target as HTMLElement;
+    // Check if the clicked element is outside the dropdown
+    if (this.isDropdownOpen && !this.elementRef.nativeElement.contains(targetElement)) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  public filterResults(): void {
     if (this.searchValue.trim() === '') {
       this.filteredResults = [];
       this.showResults = false;
@@ -136,52 +149,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // public   filterResults(): void {
-  //   this.filteredResults = this.articles.filter((article) =>
-  //     article.title.toLowerCase().includes(this.searchValue.toLowerCase())
-  //   );
-  //   this.showResults = true;
-  //   this.selectedResultIndex = -1; // Resetăm selecția la fiecare filtrare
-  // }
 
-  // public handleKeyEvents(event: KeyboardEvent): void {
-  //   if (event.key === 'ArrowDown') {
-  //     event.preventDefault();
-  //     if (this.filteredResults.length > 0) {
-  //       if (this.selectedResultIndex === -1) {
-  //         this.selectedResultIndex = 0; // Dacă nu este selectat niciun element, selectăm primul
-  //       } else {
-  //         this.selectedResultIndex =
-  //           (this.selectedResultIndex + 1) % this.filteredResults.length;
-  //       }
-  //     }
-  //   } else if (event.key === 'ArrowUp') {
-  //     event.preventDefault();
-  //     if (this.filteredResults.length > 0) {
-  //       if (this.selectedResultIndex === -1) {
-  //         this.selectedResultIndex = this.filteredResults.length - 1; // Dacă nu este selectat niciun element, selectăm ultimul
-  //       } else {
-  //         this.selectedResultIndex =
-  //           (this.selectedResultIndex - 1 + this.filteredResults.length) %
-  //           this.filteredResults.length;
-  //       }
-  //     }
-  //   } else if (event.key === 'Enter' && this.selectedResultIndex !== -1) {
-  //     this.navigateToResult(this.filteredResults[this.selectedResultIndex]);
-  //   }
-  // }
-
-  // public navigateToResult(result: { title: string; route: string }): void {
-  //   if (result) {
-  //     this.router.navigateByUrl(result.route);
-  //     this.clearSearch();
-  //   }
-  // }
-
-  // public selectResult(result: { title: string; route: string }): void {
-  //   this.router.navigateByUrl(result.route);
-  //   this.filteredResults = [];
-  // }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
@@ -220,16 +188,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
       if (result === true) {
         this.openDialog();
       }
+      this.router.navigate(['/dashboard/trainings/calendar']);
     });
   }
 
   public openDialog(): void {
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
       width: '650px',
-      height: '600px',
+      height: '630px',
       data: { type: 'add' },
     });
-
+    
     dialogRef.afterClosed().subscribe((result) => {
       // Aici poți gestiona acțiunile după închiderea dialogului de adăugare (dacă este necesar)
     });

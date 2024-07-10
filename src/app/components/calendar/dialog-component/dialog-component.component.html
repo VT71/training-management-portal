@@ -1,4 +1,13 @@
-
-<mat-dialog-content class="mat-mdc-dialog-content" >
-    <app-training-form [type]="data.type" [trainingId]="data.trainingId" [deadline]="deadline"></app-training-form>
+<mat-dialog-content class="mat-mdc-dialog-content">
+  <div class="x-span"> 
+  <span class="material-symbols-outlined" (click)="closeFromTable()">
+    close
+  </span>
+  </div>
+  <app-training-form
+    [type]="data.type"
+    [trainingId]="data.trainingId"
+    [deadline]="deadline"
+  >
+  </app-training-form>
 </mat-dialog-content>

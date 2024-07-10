@@ -174,11 +174,12 @@ export class CalendarComponent implements OnDestroy {
 
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
       width: '650px',
-      height: '600px',
+      height: '640px',
       data: { type: 'add', selectedDate },
     });
     event.stopPropagation();
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+    });
   }
 
   public openDialogEdit(event: Event, trainingId: number): void {
@@ -189,7 +190,7 @@ export class CalendarComponent implements OnDestroy {
         tap((training) => {
           const dialogRef = this.dialog.open(DialogContentExampleDialog, {
             width: '650px',
-            height: '600px',
+            height: '634px',
             data: { type: 'edit', trainingId: training.trainingId },
           });
 
