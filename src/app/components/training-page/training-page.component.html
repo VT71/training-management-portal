@@ -4,15 +4,22 @@
     <h1 class="component-main-title">Training Page</h1>
     @if (adminVersion) {
     <div class="end-buttons">
-    <button class="main" mat-flat-button (click)="openDialogEdit($event, training.trainingId)">
-      Edit Training
-    </button>
-    <button class="delete" mat-flat-button (click)="openDeleteDialog($event, training.trainingId)">
-      Delete Training
-    </button>
+      <button
+        class="main"
+        mat-flat-button
+        (click)="openDialogEdit($event, training.trainingId)"
+      >
+        Edit Training
+      </button>
+      <button
+        class="delete"
+        mat-flat-button
+        (click)="openDeleteDialog($event, training.trainingId)"
+      >
+        Delete Training
+      </button>
     </div>
-  }
-
+    }
   </div>
   <!-- @if (training) { -->
   <div class="page-container">
@@ -20,9 +27,9 @@
       <div class="container-staic">
         <div class="training-list-item-container container-left">
           <div class="above-elements-container-left">
-            <div class="left-all">
-              <div class="left-above">
-                <div class="info">
+            <div class="left-all" [class.employee-version]="!adminVersion">
+              <div class="left-above" [class.employee-version]="!adminVersion">
+                <div class="info" [class.employee-version]="!adminVersion">
                   <h2 class="title">Training Info</h2>
                   <p>
                     <span class="material-symbols-outlined left">
@@ -69,7 +76,7 @@
                   </p>
                   }
                 </div>
-
+                @if (adminVersion) {
                 <div class="participants">
                   <div class="participants-container">
                     <h2 class="title">Participants</h2>
@@ -104,9 +111,10 @@
                     </div>
                   </div>
                 </div>
+                }
               </div>
 
-              <div class="menu-button">
+              <div class="menu-button" [class.employee-version]="!adminVersion">
                 <div class="main-option">
                   <div class="left">
                     <h2 class="title">Details about training</h2>
@@ -122,7 +130,7 @@
                 </div>
               </div>
             </div>
-
+            @if (adminVersion) {
             <div class="container-tables">
               <div class="table-container" *ngIf="showDepartmentsTable">
                 <div class="top-table">
@@ -252,6 +260,7 @@
                 ></mat-paginator>
               </div>
             </div>
+            }
           </div>
         </div>
       </div>
