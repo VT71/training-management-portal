@@ -194,6 +194,8 @@ export class CalendarComponent implements OnDestroy {
             data: { type: 'edit', trainingId: training.trainingId },
           });
 
+          this.router.navigate(['/dashboard/training', training.trainingId]);
+
           dialogRef.afterClosed().subscribe((result) => {
             if (result === true) {
               window.location.reload();

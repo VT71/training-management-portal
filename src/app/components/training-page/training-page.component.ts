@@ -451,7 +451,7 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             setTimeout(() => {
               snackBarRef.dismiss();
             }, 1500);
-            // Așteaptă 2 secunde și apoi reîncarcă pagina
+            this.router.navigate(['/dashboard/trainings/calendar']);
           },
           error: (error) => {
             console.error('Error deleting training:', error);
