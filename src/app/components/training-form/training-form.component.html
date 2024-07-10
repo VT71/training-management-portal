@@ -1,7 +1,6 @@
 <div class="root-container">
   <div class="top">
     <h2>{{ type === "add" ? "Add Training" : "Edit Training" }}</h2>
-  
   </div>
   <div class="training-form-container">
     <form
@@ -183,15 +182,17 @@
           </mat-form-field>
         </div>
         } } @if(!isWorkshop) {
-        <button
-          class="main add-section"
-          style="margin-top: 20px"
-          type="submit"
-          mat-flat-button
-          (click)="addSection()"
-        >
-          Add section
-        </button>
+        <div class="button-section">
+          <button
+            class="main add-section"
+            style="margin-top: 20px"
+            type="submit"
+            mat-flat-button
+            (click)="addSection()"
+          >
+            Add new section
+          </button>
+        </div>
         }
         <button
           class="main"

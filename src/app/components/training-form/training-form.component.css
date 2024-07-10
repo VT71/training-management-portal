@@ -53,6 +53,17 @@ h2 {
   width: 100%;
 }
 
+.button-section {
+  display: flex;
+  justify-content: end;
+  flex-direction: row;
+}
+
+.add-section {
+  width: 50%;
+}
+
+
 section {
   width: 100%;
   margin-left: 15px;
