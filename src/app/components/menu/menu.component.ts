@@ -92,13 +92,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router) {}
 
-  // ngAfterViewInit(): void {
-  //   throw new Error('Method not implemented.');
-  // }
-
   ngOnInit(): void {
     const roleSubscription = this.authService.rolesource.subscribe((role) => {
-      console.log('ROLE IN MENU: ' + role);
       if (role === 'admin') {
         this.adminVersion = true;
       } else {

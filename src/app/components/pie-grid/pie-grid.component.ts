@@ -54,6 +54,5 @@ export class PieGridComponent {
   }
 
   onSelectPieGrid(event: any) {
-    console.log(event);
   }
 }

@@ -103,8 +103,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
     deadline: new FormControl<string>('', Validators.required),
     time: new FormControl('', Validators.required),
     selectionType: new FormControl<string[]>([], Validators.required),
-    // title1: new FormControl(''),
-    // description1: new FormControl(''),
   });
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -126,7 +124,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           let month = String(date.getMonth() + 1).padStart(2, '0');
           let day = String(date.getDate()).padStart(2, '0');
           const datePart = `${year}-${month}-${day}`; // Obține partea de dată
-          console.log('Date part', datePart);
           const timePart = date.toTimeString().split(' ')[0].slice(0, 5);
           this.trainingForm.setValue({
             trainingId: training.trainingId,
@@ -186,7 +183,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   onToggleChange(event: any) {
     const selectedValue = event.value;
     this.trainingForm.get('selectionType')?.setValue(selectedValue);
-    console.log(selectedValue);
     this.employeesSelected = false;
     this.departmentsSelected = false;
     if (selectedValue.find((value: string) => value === 'departments')) {
@@ -198,14 +194,10 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
   }
 
   onSubmitTrainings() {
-    const rawForm = this.trainingForm.getRawValue();
-    console.log('Raw form values:', rawForm);
     if (this.checkAutocompletes()) {
       if (this.trainingForm.valid) {
-        console.log('Form is valid.');
 
         const rawForm = this.trainingForm.getRawValue();
-        console.log('Raw form values:', rawForm);
 
         const formattedDeadline = this.formatDateForAzure(
           this.trainingForm.value.deadline ?? '',
@@ -244,16 +236,9 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
           adress: this.trainingForm.value.adress ?? '',
           deadline: formattedDeadline,
           trainer: this.trainer[0],
-          // status: '',
           forDepartments: this.departmentsSelected ? 1 : 0,
           forEmployees: this.employeesSelected ? 1 : 0,
         };
-        // console.log(
-        //   'Training data:',
-        //   trainingData,
-        //   departmentsData,
-        //   employeesData
-        // );
         if (this.type === 'edit') {
           this.trainingApiService
             .updateTrainingById(
@@ -265,7 +250,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
             )
             .subscribe({
               next: () => {
-                console.log('Training updated successfully');
                 const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
                   'Training updated successfully',
                   'Close'
@@ -291,7 +275,6 @@ export class TrainingFormComponent implements OnDestroy, OnInit {
             )
             .subscribe({
               next: () => {
-                console.log('Training created successfully');
                 const snackBarRef: MatSnackBarRef<any> = this.openSnackBar(
                   'Training created successfully',
                   'Close'

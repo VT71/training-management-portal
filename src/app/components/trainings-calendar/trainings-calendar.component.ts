@@ -1,4 +1,3 @@
-// trainings-calendar.component.ts
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { TrainingsService } from '../../services/trainings.service';
@@ -41,7 +40,6 @@ export class TrainingsCalendarComponent implements OnInit, OnDestroy {
         .getTrainings(userId)
         .subscribe((trainings: any) => {
           this.trainings = trainings;
-          console.log(this.trainings);
         });
 
       this.subscriptions?.push(getTrainingsSubscription);

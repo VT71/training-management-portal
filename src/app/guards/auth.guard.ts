@@ -1,4 +1,3 @@
-// src/app/guards/auth.guard.ts
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -15,9 +14,6 @@ export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   const isLoggedIn = authService.isAuthenticated();
-  //   if (isLoggedIn === true) {
-  //     return isLoggedIn;
-  //   }
 
   return authService.rolesource.pipe(
     switchMap((role) => {

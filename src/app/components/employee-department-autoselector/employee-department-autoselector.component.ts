@@ -143,7 +143,6 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
             }
           }
           this.selectedValues = tempArray;
-          console.log('SELECTED VALUES: ' + this.selectedValues);
         }
         if (this.operationType === 'edit' && apiValues) {
             this.emitSelectedValues();
@@ -187,7 +186,6 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
   }
 
   private getApiTrainers(apiValues?: number[]) {
-    console.log('GETTING TRAINERS: ' + apiValues);
     const getTrainersSubscription = this.employeesApiService
       .getTrainersComplete()
       .subscribe((res: EmployeeComplete[]) => {
@@ -210,7 +208,6 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
               tempArray.push(valueToFind?.fullName);
             }
           }
-          console.log('TEMP ARRAY: ' + tempArray);
           this.selectedValues = tempArray;
         }
 

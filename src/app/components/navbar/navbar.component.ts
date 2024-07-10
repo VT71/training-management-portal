@@ -80,7 +80,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     const roleSubscription = this.authService.rolesource.subscribe((role) => {
-      console.log('ROLE IN MENU: ' + role);
       if (role === 'admin') {
         this.adminVersion = true;
       } else {

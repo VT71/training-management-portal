@@ -315,9 +315,6 @@ export class TrainingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onSectionClick(section: Sections, index: number) {
     this.sectionIndex.update(() => index);
-    // if (this.getProgressBySectionId(section.sectionId) === -1) {
-    //   this.updateSectionProgress(section, 0, 'initial');
-    // }
   }
 
   public updateSectionProgress(section: Sections, progress: number, type: string) {

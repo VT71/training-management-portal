@@ -165,7 +165,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
             (this.totalCompletedTrainings / this.totalTrainings) * 100;
         }
 
-        console.log('INDIVIDUAL Progress: ', this.individualDepartmentProgress);
       });
     this.allSubscriptions.push(this.departmentsProgressSub);
   }

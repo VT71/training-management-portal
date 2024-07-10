@@ -1,4 +1,3 @@
-// calendar.component.ts
 import {
   Component,
   signal,
@@ -214,7 +213,6 @@ export class CalendarComponent implements OnDestroy {
 
   ngOnInit() {
     const roleSubscription = this.authService.rolesource.subscribe((role) => {
-      console.log('ROLE IN MENU: ' + role);
       if (role === 'admin') {
         this.adminVersion = true;
       } else {

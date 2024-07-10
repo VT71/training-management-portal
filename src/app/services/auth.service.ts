@@ -55,10 +55,6 @@ export class AuthService {
       email,
       password
     ).then((response) => {
-      // Will no longer set full names in firebase. They will be set on our DB
-      //   updateProfile(response.user, {
-      //     displayName: `${firstName} ${lastName}`,
-      //   });
       sendEmailVerification(response.user);
     });
 
@@ -164,13 +160,10 @@ export class AuthService {
       )
       .pipe(
         map((isAdmin) => {
-          console.log('isADMIN : ' + isAdmin);
           if (isAdmin === true) {
-            console.log('IS ADMIN TRUE');
             this.role.next('admin');
             return true;
           } else {
-            console.log('IS ADMIN ELSE');
             this.role.next('employee');
             return false;
           }
