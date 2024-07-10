@@ -145,7 +145,9 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
           this.selectedValues = tempArray;
           console.log('SELECTED VALUES: ' + this.selectedValues);
         }
-
+        if (this.operationType === 'edit' && apiValues) {
+            this.emitSelectedValues();
+        }
         this.setFormControlValueChange();
       });
     this.subscriptions.push(getDepartmentsSubscription);
@@ -176,7 +178,9 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
           }
           this.selectedValues = tempArray;
         }
-
+        if (this.operationType === 'edit' && apiValues) {
+            this.emitSelectedValues();
+        }
         this.setFormControlValueChange();
       });
     this.subscriptions.push(getEmployeesSubscription);
@@ -211,7 +215,9 @@ export class EmployeeDepartmentAutoselectorComponent implements OnInit {
         }
 
         this.setFormControlValueChange();
-        this.emitSelectedValues()
+        if (this.operationType === 'edit' && apiValues) {
+            this.emitSelectedValues();
+        }
       });
     this.subscriptions.push(getTrainersSubscription);
   }
