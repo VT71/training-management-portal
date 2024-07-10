@@ -138,7 +138,6 @@
   width: 50%;
 }
 .left-all.employee-version {
-  flex-direction: row;
   width: 100%;
 }
 
@@ -215,7 +214,7 @@
 
 .menu-button.employee-version {
     margin-left: 15px;
-    width: 48%;
+    width: 100%;
   }
 
 .main-option {
