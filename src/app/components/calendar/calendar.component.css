@@ -269,13 +269,13 @@
 .meeting-button {
   width: 100%;
   border-radius: 5px;
-  padding: 10px;
+  padding: 20px;
   margin: 10px 0;
   height: auto;
   border: 1px solid #ccc;
   cursor: pointer;
   background-color: var(--secondary-10); /* Fundalul implicit */
-  text-align: center;
+  text-align: left;
   color: black; /* Culoarea textului */
   display: flex;
   flex-direction: row;
@@ -284,7 +284,7 @@
 }
 
 .mat-icon {
-  size: 1px;
+  size: 2px;
 }
 
 .meeting-button:hover {
